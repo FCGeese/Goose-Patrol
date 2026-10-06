@@ -24,6 +24,14 @@ public class Entity {
         this.size = size;
     }
 
+    // TODO add left and right strafe
+    public void update(char strafe) {
+        int xSpeed = (int) (Math.cos(Math.toRadians(direction)) * speed);
+        int ySpeed = (int) (Math.sin(Math.toRadians(direction)) * speed);
+        x = x + xSpeed;
+        y = y + ySpeed;
+    }
+
     public void update() {
         int xSpeed = (int) (Math.cos(Math.toRadians(direction)) * speed);
         int ySpeed = (int) (Math.sin(Math.toRadians(direction)) * speed);
