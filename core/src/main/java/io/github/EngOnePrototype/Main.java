@@ -21,7 +21,7 @@ public class Main extends ApplicationAdapter {
     @Override
     public void create() {
         shape = new ShapeRenderer();
-        player = new Player(Settings.playerStartX, Settings.playerStartY, Settings.playerSpeed);
+        player = new Player(Settings.playerStartX, Settings.playerStartY, 0);
         for (int i = 0; i < 5; i++) {
             geese.add(new Goose(i * 30, i * 100, 2, (int) (Math.random() * 360)));
         }
@@ -44,7 +44,6 @@ public class Main extends ApplicationAdapter {
             for (Goose goose2 : geese) {
                 if (goose != goose2) {
                     if (goose.checkCollision(goose2, 5)) {
-                        System.out.println("COLLIDES");
                         goose.direction = (goose.direction - 180) % 360;
                         goose.update();
                         goose.direction = (goose.direction - 180) % 360;
