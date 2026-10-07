@@ -9,7 +9,7 @@
         int defaultSpeed;
 
         public Player(int x, int y, int defaultSpeed) {
-            super(x, y, 0, 0, 10);
+            super(x, y, 0, 1, 10);
             this.defaultSpeed = defaultSpeed;
         }
 
@@ -55,9 +55,36 @@
                 y+(int)(Math.sin(Math.toRadians(direction)) * 50));
             shape.line(position, reticle);
         }
+
+        public void tankDraw(ShapeRenderer shape){
+            shape.circle(x, y, size);
+            Vector2 position = new Vector2(x,y);
+            Vector2 reticle = new Vector2(
+                x+(int)(Math.cos(Math.toRadians(direction)) * 50),
+                y+(int)(Math.sin(Math.toRadians(direction)) * 50));
+            shape.line(position, reticle);
+        }
+
+        public void tankUpdate(int turnSpeed){
+            if(Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)){
+                    speed = 2*speed;
+                }
+            if (Gdx.input.isKeyPressed(Input.Keys.W)){
+                super.update();
+            }
+            if (Gdx.input.isKeyPressed(Input.Keys.S)){
+                speed = -speed;
+                super.update();
+            }
+            if(Gdx.input.isKeyPressed(Input.Keys.A)){
+                direction = ( (direction+turnSpeed) %360);
+            }
+            if(Gdx.input.isKeyPressed(Input.Keys.D)){
+                direction = ( (direction-turnSpeed) %360);
+            }
+            speed = defaultSpeed;
+        }
     }
-
-
 
     /*OLD MOUSE CHASING MOVEMENT
         public void update() {

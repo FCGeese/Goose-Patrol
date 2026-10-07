@@ -40,8 +40,14 @@ public class Main extends ApplicationAdapter {
 
         //player
         shape.setColor(Color.RED);
-        player.update();
-        player.draw(shape);
+        if (Settings.movement == "WASD+Mouse"){
+            player.update();
+            player.draw(shape);
+        }
+        else if (Settings.movement == "TANK"){
+            player.tankUpdate(Settings.tankTurnSpeed);
+            player.tankDraw(shape);
+        }
 
         //geese
         shape.setColor(Color.LIGHT_GRAY);
