@@ -2,10 +2,12 @@ package io.github.EngOnePrototype.Mobs;
 
 public class Goose extends Entity {
     int accuracy = 4;
+    boolean flipped;
 
     public Goose(int x, int y, int speed, int accuracy) {
         super(x, y, speed);
         this.accuracy = accuracy;
+        flipped = false;
     }
 
 
@@ -49,6 +51,15 @@ public class Goose extends Entity {
     public float turnAway(Entity e) {
         //invertion of turn toward method above
         return -(direction - turnToward(e));
+    }
+
+
+    public void setFlipped(boolean b) {
+        flipped = b;
+        return;
+    }
+    public boolean getFlipped(){
+        return flipped;
     }
 
 }

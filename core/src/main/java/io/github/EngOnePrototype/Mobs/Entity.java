@@ -1,5 +1,6 @@
 package io.github.EngOnePrototype.Mobs;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 public class Entity {
@@ -9,8 +10,8 @@ public class Entity {
     float direction = 0;
     int size = 5;
 
-    public Entity(int x, int y, int speed){
-        this.x=x;
+    public Entity(int x, int y, int speed) {
+        this.x = x;
         this.y = y;
         this.speed = speed;
     }
@@ -33,10 +34,18 @@ public class Entity {
     public int getSpeed() {
         return speed;
     }
+
     public void setSpeed(int speed) {
         this.speed = speed;
     }
-    
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
 
     public void update() {
         int xSpeed = (int) (Math.cos(Math.toRadians(direction)) * speed);
@@ -52,9 +61,12 @@ public class Entity {
         return false;
     }
 
-
     public void draw(ShapeRenderer shape) {
         shape.circle(x, y, size);
+    }
+
+    public void draw(SpriteBatch batch) {
+
     }
 
     protected float findDirection(int targetX, int targetY) {
