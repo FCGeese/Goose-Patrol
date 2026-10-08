@@ -6,7 +6,6 @@ public class Settings {
     static int playerSpeed = 3;
     static String movement = "WASD+Mouse"; // "WASD+Mouse" for normal controls controls "TANK" for tank controls
     static int tankTurnSpeed = 4;
-    
 
     static int numberOfGeese = 10;
     static int gooseSpeed = 3;

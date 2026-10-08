@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.GL20;
@@ -16,10 +18,11 @@ import io.github.EngOnePrototype.Mobs.*;
  * platforms.
  */
 
-public class Main extends ApplicationAdapter {
+public class Main extends ApplicationAdapter implements InputProcessor {
     ShapeRenderer shape;
     Player player;
     ArrayList<Goose> geese = new ArrayList<>();
+    boolean paused = false;
 
     @Override
     public void create() {
@@ -29,8 +32,9 @@ public class Main extends ApplicationAdapter {
         player = new Player(Settings.playerStartX, Settings.playerStartY, Settings.playerSpeed);
 
         for (int i = 0; i < Settings.numberOfGeese; i++) {
-            geese.add( new Goose(i * 500, i * 100, Settings.gooseSpeed, Settings.gooseAccuracy) );
+            geese.add(new Goose(i * 500, i * 100, Settings.gooseSpeed, Settings.gooseAccuracy));
         }
+        Gdx.input.setInputProcessor(this);
     }
 
     @Override
@@ -38,31 +42,30 @@ public class Main extends ApplicationAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         shape.begin(ShapeRenderer.ShapeType.Filled);
 
-        //player
+        // player
         shape.setColor(Color.RED);
-        if (Settings.movement == "WASD+Mouse"){
+        if (Settings.movement == "WASD+Mouse") {
             player.update();
             player.draw(shape);
-        }
-        else if (Settings.movement == "TANK"){
+        } else if (Settings.movement == "TANK") {
             player.tankUpdate(Settings.tankTurnSpeed);
             player.tankDraw(shape);
         }
 
-        //geese
+        // geese
         shape.setColor(Color.LIGHT_GRAY);
         for (Goose goose : geese) {
-            //kill state
+            // kill state
             if (goose.checkCollision(player)) {
                 dispose();
             }
-            //pursuit
+            // pursuit
             goose.update(player);
-            //Flock collision
+            // Flock collision
             for (Goose goose2 : geese) {
                 if (goose != goose2) {
                     if (goose.checkCollision(goose2, 5)) {
-                        //undo move if collision takes place
+                        // undo move if collision takes place
                         goose.setSpeed(-goose.getSpeed());
                         goose.update();
                         goose.setSpeed(-goose.getSpeed());
@@ -72,6 +75,9 @@ public class Main extends ApplicationAdapter {
             goose.draw(shape);
         }
         shape.end();
+        if (paused) {
+            pause();
+        }
 
     }
 
@@ -79,4 +85,64 @@ public class Main extends ApplicationAdapter {
     public void dispose() {
         shape.dispose();
     }
+
+    @Override
+    public boolean keyDown(int keycode) {
+        if (keycode == Input.Keys.ESCAPE) {
+            paused = !paused;
+            if (paused) {
+                player.setSpeed(0);
+                for (Goose goose : geese) {
+                    goose.setSpeed(0);
+                }
+            } else {
+                player.setSpeed(Settings.playerSpeed);
+                for (Goose goose : geese) {
+                    goose.setSpeed(Settings.gooseSpeed);
+                }
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean keyUp(int keycode) {
+        return false;
+    }
+
+    @Override
+    public boolean keyTyped(char character) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchCancelled(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
+        return false;
+    }
+
+    @Override
+    public boolean mouseMoved(int screenX, int screenY) {
+        return false;
+    }
+
+    @Override
+    public boolean scrolled(float amountX, float amountY) {
+        return false;
+    }
+
 }
