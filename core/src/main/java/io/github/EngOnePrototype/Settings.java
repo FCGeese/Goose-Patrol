@@ -4,6 +4,7 @@ public class Settings {
     static int playerStartX = 300;
     static int playerStartY = 40;
     static int playerSpeed = 3;
+    static int playerSize = 5;
     static String movement = "TANK"; // "WASD+Mouse" for normal controls controls "TANK" for tank controls
     static int tankTurnSpeed = 4;
 

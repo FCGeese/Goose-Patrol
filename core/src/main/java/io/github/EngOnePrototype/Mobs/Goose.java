@@ -1,5 +1,7 @@
 package io.github.EngOnePrototype.Mobs;
 
+import io.github.EngOnePrototype.Utils.Coord;
+
 public class Goose extends Entity {
     int accuracy = 4;
     boolean flipped;
@@ -11,9 +13,9 @@ public class Goose extends Entity {
     }
 
 
-    public void update(Entity e) {
+    public Coord update(Entity e) {
         //aims goose 'accuracy' deg toward player every frame
-        direction = turnToward(e);
+        direction = turnToward(e.getPosition());
 
         //adds some random wobble/goosier movement
         if (Math.random() > 0.7) {
@@ -22,12 +24,12 @@ public class Goose extends Entity {
         if (Math.random() < 0.3) {
             direction -= 8;
         }
-        super.update();
+        return super.update();
     }
 
-    public float turnToward(Entity e) {
+    public float turnToward(Coord target) {
         //finds angle to target
-        float targetDirection = findDirection(e.x, e.y);
+        float targetDirection = position.findDirectionTo(target);
         //finds absolute difference in current direction and target direction 
         float angleDifference = Math.abs((direction % 360) - targetDirection);
         //wraps toward target
@@ -50,7 +52,7 @@ public class Goose extends Entity {
 
     public float turnAway(Entity e) {
         //invertion of turn toward method above
-        return -(direction - turnToward(e));
+        return -(direction - turnToward(e.getPosition()));
     }
 
 

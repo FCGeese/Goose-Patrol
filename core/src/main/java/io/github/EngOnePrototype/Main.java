@@ -16,6 +16,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import io.github.EngOnePrototype.Mobs.*;
+import io.github.EngOnePrototype.Utils.Coord;
 
 /*
  * {@link com.badlogic.gdx.ApplicationListener} implementation shared by all
@@ -59,35 +60,41 @@ public class Main extends ApplicationAdapter implements InputProcessor {
         // player
         shape.setColor(Color.RED);
         if (Settings.movement == "WASD+Mouse") {
-            player.update();
+            player.move(player.update());
             player.draw(shape);
         } else if (Settings.movement == "TANK") {
             player.tankUpdate(Settings.tankTurnSpeed);
             player.tankDraw(shape);
         }
         shape.end();
-        batch.begin();
 
+        batch.begin();
         // geese
         shape.setColor(Color.LIGHT_GRAY);
         for (Goose goose : geese) {
             // kill state
-            if (goose.checkCollision(player)) {
+            if (goose.getPosition().checkCollision(player.getPosition(), player.getSize() + goose.getSize())) {
                 dispose();
             }
             // pursuit
-            goose.update(player);
+            Coord nextGooseFrame = goose.update(player);
+            boolean collision = false;
             // Flock collision
             for (Goose goose2 : geese) {
                 if (goose != goose2) {
-                    if (goose.checkCollision(goose2, 6)) {
+                    if (nextGooseFrame.checkCollision(
+                        goose2.getPosition(), player.getSize()+goose.getSize())
+                    ) {
+
                         // undo move if collision takes place
-                        goose.setSpeed(-goose.getSpeed());
-                        goose.update();
-                        goose.setSpeed(-goose.getSpeed());
+                        collision = true;
                     }
                 }
             }
+            if (!collision){
+                goose.move(nextGooseFrame);
+            }
+
             // goose.draw(shape); 
             if (player.getX()>goose.getX()){
                 if (!(goose.getFlipped())){
@@ -103,7 +110,9 @@ public class Main extends ApplicationAdapter implements InputProcessor {
                 }
                 goose.setFlipped(false);
             }
-            batch.draw(gooseTextureRegion, goose.getX(), goose.getY());
+            batch.draw(gooseTextureRegion,
+                goose.getPosition().getX(),
+                goose.getPosition().getY());
         }
         batch.end();
 
