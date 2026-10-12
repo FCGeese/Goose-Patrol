@@ -2,8 +2,11 @@ package io.github.EngOnePrototype.Mobs;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Vector2;
+
+import io.github.EngOnePrototype.Settings;
+import io.github.EngOnePrototype.Utils.Coord;
 
 public class Player extends Entity {
     int defaultSpeed;
@@ -13,8 +16,15 @@ public class Player extends Entity {
         this.defaultSpeed = defaultSpeed;
     }
 
+    public Player(Coord playerStart, int defaultSpeed) {
+        super(playerStart);
+        this.defaultSpeed = defaultSpeed;
+    }
+
     @Override
-    public void update() {
+    public Coord update() {
+        int newX = position.getX();
+        int newY = position.getY();
         // key watchers
         if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) {
             speed = 2 * speed;
@@ -26,7 +36,7 @@ public class Player extends Entity {
                 speed = speed / 2;
                 speed = (int) Math.sqrt(speed);
             }
-            y = y + speed;
+            newY = position.getY() + speed;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.S)) {
             if (Gdx.input.isKeyPressed(Input.Keys.A) ^ (Gdx.input.isKeyPressed(Input.Keys.D))) {
@@ -34,35 +44,38 @@ public class Player extends Entity {
                 speed = speed / 2;
                 speed = (int) Math.sqrt(speed);
             }
-            y = y - speed;
+            newY = position.getY() - speed;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-            x = x - speed;
+            newX = position.getX() - speed;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-            x = x + speed;
+            newX = position.getX() + speed;
         }
         speed = defaultSpeed;
+        return new Coord(newX, newY);
     }
 
     @Override
     public void draw(ShapeRenderer shape) {
-        direction = findDirection(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY());
-        shape.circle(x, y, size);
-        Vector2 position = new Vector2(x, y);
-        Vector2 reticle = new Vector2(
-                x + (int) (Math.cos(Math.toRadians(direction)) * 50),
-                y + (int) (Math.sin(Math.toRadians(direction)) * 50));
-        shape.line(position, reticle);
+        Coord mouseCoord = new Coord(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY());
+        direction = position.findDirectionTo(mouseCoord);
+        shape.circle(position.getX(), position.getY(), size);
+        Coord reticle = new Coord(
+                position.getX() + (int) (Math.cos(Math.toRadians(direction)) * 50),
+                position.getY() + (int) (Math.sin(Math.toRadians(direction)) * 50));
+
+        shape.line(position.getX(), position.getY(),
+                reticle.getX(), reticle.getY());
     }
 
     public void tankDraw(ShapeRenderer shape) {
-        shape.circle(x, y, size);
-        Vector2 position = new Vector2(x, y);
-        Vector2 reticle = new Vector2(
-                x + (int) (Math.cos(Math.toRadians(direction)) * 50),
-                y + (int) (Math.sin(Math.toRadians(direction)) * 50));
-        shape.line(position, reticle);
+        shape.circle(position.getX(), position.getY(), size);
+        Coord reticle = new Coord(
+                position.getX() + (int) (Math.cos(Math.toRadians(direction)) * 50),
+                position.getY() + (int) (Math.sin(Math.toRadians(direction)) * 50));
+        shape.line(position.getX(), position.getY(),
+                reticle.getX(), reticle.getY());
     }
 
     public void tankUpdate(int turnSpeed) {
@@ -70,11 +83,11 @@ public class Player extends Entity {
             speed = 2 * speed;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-            super.update();
+            super.move(super.update());
         }
         if (Gdx.input.isKeyPressed(Input.Keys.S)) {
             speed = -speed;
-            super.update();
+            super.move(super.update());
         }
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
             direction = ((direction + turnSpeed) % 360);
@@ -83,6 +96,21 @@ public class Player extends Entity {
             direction = ((direction - turnSpeed) % 360);
         }
         speed = defaultSpeed;
+    }
+
+    public void render(ShapeRenderer shape) {
+        shape.begin(ShapeRenderer.ShapeType.Filled);
+
+        // player
+        shape.setColor(Color.RED);
+        if (Settings.movement == "WASD+Mouse") {
+            move(update());
+            draw(shape);
+        } else if (Settings.movement == "TANK") {
+            tankUpdate(Settings.tankTurnSpeed);
+            tankDraw(shape);
+        }
+        shape.end();
     }
 }
 
