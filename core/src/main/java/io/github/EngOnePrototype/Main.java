@@ -6,7 +6,6 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -40,11 +39,10 @@ public class Main extends ApplicationAdapter implements InputProcessor {
         gooseTexture = new Texture(Gdx.files.internal("16x16SideGoose3.png"));
         gooseTexture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
         gooseTextureRegion = new TextureRegion(gooseTexture);
-
         player = new Player(Settings.playerStartX, Settings.playerStartY, Settings.playerSpeed);
 
         for (int i = 0; i < Settings.numberOfGeese; i++) {
-            geese.add(new Goose(i * 500, i * 100, Settings.gooseSpeed, Settings.gooseAccuracy));
+            geese.add(new Goose(i * 100, i * 100, Settings.gooseSpeed, Settings.gooseAccuracy));
         }
 
         Gdx.input.setInputProcessor(this);
@@ -53,60 +51,11 @@ public class Main extends ApplicationAdapter implements InputProcessor {
     @Override
     public void render() {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        //ScreenUtils.clear(Color.OLIVE);
-        shape.begin(ShapeRenderer.ShapeType.Filled);
-
-        // player
-        shape.setColor(Color.RED);
-        if (Settings.movement == "WASD+Mouse") {
-            player.update();
-            player.draw(shape);
-        } else if (Settings.movement == "TANK") {
-            player.tankUpdate(Settings.tankTurnSpeed);
-            player.tankDraw(shape);
-        }
-        shape.end();
-        batch.begin();
-
-        // geese
-        shape.setColor(Color.LIGHT_GRAY);
+        // ScreenUtils.clear(Color.OLIVE);
+        player.render(shape);
         for (Goose goose : geese) {
-            // kill state
-            if (goose.checkCollision(player)) {
-                dispose();
-            }
-            // pursuit
-            goose.update(player);
-            // Flock collision
-            for (Goose goose2 : geese) {
-                if (goose != goose2) {
-                    if (goose.checkCollision(goose2, 6)) {
-                        // undo move if collision takes place
-                        goose.setSpeed(-goose.getSpeed());
-                        goose.update();
-                        goose.setSpeed(-goose.getSpeed());
-                    }
-                }
-            }
-            // goose.draw(shape); 
-            if (player.getX()>goose.getX()){
-                if (!(goose.getFlipped())){
-                    gooseTextureRegion.flip(true,false);
-
-                }
-                goose.setFlipped(true);
-
-            }
-            else if (goose.getX()>player.getX()){
-                if (goose.getFlipped()){
-                    gooseTextureRegion.flip(true,false);
-                }
-                goose.setFlipped(false);
-            }
-            batch.draw(gooseTextureRegion, goose.getX(), goose.getY());
+            goose.render(batch, gooseTextureRegion, geese, player);
         }
-        batch.end();
-
     }
 
     @Override
