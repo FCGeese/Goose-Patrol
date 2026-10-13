@@ -53,7 +53,7 @@ public class Goose extends Entity {
     }
 
     public float turnAway(Entity e) {
-        // invertion of turn toward method above
+        // inversion of turn toward method above
         return -(direction - turnToward(e.getPosition()));
     }
 
