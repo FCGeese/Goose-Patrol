@@ -21,6 +21,10 @@ public class Player extends Entity {
         this.defaultSpeed = defaultSpeed;
     }
 
+    public void setDefaultSpeed(int defaultSpeed) {
+        this.defaultSpeed = defaultSpeed;
+    }
+
     @Override
     public Coord update() {
         int newX = position.getX();

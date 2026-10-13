@@ -70,12 +70,13 @@ public class Main extends ApplicationAdapter implements InputProcessor {
         if (keycode == Input.Keys.ESCAPE) {
             paused = !paused;
             if (paused) {
+                player.setDefaultSpeed(0);
                 player.setSpeed(0);
                 for (Goose goose : geese) {
                     goose.setSpeed(0);
                 }
             } else {
-                player.setSpeed(Settings.playerSpeed);
+                player.setDefaultSpeed(Settings.playerSpeed);
                 for (Goose goose : geese) {
                     goose.setSpeed(Settings.gooseSpeed);
                 }
