@@ -1,6 +1,6 @@
 package io.github.EngOnePrototype.Mobs;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import io.github.EngOnePrototype.Utils.Coord;
@@ -15,7 +15,8 @@ public class Entity {
         position = new Coord(x, y);
         this.speed = speed;
     }
-    public Entity(Coord position){
+
+    public Entity(Coord position) {
         this.position = position;
     }
 
@@ -47,6 +48,7 @@ public class Entity {
     public int getY() {
         return position.getY();
     }
+
     public int getSize() {
         return size;
     }
@@ -58,10 +60,10 @@ public class Entity {
     public Coord update() {
         int xSpeed = (int) (Math.cos(Math.toRadians(direction)) * speed);
         int ySpeed = (int) (Math.sin(Math.toRadians(direction)) * speed);
-        return new Coord(position.getX()+xSpeed, position.getY()+ySpeed);
+        return new Coord(position.getX() + xSpeed, position.getY() + ySpeed);
     }
 
-    public void move(Coord newPosition){
+    public void move(Coord newPosition) {
         position.set(newPosition);
     }
 
@@ -69,8 +71,12 @@ public class Entity {
         shape.circle(position.getX(), position.getY(), size);
     }
 
-    public void draw(SpriteBatch batch) {
-
+    public void render(ShapeRenderer shape) {
+        shape.begin(ShapeRenderer.ShapeType.Filled);
+        shape.setColor(Color.SALMON);
+        move(update());
+        draw(shape);
+        shape.end();
     }
 
 }
