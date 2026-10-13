@@ -82,16 +82,17 @@ public class Player extends Entity {
                 reticle.getX(), reticle.getY());
     }
 
-    public void tankUpdate(int turnSpeed) {
+    public Coord tankUpdate(int turnSpeed) {
+        Coord nextPosition = new Coord(position.getX(), position.getY());
         if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) {
             speed = 2 * speed;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-            super.move(super.update());
+            nextPosition.set(super.update());
         }
         if (Gdx.input.isKeyPressed(Input.Keys.S)) {
             speed = -speed;
-            super.move(super.update());
+            nextPosition.set(super.update());
         }
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
             direction = ((direction + turnSpeed) % 360);
@@ -100,18 +101,18 @@ public class Player extends Entity {
             direction = ((direction - turnSpeed) % 360);
         }
         speed = defaultSpeed;
+        return nextPosition;
     }
 
     public void render(ShapeRenderer shape) {
         shape.begin(ShapeRenderer.ShapeType.Filled);
-
         // player
         shape.setColor(Color.RED);
         if (Settings.movement == "WASD+Mouse") {
-            move(update());
+            position.set(update());
             draw(shape);
         } else if (Settings.movement == "TANK") {
-            tankUpdate(Settings.tankTurnSpeed);
+            position.set(tankUpdate(Settings.tankTurnSpeed));
             tankDraw(shape);
         }
         shape.end();

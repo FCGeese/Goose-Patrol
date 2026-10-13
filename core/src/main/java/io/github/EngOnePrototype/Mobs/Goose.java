@@ -76,27 +76,8 @@ public class Goose extends Entity {
             }
         }
         if (!collision) {
-            move(nextGooseFrame);
+            position.set(nextGooseFrame);
         }
         draw(batch, texture);
     }
-
-    public void draw(SpriteBatch batch, TextureRegion texture) {
-        batch.begin();
-        if (direction < 90 || direction > 270) {
-            if (!texture.isFlipX()) {
-                texture.flip(true, false);
-            }
-            batch.draw(texture, getX(), getY());
-
-        }
-        if (direction > 90 && direction < 270) {
-            if (texture.isFlipX()) {
-                texture.flip(true, false);
-            }
-            batch.draw(texture, getX(), getY());
-        }
-        batch.end();
-    }
-
 }

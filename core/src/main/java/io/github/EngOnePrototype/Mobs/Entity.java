@@ -1,6 +1,8 @@
 package io.github.EngOnePrototype.Mobs;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import io.github.EngOnePrototype.Utils.Coord;
@@ -63,18 +65,32 @@ public class Entity {
         return new Coord(position.getX() + xSpeed, position.getY() + ySpeed);
     }
 
-    public void move(Coord newPosition) {
-        position.set(newPosition);
-    }
-
     public void draw(ShapeRenderer shape) {
         shape.circle(position.getX(), position.getY(), size);
+    }
+
+    public void draw(SpriteBatch batch, TextureRegion texture) {
+        batch.begin();
+        if (direction < 90 || direction > 270) {
+            if (!texture.isFlipX()) {
+                texture.flip(true, false);
+            }
+            batch.draw(texture, getX(), getY());
+
+        }
+        if (direction > 90 && direction < 270) {
+            if (texture.isFlipX()) {
+                texture.flip(true, false);
+            }
+            batch.draw(texture, getX(), getY());
+        }
+        batch.end();
     }
 
     public void render(ShapeRenderer shape) {
         shape.begin(ShapeRenderer.ShapeType.Filled);
         shape.setColor(Color.SALMON);
-        move(update());
+        position.set(update());
         draw(shape);
         shape.end();
     }
