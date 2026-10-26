@@ -45,7 +45,7 @@ public class Goose extends Entity {
 
     public void render(SpriteBatch batch, ArrayList<Goose> geese, ArrayList<Hitbox> buildings, Player player) {
         if (this.isCollide(player)) {
-            System.exit(0);
+            player.setHealth(player.getHealth() - 1);
         }
         // saves old position
         Coord oldPos = new Coord(position.getX(), position.getY());

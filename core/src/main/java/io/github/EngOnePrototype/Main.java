@@ -15,7 +15,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
+import com.badlogic.gdx.utils.ScreenUtils;
 import io.github.EngOnePrototype.Elements.*;
+import io.github.EngOnePrototype.UI.HealthBar;
 import io.github.EngOnePrototype.Utils.Coord;
 import io.github.EngOnePrototype.Utils.Hitbox;
 import io.github.EngOnePrototype.Utils.Rect;
@@ -35,6 +37,7 @@ public class Main extends ApplicationAdapter implements InputProcessor {
     ArrayList<Goose> geese = new ArrayList<>();
     ArrayList<Hitbox> buildings = new ArrayList<>();
     TextureRegion Map;
+    HealthBar health;
 
     boolean paused = false;
 
@@ -47,6 +50,7 @@ public class Main extends ApplicationAdapter implements InputProcessor {
         Map = new TextureRegion(new Texture(Gdx.files.internal("mapImage.png")));
         player = new Player(new Coord(Settings.playerStartX, Settings.playerStartY),
                 Settings.playerSpeed);
+        health = new HealthBar();
 
         for (int i = 0; i < Settings.numberOfGeese; i++) {
             geese.add(new Goose(new Coord(i * 100, i * 100),
@@ -64,7 +68,8 @@ public class Main extends ApplicationAdapter implements InputProcessor {
     public void render() {
 
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        // ScreenUtils.clear(Color.OLIVE);
+        ScreenUtils.clear(0, 0, 1, 1, true);
+
         batch.begin();
         batch.draw(Map, 0, 0);
         batch.end();
@@ -75,6 +80,7 @@ public class Main extends ApplicationAdapter implements InputProcessor {
         for (Goose goose : geese) {
             goose.render(batch, geese, buildings, player);
         }
+        health.draw(shape, player);
     }
 
     @Override
