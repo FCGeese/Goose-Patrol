@@ -21,6 +21,5 @@ public class HealthBar {
         shape.setColor(Color.RED);
         shape.rect(screenPos.getX()+10, screenPos.getY()+10, (float) (player.getHealth()*1.5), 20);
         shape.end();
-        System.out.println(player.getPosition().toString() + "  " + screenPos.toString());
     }
 }
