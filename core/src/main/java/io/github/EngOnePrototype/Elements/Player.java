@@ -33,25 +33,21 @@ public class Player extends Entity {
         if (Gdx.input.isKeyPressed(Input.Keys.W)) {
             if (Gdx.input.isKeyPressed(Input.Keys.A) ^ (Gdx.input.isKeyPressed(Input.Keys.D))) {
                 // stops the '45 degree rush'
-                speed = (int) Math.pow(speed, 2);
-                speed = speed / 2;
-                speed = (int) Math.sqrt(speed);
+                speed = (int) Math.ceil((Math.pow(Math.sqrt(speed), 2) / 2));
             }
-            newY = position.getY() + speed;
+            newY = (position.getY() + speed);
         }
         if (Gdx.input.isKeyPressed(Input.Keys.S)) {
             if (Gdx.input.isKeyPressed(Input.Keys.A) ^ (Gdx.input.isKeyPressed(Input.Keys.D))) {
-                speed = (int) Math.pow(speed, 2);
-                speed = speed / 2;
-                speed = (int) Math.sqrt(speed);
+                speed = (int) Math.ceil((Math.pow(Math.sqrt(speed), 2) / 2));
             }
-            newY = position.getY() - speed;
+            newY =  (position.getY() - speed);
         }
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-            newX = position.getX() - speed;
+            newX =  (position.getX() - speed);
         }
         if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-            newX = position.getX() + speed;
+            newX =  (position.getX() + speed);
         }
         speed = Settings.playerSpeed;
         return new Coord(newX, newY);

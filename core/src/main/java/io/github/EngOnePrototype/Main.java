@@ -1,28 +1,25 @@
 package io.github.EngOnePrototype;
 
-import java.util.ArrayList;
-
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.Cursor;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ScreenUtils;
-import io.github.EngOnePrototype.Elements.*;
+import io.github.EngOnePrototype.Elements.Entity;
+import io.github.EngOnePrototype.Elements.Food;
+import io.github.EngOnePrototype.Elements.Goose;
+import io.github.EngOnePrototype.Elements.Player;
 import io.github.EngOnePrototype.UI.HealthBar;
 import io.github.EngOnePrototype.Utils.Coord;
 import io.github.EngOnePrototype.Utils.Hitbox;
 import io.github.EngOnePrototype.Utils.Rect;
-import jdk.internal.org.jline.terminal.TerminalBuilder;
+
+import java.util.ArrayList;
 
 /*
  * {@link com.badlogic.gdx.ApplicationListener} implementation shared by all
@@ -85,22 +82,18 @@ public class Main extends ApplicationAdapter implements InputProcessor {
 
         for (Goose goose : geese) {
             Entity nearestFood = player;
-            if (!placedFood.isEmpty()){
-                for (Food food : placedFood){
+            if (!placedFood.isEmpty()) {
+                for (Food food : placedFood) {
                     food.draw(batch);
                     if (goose.getPosition().distanceFrom(food.getPosition())
-                        < goose.getPosition().distanceFrom(nearestFood.getPosition())){
-                            nearestFood = food;
+                            < goose.getPosition().distanceFrom(nearestFood.getPosition())) {
+                        nearestFood = food;
                     }
                 }
                 goose.render(batch, geese, buildings, nearestFood);
-            }
-            else {
+            } else {
                 goose.render(batch, geese, buildings, player);
             }
-        }
-        if(!placedFood.isEmpty()) {
-            System.out.println(placedFood.get(0).getHealth());
         }
         placedFood.removeIf(food -> food.getHealth() < 0);
         health.draw(shape, player);
@@ -133,15 +126,15 @@ public class Main extends ApplicationAdapter implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        if (button == Input.Buttons.LEFT){
+        if (button == Input.Buttons.LEFT) {
 
             Vector3 mouseVector = cam.unproject(new Vector3(screenX, screenY, 0));
 
             float direction = player.getPosition().findDirectionTo(
-                                new Coord(
-                                    (int) mouseVector.x,
-                                    (int) mouseVector.y)
-                                );
+                    new Coord(
+                            (int) mouseVector.x,
+                            (int) mouseVector.y)
+            );
 
             Coord foodPos = new Coord(
                     player.getPosition().getX() + (int) (Math.cos(Math.toRadians(direction)) * 50),
