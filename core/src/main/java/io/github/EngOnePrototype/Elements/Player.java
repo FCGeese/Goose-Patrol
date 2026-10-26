@@ -60,7 +60,7 @@ public class Player extends Entity {
 
     public void render(SpriteBatch batch, ArrayList<Hitbox> buildings) {
         batch.begin();
-        Coord oldPosition = getPosition();
+        Coord oldPosition = new Coord(getX(), getY());
         move(update());
         boolean collision = false;
 

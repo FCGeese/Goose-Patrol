@@ -1,4 +1,3 @@
-.gitkeep
 16x16SideGoose3.png
 32x32player.png
 SideGoose1.png
