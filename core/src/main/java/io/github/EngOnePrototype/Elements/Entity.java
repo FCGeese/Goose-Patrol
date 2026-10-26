@@ -8,7 +8,7 @@ import io.github.EngOnePrototype.Utils.Hitbox;
 public abstract class Entity extends Element {
     int speed = 0;
     float direction = 0;
-    int health;
+    private int health;
 
     public Entity(TextureRegion texture, Coord position) {
         super(texture, position);

@@ -15,12 +15,14 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ScreenUtils;
 import io.github.EngOnePrototype.Elements.*;
 import io.github.EngOnePrototype.UI.HealthBar;
 import io.github.EngOnePrototype.Utils.Coord;
 import io.github.EngOnePrototype.Utils.Hitbox;
 import io.github.EngOnePrototype.Utils.Rect;
+import jdk.internal.org.jline.terminal.TerminalBuilder;
 
 /*
  * {@link com.badlogic.gdx.ApplicationListener} implementation shared by all
@@ -97,7 +99,10 @@ public class Main extends ApplicationAdapter implements InputProcessor {
                 goose.render(batch, geese, buildings, player);
             }
         }
-
+        if(!placedFood.isEmpty()) {
+            System.out.println(placedFood.get(0).getHealth());
+        }
+        placedFood.removeIf(food -> food.getHealth() < 0);
         health.draw(shape, player);
     }
 
@@ -123,14 +128,27 @@ public class Main extends ApplicationAdapter implements InputProcessor {
                 }
             }
         }
-        if (keycode == Input.Buttons.LEFT){
+        return false;
+    }
 
-            float direction = player.getPosition().findDirectionTo(new Coord(Gdx.input.getX(),Gdx.input.getY()));
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        if (button == Input.Buttons.LEFT){
 
-            placedFood.add(new Food(new Coord(
-                     player.getPosition().getX() + (int) (Math.cos(Math.toRadians(direction)) * 50),
-                     player.getPosition().getY() + (int) (Math.sin(Math.toRadians(direction)) * 50)
-            )));
+            Vector3 mouseVector = cam.unproject(new Vector3(screenX, screenY, 0));
+
+            float direction = player.getPosition().findDirectionTo(
+                                new Coord(
+                                    (int) mouseVector.x,
+                                    (int) mouseVector.y)
+                                );
+
+            Coord foodPos = new Coord(
+                    player.getPosition().getX() + (int) (Math.cos(Math.toRadians(direction)) * 50),
+                    player.getPosition().getY() + (int) (Math.sin(Math.toRadians(direction)) * 50)
+            );
+
+            placedFood.add(new Food(foodPos));
         }
         return false;
     }
@@ -142,11 +160,6 @@ public class Main extends ApplicationAdapter implements InputProcessor {
 
     @Override
     public boolean keyTyped(char character) {
-        return false;
-    }
-
-    @Override
-    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         return false;
     }
 

@@ -14,21 +14,13 @@ import io.github.EngOnePrototype.Utils.Hitbox;
 import io.github.EngOnePrototype.Utils.Rect;
 
 public class Player extends Entity {
-    private int health;
     public Player(Coord position, int defaultSpeed) {
         super(new TextureRegion(new Texture(Gdx.files.internal("32x32player.png"))),
                 position, defaultSpeed);
-        health = 100;
+        setHealth(100);
         hitbox = new Hitbox(new Rect(position, 32, 32));
     }
 
-    public int getHealth() {
-        return health;
-    }
-
-    public void setHealth(int health) {
-        this.health = health;
-    }
 
     @Override
     public Coord update() {
@@ -67,7 +59,7 @@ public class Player extends Entity {
 
     public void render(SpriteBatch batch, ArrayList<Hitbox> buildings) {
 
-            if (health <= 0 ) {
+            if (getHealth() <= 0 ) {
             System.exit(0);
         }
         batch.begin();
