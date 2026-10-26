@@ -3,11 +3,12 @@ package io.github.EngOnePrototype.Elements;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import io.github.EngOnePrototype.Utils.Coord;
+import io.github.EngOnePrototype.Utils.Hitbox;
 
 public abstract class Entity extends Element {
     int speed = 0;
-    int size = 5; /// REMOVE ONCE HITBOXS SET
     float direction = 0;
+    private int health;
 
     public Entity(TextureRegion texture, Coord position) {
         super(texture, position);
@@ -18,8 +19,16 @@ public abstract class Entity extends Element {
         this.speed = speed;
     }
 
-    public int getSize() {
-        return size;
+    public Entity(TextureRegion texture, Coord position, Hitbox hitbox) {
+        super(texture, position, hitbox);
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
+    public int getHealth() {
+        return health;
     }
 
     public int getSpeed() {
@@ -36,10 +45,6 @@ public abstract class Entity extends Element {
 
     public int getY() {
         return position.getY();
-    }
-
-    public Coord getPosition() {
-        return position;
     }
 
     public Coord update() {

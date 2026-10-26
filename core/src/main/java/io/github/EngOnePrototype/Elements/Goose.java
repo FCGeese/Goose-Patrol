@@ -43,14 +43,15 @@ public class Goose extends Entity {
         return super.update();
     }
 
-    public void render(SpriteBatch batch, ArrayList<Goose> geese, ArrayList<Hitbox> buildings, Player player) {
-        if (this.isCollide(player)) {
-            player.setHealth(player.getHealth() - 1);
+    public void render(SpriteBatch batch, ArrayList<Goose> geese, ArrayList<Hitbox> buildings, Entity target) {
+        if (this.isCollide(target)) {
+            target.setHealth(target.getHealth() - 1);
+            System.out.println(target.getHealth());
         }
         // saves old position
         Coord oldPos = new Coord(position.getX(), position.getY());
         // projects to next position
-        move(update(player));
+        move(update(target));
 
         boolean collision = false;
 

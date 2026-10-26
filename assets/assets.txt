@@ -1,5 +1,6 @@
 16x16SideGoose3.png
 32x32player.png
+8x8foodImage.png
 SideGoose1.png
 SideGoose2.png
 SideGoose3.png
