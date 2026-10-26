@@ -67,7 +67,7 @@ public class Player extends Entity {
     }
 
     public void render(SpriteBatch batch, ArrayList<Hitbox> buildings) {
-        if (health ==0 ) {
+        if (health <= 0 ) {
             System.exit(0);
         }
         batch.begin();
@@ -83,10 +83,10 @@ public class Player extends Entity {
 
         //TO_DO fix magic numbers
         if (getPosition().getX()<0 ||
-           getPosition().getX()+32>1920||
-                getPosition().getY()<0||
-                getPosition().getY()+32>1080){
-            collision = true;
+            getPosition().getX()+32>1920||
+            getPosition().getY()<0||
+            getPosition().getY()+32>1080){
+                collision = true;
         }
         if (collision) {
             move(oldPosition);
