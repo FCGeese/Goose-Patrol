@@ -25,6 +25,14 @@ public abstract class Element {
         this.position = position;
     }
 
+    public Coord getPosition() {
+        return position;
+    }
+
+    public void setPosition(Coord position) {
+        this.position = position;
+    }
+
     public boolean isCollide(Element other) {
         return this.hitbox.isCollision(other.hitbox);
     }
@@ -32,5 +40,6 @@ public abstract class Element {
     public void draw(SpriteBatch batch) {
         batch.begin();
         batch.draw(texture, position.getX(), position.getY());
+        batch.end();
     }
 }

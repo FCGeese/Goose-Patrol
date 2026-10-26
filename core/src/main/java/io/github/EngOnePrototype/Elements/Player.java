@@ -16,7 +16,6 @@ import io.github.EngOnePrototype.Utils.Rect;
 public class Player extends Entity {
     private int health;
     public Player(Coord position, int defaultSpeed) {
-
         super(new TextureRegion(new Texture(Gdx.files.internal("32x32player.png"))),
                 position, defaultSpeed);
         health = 100;
@@ -67,7 +66,8 @@ public class Player extends Entity {
     }
 
     public void render(SpriteBatch batch, ArrayList<Hitbox> buildings) {
-        if (health <= 0 ) {
+
+            if (health <= 0 ) {
             System.exit(0);
         }
         batch.begin();

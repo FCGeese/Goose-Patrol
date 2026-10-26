@@ -36,6 +36,7 @@ public class Main extends ApplicationAdapter implements InputProcessor {
     Player player;
     ArrayList<Goose> geese = new ArrayList<>();
     ArrayList<Hitbox> buildings = new ArrayList<>();
+    ArrayList<Food> placedFood = new ArrayList<>();
     TextureRegion Map;
     HealthBar health;
 
@@ -73,13 +74,30 @@ public class Main extends ApplicationAdapter implements InputProcessor {
         batch.begin();
         batch.draw(Map, 0, 0);
         batch.end();
+
         player.render(batch, buildings);
+
         cam.position.set(player.getX(), player.getY(), 0);
         cam.update();
         batch.setProjectionMatrix(cam.combined);
+
         for (Goose goose : geese) {
-            goose.render(batch, geese, buildings, player);
+            Entity nearestFood = player;
+            if (!placedFood.isEmpty()){
+                for (Food food : placedFood){
+                    food.draw(batch);
+                    if (goose.getPosition().distanceFrom(food.getPosition())
+                        < goose.getPosition().distanceFrom(nearestFood.getPosition())){
+                            nearestFood = food;
+                    }
+                }
+                goose.render(batch, geese, buildings, nearestFood);
+            }
+            else {
+                goose.render(batch, geese, buildings, player);
+            }
         }
+
         health.draw(shape, player);
     }
 
@@ -104,6 +122,15 @@ public class Main extends ApplicationAdapter implements InputProcessor {
                     goose.setSpeed(Settings.gooseSpeed);
                 }
             }
+        }
+        if (keycode == Input.Buttons.LEFT){
+
+            float direction = player.getPosition().findDirectionTo(new Coord(Gdx.input.getX(),Gdx.input.getY()));
+
+            placedFood.add(new Food(new Coord(
+                     player.getPosition().getX() + (int) (Math.cos(Math.toRadians(direction)) * 50),
+                     player.getPosition().getY() + (int) (Math.sin(Math.toRadians(direction)) * 50)
+            )));
         }
         return false;
     }
