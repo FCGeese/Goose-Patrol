@@ -1,3 +1,4 @@
+.gitkeep
 16x16SideGoose3.png
 SideGoose1.png
 SideGoose2.png
