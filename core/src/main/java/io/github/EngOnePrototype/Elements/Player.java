@@ -80,6 +80,14 @@ public class Player extends Entity {
                 collision = true;
             }
         }
+
+        //TO_DO fix magic numbers
+        if (getPosition().getX()<0 ||
+           getPosition().getX()+32>1920||
+                getPosition().getY()<0||
+                getPosition().getY()+32>1080){
+            collision = true;
+        }
         if (collision) {
             move(oldPosition);
         }
