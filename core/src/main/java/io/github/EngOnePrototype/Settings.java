@@ -6,6 +6,6 @@ public class Settings {
     public static int playerSpeed = 2;
 
     public static int numberOfGeese = 100;
-    public static int gooseSpeed = 3;
+    public static int gooseSpeed = 2;
     public static int gooseAccuracy = 2;
 }
