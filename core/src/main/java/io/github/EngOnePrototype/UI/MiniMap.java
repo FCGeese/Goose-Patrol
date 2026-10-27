@@ -31,7 +31,7 @@ public class MiniMap {
         shape.end();//lets the map gte drawn ontop of shapes
         batch.end();
         batch.begin();
-        batch.draw(miniMap,player.getX()-150 + 3,player.getY()-150 + 3,60,60);
+        batch.draw(miniMap,player.getX()-150 + 2,player.getY()-150 + 3,60,60);
         shape.begin(ShapeRenderer.ShapeType.Filled);
         shape.setColor(Color.RED);
         shape.circle((player.getPosition().getX() / 15) + 5,
