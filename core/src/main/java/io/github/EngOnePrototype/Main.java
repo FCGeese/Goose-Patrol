@@ -100,7 +100,8 @@ public class Main extends ApplicationAdapter implements InputProcessor {
         }
         placedFood.removeIf(food -> food.getHealth() < 0);
         health.draw(shape, player);
-        miniMap.draw(batch, shape, player);
+        ArrayList<Goose> mapGeese = new ArrayList<Goose>(geese);
+        miniMap.draw(batch, shape, player, mapGeese);
     }
 
     @Override
