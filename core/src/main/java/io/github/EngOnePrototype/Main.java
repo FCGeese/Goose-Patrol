@@ -15,6 +15,7 @@ import io.github.EngOnePrototype.Elements.Food;
 import io.github.EngOnePrototype.Elements.Goose;
 import io.github.EngOnePrototype.Elements.Player;
 import io.github.EngOnePrototype.UI.HealthBar;
+import io.github.EngOnePrototype.UI.MiniMap;
 import io.github.EngOnePrototype.Utils.Coord;
 import io.github.EngOnePrototype.Utils.Hitbox;
 import io.github.EngOnePrototype.Utils.Rect;
@@ -38,6 +39,7 @@ public class Main extends ApplicationAdapter implements InputProcessor {
     ArrayList<Food> placedFood = new ArrayList<>();
     TextureRegion Map;
     HealthBar health;
+    MiniMap miniMap;
 
     boolean paused = false;
 
@@ -51,6 +53,7 @@ public class Main extends ApplicationAdapter implements InputProcessor {
         player = new Player(new Coord(Settings.playerStartX, Settings.playerStartY),
                 Settings.playerSpeed);
         health = new HealthBar();
+        miniMap = new MiniMap();
 
         for (int i = 0; i < Settings.numberOfGeese; i++) {
             geese.add(new Goose(new Coord(i * 100, i * 100),
@@ -85,8 +88,8 @@ public class Main extends ApplicationAdapter implements InputProcessor {
             if (!placedFood.isEmpty()) {
                 for (Food food : placedFood) {
                     food.draw(batch);
-                    if (goose.getPosition().distanceFrom(food.getPosition())
-                            < goose.getPosition().distanceFrom(nearestFood.getPosition())) {
+                    if (goose.getPosition().distanceFrom(food.getPosition()) < goose.getPosition()
+                            .distanceFrom(nearestFood.getPosition())) {
                         nearestFood = food;
                     }
                 }
@@ -97,6 +100,7 @@ public class Main extends ApplicationAdapter implements InputProcessor {
         }
         placedFood.removeIf(food -> food.getHealth() < 0);
         health.draw(shape, player);
+        miniMap.draw(batch, shape, player);
     }
 
     @Override
@@ -133,13 +137,11 @@ public class Main extends ApplicationAdapter implements InputProcessor {
             float direction = player.getPosition().findDirectionTo(
                     new Coord(
                             (int) mouseVector.x,
-                            (int) mouseVector.y)
-            );
+                            (int) mouseVector.y));
 
             Coord foodPos = new Coord(
                     player.getPosition().getX() + (int) (Math.cos(Math.toRadians(direction)) * 50),
-                    player.getPosition().getY() + (int) (Math.sin(Math.toRadians(direction)) * 50)
-            );
+                    player.getPosition().getY() + (int) (Math.sin(Math.toRadians(direction)) * 50));
 
             placedFood.add(new Food(foodPos));
         }
