@@ -8,7 +8,6 @@ import io.github.EngOnePrototype.Utils.Hitbox;
 public abstract class Entity extends Element {
     int speed = 0;
     float direction = 0;
-    private int health;
 
     public Entity(TextureRegion texture, Coord position) {
         super(texture, position);
@@ -21,14 +20,6 @@ public abstract class Entity extends Element {
 
     public Entity(TextureRegion texture, Coord position, Hitbox hitbox) {
         super(texture, position, hitbox);
-    }
-
-    public void setHealth(int health) {
-        this.health = health;
-    }
-
-    public int getHealth() {
-        return health;
     }
 
     public int getSpeed() {

@@ -27,11 +27,14 @@ public class Goose extends Entity {
 
         hitbox = new Hitbox(new Rect(position, 16, 16));
     }
+    //private boolean(Entity target, ArrayList<Hitbox> buildings){
 
-    public Coord update(Entity e) {
+    //}
+    public Coord update(Entity target) {
         // aims goose 'accuracy' deg toward player every frame
-        direction = turnToward(e.getPosition());
-
+        //if (targetInSight(target, buildings)) {
+            direction = turnToward(target.getPosition());
+        //}
         // adds some random wobble/goosier movement
         if (Math.random() > 0.7) {
             direction += 9;

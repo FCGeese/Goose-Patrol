@@ -13,6 +13,7 @@ public abstract class Element {
     TextureRegion texture;
     Coord position;
     Hitbox hitbox;
+    private int health;
 
     public Element(TextureRegion texture, Coord position, Hitbox hitbox) {
         this.texture = texture;
@@ -23,6 +24,13 @@ public abstract class Element {
     public Element(TextureRegion texture, Coord position) {
         this.texture = texture;
         this.position = position;
+    }
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
+    public int getHealth() {
+        return health;
     }
 
     public Coord getPosition() {

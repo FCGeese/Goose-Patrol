@@ -7,7 +7,7 @@ import io.github.EngOnePrototype.Utils.Coord;
 import io.github.EngOnePrototype.Utils.Hitbox;
 import io.github.EngOnePrototype.Utils.Rect;
 
-public class Food extends Entity{
+public class Food extends Element{
 
     public Food(Coord position) {
         super(new TextureRegion(new Texture(Gdx.files.internal("8x8foodImage.png"))),
