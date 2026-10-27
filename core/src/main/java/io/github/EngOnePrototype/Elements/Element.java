@@ -37,6 +37,14 @@ public abstract class Element {
         return position;
     }
 
+    public int getX() {
+        return position.getX();
+    }
+
+    public int getY() {
+        return position.getY();
+    }
+
     public void setPosition(Coord position) {
         this.position = position;
     }

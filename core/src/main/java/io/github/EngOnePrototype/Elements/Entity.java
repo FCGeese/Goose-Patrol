@@ -30,14 +30,6 @@ public abstract class Entity extends Element {
         this.speed = speed;
     }
 
-    public int getX() {
-        return position.getX();
-    }
-
-    public int getY() {
-        return position.getY();
-    }
-
     public Coord update() {
         int xSpeed = (int) (Math.cos(Math.toRadians(direction)) * speed);
         int ySpeed = (int) (Math.sin(Math.toRadians(direction)) * speed);
