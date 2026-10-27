@@ -17,7 +17,6 @@ public class Goose extends Entity {
     public Goose(Coord position, int defaultSpeed, int accuracy) {
         super(new TextureRegion(new Texture(Gdx.files.internal("16x16SideGoose3.png"))),
                 position, defaultSpeed);
-
         this.accuracy = accuracy;
         hitbox = new Hitbox(new Rect(position, 16, 16));
     }
