@@ -20,38 +20,28 @@ public class MiniMap {
 
     public MiniMap() {
         screenPos = new Coord(0, 0);
-        Pixmap map = new Pixmap(Gdx.files.internal("mapImage.png")); // https://gist.github.com/metaphore/ce78cafbd1ebdde02903
-        Pixmap smallMap = new Pixmap(60, 60, map.getFormat());
-        smallMap.drawPixmap(map,
-                0, 0, map.getWidth(), map.getHeight(),
-                0, 0, smallMap.getWidth(), smallMap.getHeight());
-
-        miniMap = new TextureRegion(new Texture(smallMap));
-        map.dispose();
-        smallMap.dispose();
+        miniMap = new TextureRegion(new Texture(Gdx.files.internal("mapImage.png"))); // https://gist.github.com/metaphore/ce78cafbd1ebdde02903
     }
 
     public void draw(SpriteBatch batch, ShapeRenderer shape, Player player, ArrayList<Goose> geese) {
         geese.removeIf(goose -> ((goose.getPosition().getX() > 1900) ||
                 (goose.getPosition().getY() > 1060)));
-
-        shape.begin(ShapeRenderer.ShapeType.Filled);
-        shape.setColor(Color.BLACK);
-        shape.rect(0, 0, 136, 104);
-        shape.end();
-        batch.begin();
-        batch.draw(miniMap, player.getPosition().getX() -153 + 5,player.getPosition().getY() - 152 + 5);
+        shape.setColor(Color.BLUE);
+        shape.rect(0, 0, 140, 105);
+        shape.end();//lets the map gte drawn ontop of shapes
         batch.end();
+        batch.begin();
+        batch.draw(miniMap,player.getX()-150 + 3,player.getY()-150 + 3,60,60);
         shape.begin(ShapeRenderer.ShapeType.Filled);
         shape.setColor(Color.RED);
-        shape.circle((player.getPosition().getX() / 15) + 5, (player.getPosition().getY() / 11) + 5, 2);
-        shape.end();
+        shape.circle((player.getPosition().getX() / 15) + 5,
+                (player.getPosition().getY() / 11) + 5,
+                2);
+
         for (Goose goose : geese) {
             System.out.println(goose.getPosition().getY());
-            shape.begin(ShapeRenderer.ShapeType.Filled);
             shape.setColor(Color.GRAY);
             shape.circle((goose.getPosition().getX() / 15) + 5, (goose.getPosition().getY() / 11) + 5, 1);
-            shape.end();
         }
     }
 }

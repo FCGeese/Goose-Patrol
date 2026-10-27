@@ -13,11 +13,9 @@ public class HealthBar {
     }
 
     public void draw(ShapeRenderer shape, Player player) {
-        shape.begin(ShapeRenderer.ShapeType.Filled);
         shape.setColor(Color.BLACK);
         shape.rect(screenPos.getX(), screenPos.getY(), 170, 40);
         shape.setColor(Color.RED);
         shape.rect(screenPos.getX() + 10, screenPos.getY() + 10, (float) (player.getHealth() * 1.5), 20);
-        shape.end();
     }
 }

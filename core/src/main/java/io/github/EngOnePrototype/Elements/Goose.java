@@ -108,7 +108,7 @@ public class Goose extends Entity {
 
     @Override
     public void draw(SpriteBatch batch) {
-        batch.begin();
+        //batch.begin();
         if (direction < 90 || direction > 270) {
             if (!texture.isFlipX()) {
                 texture.flip(true, false);
@@ -122,7 +122,7 @@ public class Goose extends Entity {
             }
             batch.draw(texture, position.getX(), position.getY());
         }
-        batch.end();
+        //batch.end();
     }
 
 }

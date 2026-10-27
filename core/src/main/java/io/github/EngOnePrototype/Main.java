@@ -74,12 +74,15 @@ public class Main extends ApplicationAdapter implements InputProcessor {
         batch.draw(Map, 0, 0);
         batch.end();
 
+        shape.begin(ShapeRenderer.ShapeType.Filled);
+
         player.render(batch, buildings);
 
         cam.position.set(player.getX(), player.getY(), 0);
         cam.viewportWidth = 300;
         cam.viewportHeight = 300;
         cam.update();
+        batch.begin();
         batch.setProjectionMatrix(cam.combined);
 
         for (Goose goose : geese) {
@@ -101,6 +104,8 @@ public class Main extends ApplicationAdapter implements InputProcessor {
         health.draw(shape, player);
         ArrayList<Goose> mapGeese = new ArrayList<Goose>(geese);
         miniMap.draw(batch, shape, player, mapGeese);
+        batch.end();
+        shape.end();
     }
 
     @Override

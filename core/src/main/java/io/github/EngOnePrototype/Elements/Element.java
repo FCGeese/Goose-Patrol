@@ -55,8 +55,8 @@ public abstract class Element {
     }
 
     public void draw(SpriteBatch batch) {
-        batch.begin();
+        //batch.begin();
         batch.draw(texture, position.getX(), position.getY());
-        batch.end();
+        //batch.end();
     }
 }
