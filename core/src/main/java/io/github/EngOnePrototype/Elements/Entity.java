@@ -3,7 +3,6 @@ package io.github.EngOnePrototype.Elements;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import io.github.EngOnePrototype.Utils.Coord;
-import io.github.EngOnePrototype.Utils.Hitbox;
 
 public abstract class Entity extends Element {
     int speed = 0;
@@ -16,10 +15,6 @@ public abstract class Entity extends Element {
     public Entity(TextureRegion texture, Coord position, int speed) {
         super(texture, position);
         this.speed = speed;
-    }
-
-    public Entity(TextureRegion texture, Coord position, Hitbox hitbox) {
-        super(texture, position, hitbox);
     }
 
     public int getSpeed() {

@@ -21,7 +21,7 @@ public class MiniMap {
     public MiniMap() {
         screenPos = new Coord(0, 0);
         Pixmap map = new Pixmap(Gdx.files.internal("mapImage.png")); // https://gist.github.com/metaphore/ce78cafbd1ebdde02903
-        Pixmap smallMap = new Pixmap(192, 108, map.getFormat());
+        Pixmap smallMap = new Pixmap(60, 60, map.getFormat());
         smallMap.drawPixmap(map,
                 0, 0, map.getWidth(), map.getHeight(),
                 0, 0, smallMap.getWidth(), smallMap.getHeight());
@@ -40,7 +40,7 @@ public class MiniMap {
         shape.rect(0, 0, 136, 104);
         shape.end();
         batch.begin();
-        batch.draw(miniMap, player.getPosition().getX() - 480 + 5, player.getPosition().getY() - 270 + 5);
+        batch.draw(miniMap, player.getPosition().getX() -153 + 5,player.getPosition().getY() - 152 + 5);
         batch.end();
         shape.begin(ShapeRenderer.ShapeType.Filled);
         shape.setColor(Color.RED);

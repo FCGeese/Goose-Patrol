@@ -77,6 +77,8 @@ public class Main extends ApplicationAdapter implements InputProcessor {
         player.render(batch, buildings);
 
         cam.position.set(player.getX(), player.getY(), 0);
+        cam.viewportWidth = 300;
+        cam.viewportHeight = 300;
         cam.update();
         batch.setProjectionMatrix(cam.combined);
 
