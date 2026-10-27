@@ -24,7 +24,6 @@ public class Goose extends Entity {
     public Goose(Coord position, int defaultSpeed) {
         super(new TextureRegion(new Texture(Gdx.files.internal("16x16SideGoose3.png"))),
                 position, defaultSpeed);
-
         hitbox = new Hitbox(new Rect(position, 16, 16));
     }
     //private boolean(Entity target, ArrayList<Hitbox> buildings){

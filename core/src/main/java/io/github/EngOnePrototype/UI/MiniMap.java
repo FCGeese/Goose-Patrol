@@ -1,5 +1,7 @@
 package io.github.EngOnePrototype.UI;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -7,6 +9,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+
+import io.github.EngOnePrototype.Elements.Goose;
 import io.github.EngOnePrototype.Elements.Player;
 import io.github.EngOnePrototype.Utils.Coord;
 
@@ -27,7 +31,9 @@ public class MiniMap {
         smallMap.dispose();
     }
 
-    public void draw(SpriteBatch batch, ShapeRenderer shape, Player player) {
+    public void draw(SpriteBatch batch, ShapeRenderer shape, Player player, ArrayList<Goose> geese) {
+        geese.removeIf(goose -> ((goose.getPosition().getX() > 1900) ||
+                (goose.getPosition().getY() > 1060)));
 
         shape.begin(ShapeRenderer.ShapeType.Filled);
         shape.setColor(Color.BLACK);
@@ -40,5 +46,12 @@ public class MiniMap {
         shape.setColor(Color.RED);
         shape.circle((player.getPosition().getX() / 15) + 5, (player.getPosition().getY() / 11) + 5, 2);
         shape.end();
+        for (Goose goose : geese) {
+            System.out.println(goose.getPosition().getY());
+            shape.begin(ShapeRenderer.ShapeType.Filled);
+            shape.setColor(Color.GRAY);
+            shape.circle((goose.getPosition().getX() / 15) + 5, (goose.getPosition().getY() / 11) + 5, 1);
+            shape.end();
+        }
     }
 }
