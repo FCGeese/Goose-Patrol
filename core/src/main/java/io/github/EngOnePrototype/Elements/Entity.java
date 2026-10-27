@@ -35,10 +35,4 @@ public abstract class Entity extends Element {
         int ySpeed = (int) (Math.sin(Math.toRadians(direction)) * speed);
         return new Coord(position.getX() + xSpeed, position.getY() + ySpeed);
     }
-
-    public Coord move(Coord newPosition) {
-        hitbox.move(newPosition.delta(position));
-        position.set(newPosition);
-        return newPosition;
-    }
 }

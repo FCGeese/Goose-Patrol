@@ -30,7 +30,7 @@ public class Goose extends Entity {
     //private boolean(Entity target, ArrayList<Hitbox> buildings){
 
     //}
-    public Coord update(Entity target) {
+    public Coord update(Element target) {
         // aims goose 'accuracy' deg toward player every frame
         //if (targetInSight(target, buildings)) {
             direction = turnToward(target.getPosition());
@@ -45,14 +45,15 @@ public class Goose extends Entity {
         return super.update();
     }
 
-    public void render(SpriteBatch batch, ArrayList<Goose> geese, ArrayList<Hitbox> buildings, Entity target) {
+    public void render(SpriteBatch batch, ArrayList<Goose> geese,
+                       ArrayList<Hitbox> buildings, Element target) {
         if (this.isCollide(target)) {
             target.setHealth(target.getHealth() - 1);
         }
         // saves old position
         Coord oldPos = new Coord(position.getX(), position.getY());
         // projects to next position
-        move(update(target));
+        setPosition(update(target));
 
         boolean collision = false;
 
@@ -73,7 +74,7 @@ public class Goose extends Entity {
 
         // backtracks before drawing if collision inbound.
         if (collision) {
-            move(oldPos);
+            setPosition(oldPos);
         }
         draw(batch);
     }

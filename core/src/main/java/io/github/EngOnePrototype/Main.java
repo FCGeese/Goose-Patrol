@@ -10,10 +10,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ScreenUtils;
-import io.github.EngOnePrototype.Elements.Entity;
-import io.github.EngOnePrototype.Elements.Food;
-import io.github.EngOnePrototype.Elements.Goose;
-import io.github.EngOnePrototype.Elements.Player;
+import io.github.EngOnePrototype.Elements.*;
 import io.github.EngOnePrototype.UI.HealthBar;
 import io.github.EngOnePrototype.UI.MiniMap;
 import io.github.EngOnePrototype.Utils.Coord;
@@ -84,7 +81,7 @@ public class Main extends ApplicationAdapter implements InputProcessor {
         batch.setProjectionMatrix(cam.combined);
 
         for (Goose goose : geese) {
-            Entity nearestFood = player;
+            Element nearestFood = player;
             if (!placedFood.isEmpty()) {
                 for (Food food : placedFood) {
                     food.draw(batch);

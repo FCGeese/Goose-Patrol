@@ -45,10 +45,11 @@ public abstract class Element {
         return position.getY();
     }
 
-    public void setPosition(Coord position) {
-        this.position = position;
+    public Coord setPosition(Coord newPosition) {
+        hitbox.setPosition(newPosition.delta(position));
+        position.set(newPosition);
+        return newPosition;
     }
-
     public boolean isCollide(Element other) {
         return this.hitbox.isCollision(other.hitbox);
     }

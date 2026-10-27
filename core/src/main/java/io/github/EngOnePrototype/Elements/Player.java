@@ -60,7 +60,7 @@ public class Player extends Entity {
         }
         batch.begin();
         Coord oldPosition = new Coord(getX(), getY());
-        move(update());
+        setPosition(update());
         boolean collision = false;
 
         for (Hitbox building : buildings) {
@@ -77,7 +77,7 @@ public class Player extends Entity {
                 collision = true;
         }
         if (collision) {
-            move(oldPosition);
+            setPosition(oldPosition);
         }
 
         batch.draw(texture, getX(), getY());

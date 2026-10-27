@@ -21,7 +21,7 @@ public class Hitbox {
         boxList.add(rect);
     }
 
-    public void move(Coord deltaPos) {
+    public void setPosition(Coord deltaPos) {
         for (Rect rectangle : boxList) {
             rectangle.position = rectangle.position.add(deltaPos);
         }
