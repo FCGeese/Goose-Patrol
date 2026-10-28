@@ -1,13 +1,13 @@
 package io.github.fcgeese.goose_patrol;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 public abstract class Element {
-    private Vector2 position;
+    private Vector2 vector;
     private TextureRegion texture;
     private int health;
     private Rectangle hitbox;
@@ -20,8 +20,8 @@ public abstract class Element {
         return texture;
     }
 
-    public Vector2 getPosition() {
-        return position;
+    public Vector2 getVector() {
+        return vector;
     }
 
     public Rectangle getHitbox() {
@@ -32,13 +32,18 @@ public abstract class Element {
         this.health = health;
     }
 
-    public void setPosition(Vector2 position) {
-        this.position = position;
+    public void setVector(Vector2 vector) {
+        this.vector = vector;
     }
 
     public void setTexture(TextureRegion texture) {
         this.texture = texture;
     }
+
+    public void setHitbox(Rectangle hitbox) {
+        this.hitbox = hitbox;
+    }
+
 
     /**
      * Collision checker for two elements
@@ -55,7 +60,7 @@ public abstract class Element {
      * @param batch open SpriteBatch (batch.begin must be called before this method and batch.end() after!!)
      */
     public void draw(SpriteBatch batch){
-        batch.draw(texture, position.x, position.y);
+        batch.draw(texture, vector.x, vector.y);
     }
 
 
