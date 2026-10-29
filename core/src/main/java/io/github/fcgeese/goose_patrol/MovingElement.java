@@ -6,18 +6,18 @@ public class MovingElement extends Element{
     private Vector2 displacementVector;
 
     public float getDirection(){
-        return getPositionVector().angleRad(displacementVector);
+        return displacementVector.angleRad();
     }
     public float getSpeed(){
-        return getPositionVector().dst(displacementVector);
+        return displacementVector.len();
     }
 
     public void setDirection(float rotation){
-        displacementVector.rotateAroundRad(getPositionVector(), rotation);
+        displacementVector.setAngleRad(rotation);
     }
 
     public void setSpeed(float speed){
-        displacementVector.setLength(speed);
+        displacementVector.scl(speed);
     }
 
     /**
@@ -26,8 +26,8 @@ public class MovingElement extends Element{
      */
     public Vector2 update(){
        return new Vector2(
-           getVector().x + (float) Math.cos(direction*speed), //x
-              getVector().y + (float) Math.sin(direction*speed)  //y
+            getPositionVector().x + (float) Math.cos(getDirection()*getSpeed()), //x
+            getPositionVector().y + (float) Math.sin(getDirection()*getSpeed())  //y
        );
     }
 
