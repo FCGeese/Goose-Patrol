@@ -5,6 +5,16 @@ import com.badlogic.gdx.math.Vector2;
 public class MovingElement extends Element{
     private Vector2 displacementVector;
 
+    public Vector2 getDisplacementVector() {
+        return displacementVector;
+    }
+    public void setDisplacementVector(Vector2 displacementVector) {
+        this.displacementVector = displacementVector;
+    }
+    public void setDisplacementVector(float x, float y){
+        this.displacementVector = new Vector2(x, y);
+    }
+    
     public float getDirection(){
         return displacementVector.angleRad();
     }
