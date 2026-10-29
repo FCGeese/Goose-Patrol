@@ -11,19 +11,19 @@ public class Goose extends MovingElement {
     Element target;
 
     public Goose(Vector2 position) {
-        setVector(position);
+        setPositionVector(position);
         setTexture(new TextureRegion(Settings.gooseTexture));
         setHitbox(new Rectangle(
-            getVector().x,
-            getVector().y,
+            getPositionVector().x,
+            getPositionVector().y,
             Settings.gooseWidth,
             Settings.gooseHeight
         ));
-        this.speed = Settings.gooseSpeed;
+        this.setSpeed(Settings.gooseSpeed);
     }
 
     public void setTarget(Element target) {
-        target = target;
+        this.target = target;
 
     }
 
@@ -37,46 +37,44 @@ public class Goose extends MovingElement {
      */
     public Vector2 wander(){
         if (Math.random()>0.95){
-            direction = direction+accuracy;
+            setDirection(getDirection()+accuracy);
         }
         else if (Math.random()<0.05){
-            direction = direction - accuracy;
+            setDirection(getDirection() - accuracy);
         }
         return update();
     }
 
     /**
      * turns the goose towards their target while moving the goose forwards
-     * @param target the element the goose is pursuing
      * @return Vector2 the reutrn value of MovingElements update() -> the next Vector2 position of the goose
      */
     public Vector2 pursue() {
-        float targetDirection = getVector().angleRad(target.getVector());
-        if (direction < targetDirection) {
+        float targetDirection = getPositionVector().angleRad(target.getPositionVector());
+        if (getDirection() < targetDirection) {
             if (targetDirection < Math.PI) {
-                direction += accuracy;
+                setDirection(getDirection() + accuracy);
             } else {
-                direction -= accuracy;
+                setDirection(getDirection() - accuracy);
             }
         } else {
             if (targetDirection > Math.PI) {
-                direction += accuracy;
+                setDirection(getDirection() + accuracy);
             } else {
-                direction -= accuracy;
+                setDirection(getDirection() - accuracy);
             }
         }
-        direction = (float) ((float) ((direction + Math.PI)) % Math.PI);
+        setDirection ( (float) ((float) ((getDirection() + Math.PI)) % Math.PI));
         return update();
     }
 
     /**
      * Handles Goose movement logic for each tick, conditional on collisions and pursuit
-     * @param target the element the goose should turn towards
      * @param collidables a list of every element the goose should check collisions with
      */
     public void movementLogic(ArrayList<Element> collidables){
 
-        collidables.removeIf(element -> element.getVector().dst(getVector())>40);
+        collidables.removeIf(element -> element.getPositionVector().dst(getPositionVector())>40);
 
         Vector2 newVector;
         if (target != null){
@@ -96,7 +94,7 @@ public class Goose extends MovingElement {
                 }
             }
         }
-        if (canMove){setVector(newVector);}
+        if (canMove){setPositionVector(newVector);}
     }
 }
 

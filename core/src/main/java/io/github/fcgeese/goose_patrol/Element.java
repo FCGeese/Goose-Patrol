@@ -7,7 +7,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 public abstract class Element {
-    private Vector2 vector;
+    private Vector2 positionVector;
     private TextureRegion texture;
     private int health;
     private Rectangle hitbox;
@@ -20,8 +20,8 @@ public abstract class Element {
         return texture;
     }
 
-    public Vector2 getVector() {
-        return vector;
+    public Vector2 getPositionVector() {
+        return positionVector;
     }
 
     public Rectangle getHitbox() {
@@ -32,8 +32,8 @@ public abstract class Element {
         this.health = health;
     }
 
-    public void setVector(Vector2 vector) {
-        this.vector = vector;
+    public void setPositionVector(Vector2 positionVector) {
+        this.positionVector = positionVector;
     }
 
     public void setTexture(TextureRegion texture) {
@@ -60,7 +60,7 @@ public abstract class Element {
      * @param batch open SpriteBatch (batch.begin must be called before this method and batch.end() after!!)
      */
     public void draw(SpriteBatch batch){
-        batch.draw(texture, vector.x, vector.y);
+        batch.draw(texture, positionVector.x, positionVector.y);
     }
 
 

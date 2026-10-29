@@ -3,9 +3,22 @@ package io.github.fcgeese.goose_patrol;
 import com.badlogic.gdx.math.Vector2;
 
 public class MovingElement extends Element{
-    float speed = 0;
-    float direction = 0;
+    private Vector2 displacementVector;
 
+    public float getDirection(){
+        return getPositionVector().angleRad(displacementVector);
+    }
+    public float getSpeed(){
+        return getPositionVector().dst(displacementVector);
+    }
+
+    public void setDirection(float rotation){
+        displacementVector.rotateAroundRad(getPositionVector(), rotation);
+    }
+
+    public void setSpeed(float speed){
+        displacementVector.setLength(speed);
+    }
 
     /**
      * Updates the elements position using its direction and speed
