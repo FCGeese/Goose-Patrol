@@ -13,6 +13,7 @@ public class Goose extends MovingElement {
     public Goose(Vector2 position) {
         setPositionVector(position);
         setDisplacementVector(1,1);
+        setDisplacementVector(getDisplacementVector().nor());
         setTexture(new TextureRegion(Settings.gooseTexture));
         setHitbox(new Rectangle(
             getPositionVector().x,
