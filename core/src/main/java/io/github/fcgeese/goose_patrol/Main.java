@@ -12,40 +12,58 @@ import java.util.ArrayList;
 public class Main extends ApplicationAdapter {
     private SpriteBatch batch;
     private Texture image;
-    ArrayList<Goose> geese = new ArrayList<>();
+    Player player;
+    ArrayList<Goose> geese;
+    collisionManager collisionManager;
+    targetManager targetManager;
 
     @Override
     public void create() {
         batch = new SpriteBatch();
         image = new Texture("libgdx.png");
-        geese.add(new Goose( new Vector2(140,210) ) );
-        targetManager targetManager = new targetManager() {
+        player = new Player(new Vector2(10,10));
+        geese = new ArrayList<>();
+        geese.add(new Goose(new Vector2(100,100)));
+
+        collisionManager = new collisionManager() {
+            @Override
+            public boolean canMove(MovingElement e) {
+                return true;
+            }
+
+            @Override
+            public boolean canMove(MovingElement e, Vector2 v) {
+                return true;
+            }
+
+            @Override
+            public boolean canMove(MovingElement e, int x, int y) {
+                return true;
+            }
+        };
+
+        targetManager = new targetManager() {
             @Override
             public boolean isInRange(Goose goose, Element target) {
-                return false;
+                return (goose.getPositionVector().dst(target.getPositionVector())>500);
             }
 
             @Override
             public Element getTarget(Goose goose) {
-                return null;
+                return player;
             }
         };
-        collisionManager collisionManager = new collisionManager() {
-            @Override
-            public boolean canMove(MovingElement e) {
-                return false;
-            }
-        };
+
     }
 
     @Override
     public void render() {
         ScreenUtils.clear(0.15f, 0.15f, 0.2f, 1f);
-    //    batch.begin();
-    //    batch.draw(image, 140, 210);
-        player.move(targetManager, collisionManager);
+        batch.begin();
+        batch.draw(image, 140, 210);
+        player.move(collisionManager);
         player.draw(batch);
-        for(Goose g : geese) {
+        for ( Goose g : geese){
             g.move(targetManager, collisionManager);
             g.draw(batch);
         }

@@ -10,9 +10,9 @@ public class Settings {
     public static float gooseHeight = 16;
     public static Texture gooseTexture = new Texture(Gdx.files.internal("Goose.png"));
     public static float gooseSpeed = 0.5f;
-    public static float gooseAttackCoolDown = 5f;
+    public static float gooseAttackCoolDown = 1f;
     public static float gooseAttackDuration = 5f;
-    public static float gooseLockOnDuration;
+    public static float gooseLockOnDuration = 5f;
 
 
     public static Texture playerTexture = new Texture(Gdx.files.internal("Player.png"));
