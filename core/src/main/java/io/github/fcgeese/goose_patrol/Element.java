@@ -15,8 +15,8 @@ public abstract class Element {
         return health;
     }
 
-    public TextureRegion getTexture() {
-        return texture;
+    public void setHealth(int health) {
+        this.health = health;
     }
 
     public Vector2 getPositionVector() {
@@ -25,10 +25,6 @@ public abstract class Element {
 
     public Rectangle getHitbox() {
         return hitbox;
-    }
-
-    public void setHealth(int health) {
-        this.health = health;
     }
 
     public void setPositionVector(Vector2 positionVector) {

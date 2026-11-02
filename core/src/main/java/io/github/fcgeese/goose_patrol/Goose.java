@@ -1,14 +1,20 @@
 package io.github.fcgeese.goose_patrol;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 import java.util.ArrayList;
 
 public class Goose extends MovingElement {
-    float accuracy = Settings.gooseAccuracy;
-    Element target;
+    private final float accuracy = Settings.gooseAccuracy;
+    private Element target;
+    private float attackDuration = Settings.gooseAttackDuration;
+    private float attackCoolDown = Settings.gooseAttackCoolDown;
+    private boolean attacking = false;
+    private float lockOnDuration = Settings.gooseLockOnDuration;
 
     public Goose(Vector2 position) {
         setPositionVector(position);
@@ -24,34 +30,24 @@ public class Goose extends MovingElement {
         this.setSpeed(Settings.gooseSpeed);
     }
 
-    public void setTarget(Element target) {
-        this.target = target;
-
-    }
-
-    public Element getTarget() {
-        return target;
-    }
-
     /**
      * goose wanders randomly
      * @return Vector2, from MovingElements update, next Vector2 position of goose
      */
-    public Vector2 wander(){
-        if (Math.random()>0.95){
+    public void wander(){
+        if (Math.random()>0.85){
             setDirection(getDirection()+accuracy);
         }
-        else if (Math.random()<0.05){
+        else if (Math.random()<0.15){
             setDirection(getDirection() - accuracy);
         }
-        return update();
     }
 
     /**
      * turns the goose towards their target while moving the goose forwards
      * @return Vector2 the reutrn value of MovingElements update() -> the next Vector2 position of the goose
      */
-    public Vector2 pursue() {
+    public void pursue() {
         float targetDirection = getPositionVector().angleRad(target.getPositionVector());
         if (getDirection() < targetDirection) {
             if (targetDirection < Math.PI) {
@@ -66,37 +62,65 @@ public class Goose extends MovingElement {
                 setDirection(getDirection() - accuracy);
             }
         }
-        setDirection ( (float) ((float) ((getDirection() + Math.PI)) % Math.PI));
-        return update();
+        setDirection( (float) ((float) ((getDirection() + Math.PI)) % Math.PI));
     }
 
     /**
-     * Handles Goose movement logic for each tick, conditional on collisions and pursuit
-     * @param collidables a list of every element the goose should check collisions with
+     * draws the attack effect for the duration of the goose attack
      */
-    public void movementLogic(ArrayList<Element> collidables){
-
-        collidables.removeIf(element -> element.getPositionVector().dst(getPositionVector())>40);
-
-        Vector2 newVector;
-        if (target != null){
-            if (collidesWith(target)){
-                target.setHealth(target.getHealth()-1);
-            }
-            newVector = pursue();
+    public void attack(){
+        getPositionVector().angleDeg(target.getPositionVector());
+        if (attackDuration>0){
+            attackDuration = attackDuration - Gdx.graphics.getDeltaTime();
+            //draw line tot next vector(big displacement
+            ShapeRenderer shape = new ShapeRenderer();
+            shape.begin(ShapeRenderer.ShapeType.Line);
+            shape.line(getPositionVector(),getDisplacementVector());
+            shape.end();
+            shape.dispose();
         }
         else{
-            newVector = wander();
+            setDisplacementVector(getDisplacementVector().nor());
+            attacking=false;
+            attackCoolDown = Settings.gooseAttackCoolDown;
         }
-        boolean canMove = true;
-        for (Element element : collidables){
-            if (element != this){
-                if (collidesWith(element)){
-                    canMove = false;
-                }
+    }
+
+    public void move(targetManager targetManager, collisionManager collisionManager){
+        target = (targetManager.getTarget(this));
+
+        if ( target instanceof Player &&
+            targetManager.isInRange(this, target) &&
+            attackCoolDown < 0 &&
+            !attacking
+        ){
+            pursue();
+            lockOnDuration = -Gdx.graphics.getDeltaTime();
+            if (lockOnDuration < 0) {
+                lockOnDuration = Settings.gooseLockOnDuration;
+                attacking = true;
+                setDisplacementVector(getDisplacementVector().scl(15));
             }
         }
-        if (canMove){setPositionVector(newVector);}
+        else if (!targetManager.isInRange(this, target)){
+            lockOnDuration = Settings.gooseLockOnDuration;
+            setDisplacementVector(getDisplacementVector().nor());
+            if (target!=null){
+                pursue();
+            }
+            else{
+                wander();
+            }
+        }
+
+        if (collisionManager.canMove(this)){
+            if(attacking){
+                attack();
+            }
+            else{
+                update();
+            }
+
+        }
     }
 }
-

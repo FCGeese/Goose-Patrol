@@ -14,7 +14,7 @@ public class MovingElement extends Element{
     public void setDisplacementVector(float x, float y){
         this.displacementVector = new Vector2(x, y);
     }
-    
+
     public float getDirection(){
         return displacementVector.angleRad();
     }
@@ -35,10 +35,7 @@ public class MovingElement extends Element{
      * @return Vector2, the elements position after the update pass
      */
     public Vector2 update(){
-       return new Vector2(
-            getPositionVector().x + (float) Math.cos(getDirection()*getSpeed()), //x
-            getPositionVector().y + (float) Math.sin(getDirection()*getSpeed())  //y
-       );
+       return (getPositionVector().add(getDisplacementVector()));
     }
 
 
