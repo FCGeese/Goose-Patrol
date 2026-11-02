@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class Settings {
+
     public static float gooseAccuracy = 0.4f;
     public static float gooseWidth = 16;
     public static float gooseHeight = 16;
@@ -13,6 +14,8 @@ public class Settings {
     public static float gooseAttackCoolDown = 1f;
     public static float gooseAttackDuration = 5f;
     public static float gooseLockOnDuration = 5f;
+    public static float gooseAttackRange = 50f;
+
 
 
     public static Texture playerTexture = new Texture(Gdx.files.internal("Player.png"));

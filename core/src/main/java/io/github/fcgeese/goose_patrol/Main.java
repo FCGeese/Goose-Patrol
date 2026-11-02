@@ -14,7 +14,7 @@ public class Main extends ApplicationAdapter {
     private Texture image;
     Player player;
     ArrayList<Goose> geese;
-    collisionManager collisionManager;
+    CollisionManager collisionManager;
     targetManager targetManager;
 
     @Override
@@ -25,34 +25,10 @@ public class Main extends ApplicationAdapter {
         geese = new ArrayList<>();
         geese.add(new Goose(new Vector2(100,100)));
 
-        collisionManager = new collisionManager() {
-            @Override
-            public boolean canMove(MovingElement e) {
-                return true;
-            }
+        collisionManager = new CollisionManager();
 
-            @Override
-            public boolean canMove(MovingElement e, Vector2 v) {
-                return true;
-            }
-
-            @Override
-            public boolean canMove(MovingElement e, int x, int y) {
-                return true;
-            }
-        };
-
-        targetManager = new targetManager() {
-            @Override
-            public boolean isInRange(Goose goose, Element target) {
-                return (goose.getPositionVector().dst(target.getPositionVector())>500);
-            }
-
-            @Override
-            public Element getTarget(Goose goose) {
-                return player;
-            }
-        };
+        targetManager = new targetManager();
+        targetManager.addTarget(player);
 
     }
 
