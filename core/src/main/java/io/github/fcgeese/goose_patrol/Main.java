@@ -1,6 +1,8 @@
 package io.github.fcgeese.goose_patrol;
 
 import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
@@ -12,10 +14,13 @@ import java.util.ArrayList;
 public class Main extends ApplicationAdapter {
     private SpriteBatch batch;
     private Texture image;
-    Player player;
-    ArrayList<Goose> geese = new ArrayList<>();;
-    CollisionManager collisionManager;
-    TargetManager targetManager;
+
+    private Player player;
+    private ArrayList<Goose> geese = new ArrayList<>();;
+    private CollisionManager collisionManager;
+    private TargetManager targetManager;
+
+    private Camera playerCamera;
 
     @Override
     public void create() {
@@ -26,6 +31,9 @@ public class Main extends ApplicationAdapter {
         collisionManager = new CollisionManager();
         targetManager = new TargetManager();
         targetManager.addTarget(player);
+        playerCamera = new OrthographicCamera(player.getPositionVector().x, player.getPositionVector().y);
+        playerCamera.viewportWidth = 300;
+        playerCamera.viewportHeight = 300;
     }
 
     @Override
@@ -35,6 +43,10 @@ public class Main extends ApplicationAdapter {
         batch.draw(image, 140, 210);
         player.move(collisionManager);
         player.draw(batch);
+        playerCamera.position.set(player.getPositionVector().x, player.getPositionVector().y, 0);
+        playerCamera.update();
+        batch.setProjectionMatrix(playerCamera.combined);
+
         for ( Goose g : geese){
             g.move(targetManager, collisionManager);
             g.draw(batch);

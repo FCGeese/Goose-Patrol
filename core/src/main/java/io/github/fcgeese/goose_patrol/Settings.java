@@ -6,11 +6,11 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class Settings {
 
-    public static float gooseAccuracy = 0.07f;
+    public static float gooseAccuracy = 0.025f;
     public static float gooseWidth = 16;
     public static float gooseHeight = 16;
     public static Texture gooseTexture = new Texture(Gdx.files.internal("Goose.png"));
-    public static float gooseSpeed = 1;
+    public static float gooseSpeed = 2;
     public static float gooseAttackCoolDown = 1f;
     public static float gooseAttackDuration = 5f;
     public static float gooseLockOnDuration = 500f;

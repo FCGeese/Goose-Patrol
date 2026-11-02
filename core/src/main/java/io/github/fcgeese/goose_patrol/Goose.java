@@ -30,8 +30,8 @@ public class Goose extends MovingElement {
     }
 
     /**
-     * goose wanders randomly
-     * @return Vector2, from MovingElements update, next Vector2 position of goose
+     * goose wanders randomly by changing its displacements vectors angle in place
+     *
      */
     public void wander(){
         if (Math.random()>0.85){
@@ -45,8 +45,7 @@ public class Goose extends MovingElement {
     }
 
     /**
-     * turns the goose towards their target while moving the goose forwards
-     * @return Vector2 the reutrn value of MovingElements update() -> the next Vector2 position of the goose
+     * turns the goose towards their target, affects displacmentVector in place
      */
     public void pursue() {
 
@@ -69,7 +68,11 @@ public class Goose extends MovingElement {
     }
 
 
-
+    /**
+     * redirects and moves the goose forward
+     * @param targetManager
+     * @param collisionManager
+     */
     public void move(TargetManager targetManager, CollisionManager collisionManager){
         target = targetManager.getTarget(this);
         if (target != null){
