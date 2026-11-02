@@ -50,6 +50,7 @@ public abstract class Element {
         return hitbox.overlaps(other.getHitbox());
     }
 
+
     /**
      * Top level method for rendering Element on screen
      * @param batch open SpriteBatch (batch.begin must be called before this method and batch.end() after!!)

@@ -3,20 +3,18 @@ package io.github.fcgeese.goose_patrol;
 import java.util.ArrayList;
 import java.util.Comparator;
 
-public class targetManager {
+public class TargetManager {
     ArrayList<Element> possibleTargets = new ArrayList<>();
 
     public void addTarget(Element e){
         possibleTargets.add(e);
     }
 
-    boolean isInRange(Goose goose, Element target){
-        if (target == null){return false;}
+    public boolean isInRange(Goose goose, Element target){
         return (goose.getPositionVector().dst(target.getPositionVector())<= Settings.gooseAttackRange);
     }
 
-    Element getTarget(Goose goose){
-        if (possibleTargets == null){return null;}
+    public Element getTarget(Goose goose){
         return possibleTargets.stream()
             .min(Comparator.comparingDouble(possibleTargets ->
                 goose.getPositionVector().dst(possibleTargets.getPositionVector())))

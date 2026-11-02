@@ -13,23 +13,19 @@ public class Main extends ApplicationAdapter {
     private SpriteBatch batch;
     private Texture image;
     Player player;
-    ArrayList<Goose> geese;
+    ArrayList<Goose> geese = new ArrayList<>();;
     CollisionManager collisionManager;
-    targetManager targetManager;
+    TargetManager targetManager;
 
     @Override
     public void create() {
         batch = new SpriteBatch();
         image = new Texture("libgdx.png");
         player = new Player(new Vector2(10,10));
-        geese = new ArrayList<>();
-        geese.add(new Goose(new Vector2(100,100)));
-
+        geese.add(new Goose(new Vector2(300,100)));
         collisionManager = new CollisionManager();
-
-        targetManager = new targetManager();
+        targetManager = new TargetManager();
         targetManager.addTarget(player);
-
     }
 
     @Override

@@ -19,7 +19,7 @@ public class Goose extends MovingElement {
     public Goose(Vector2 position) {
         setPositionVector(position);
         setDisplacementVector(1,1);
-        setDisplacementVector(getDisplacementVector().nor());
+        getDisplacementVector().nor();
         setTexture(new TextureRegion(Settings.gooseTexture));
         setHitbox(new Rectangle(
             getPositionVector().x,
@@ -27,7 +27,6 @@ public class Goose extends MovingElement {
             Settings.gooseWidth,
             Settings.gooseHeight
         ));
-        this.setSpeed(Settings.gooseSpeed);
     }
 
     /**
@@ -36,10 +35,12 @@ public class Goose extends MovingElement {
      */
     public void wander(){
         if (Math.random()>0.85){
-            setDirection(getDirection()+accuracy);
+            getDisplacementVector().rotateRad(accuracy);
+            getDisplacementVector().nor().scl(Settings.gooseSpeed);
         }
         else if (Math.random()<0.15){
-            setDirection(getDirection() - accuracy);
+            getDisplacementVector().rotateRad( - accuracy);
+            getDisplacementVector().nor().scl(Settings.gooseSpeed);
         }
     }
 
@@ -48,54 +49,77 @@ public class Goose extends MovingElement {
      * @return Vector2 the reutrn value of MovingElements update() -> the next Vector2 position of the goose
      */
     public void pursue() {
-        float targetDirection = getPositionVector().angleRad(target.getPositionVector());
-        if (getDirection() < targetDirection) {
-            if (targetDirection < Math.PI) {
-                setDirection(getDirection() + accuracy);
+
+        float targetAngle = target.getPositionVector().cpy().sub(getPositionVector()).angleRad();
+        double angleDifference = Math.abs((getDisplacementVector().angleRad()%Math.PI)- targetAngle);
+        if (getDisplacementVector().angleRad() < targetAngle) {
+            if (angleDifference < Math.PI) {
+                getDisplacementVector().rotateRad(accuracy);
             } else {
-                setDirection(getDirection() - accuracy);
+                getDisplacementVector().rotateRad(-accuracy);
             }
         } else {
-            if (targetDirection > Math.PI) {
-                setDirection(getDirection() + accuracy);
+            if (angleDifference > Math.PI) {
+                getDisplacementVector().rotateRad(accuracy);
             } else {
-                setDirection(getDirection() - accuracy);
+                getDisplacementVector().rotateRad(-accuracy);
             }
         }
-        setDirection( (float) ((float) ((getDirection() + Math.PI)) % Math.PI));
+        getDisplacementVector().nor().scl(Settings.gooseSpeed);
     }
 
-    /**
-     * draws the attack effect for the duration of the goose attack
-     */
-    public void attack(){
-        getPositionVector().angleDeg(target.getPositionVector());
+
+
+    public void move(TargetManager targetManager, CollisionManager collisionManager){
+        target = targetManager.getTarget(this);
+        if (target != null){
+            if (collisionManager.canMove(this, getDisplacementVector())) {
+                pursue();
+            }
+            else{
+                wander();
+            }
+        }
+        else {
+            wander();
+        }
+        update();
+    }
+}
+
+
+
+
+
+
+   /*
+       public void attack(){
         if (attackDuration>0){
-            attackDuration = attackDuration - Gdx.graphics.getDeltaTime();
+            attackDuration -= Gdx.graphics.getDeltaTime();
             //draw line tot next vector(big displacement
-            ShapeRenderer shape = new ShapeRenderer();
+            /*ShapeRenderer shape = new ShapeRenderer();
             shape.begin(ShapeRenderer.ShapeType.Line);
             shape.line(getPositionVector(),getDisplacementVector());
             shape.end();
             shape.dispose();
+
         }
-        else{
-            setDisplacementVector(getDisplacementVector().nor());
-            attacking=false;
-            attackCoolDown = Settings.gooseAttackCoolDown;
+            else{
+                getDisplacementVector().nor();
+                attacking=false;
+                attackCoolDown = Settings.gooseAttackCoolDown;
         }
     }
 
-    public void move(targetManager targetManager, CollisionManager collisionManager){
+    public void move(TargetManager targetManager, CollisionManager collisionManager){
         target = (targetManager.getTarget(this));
-        System.out.println(target);
         if ( target instanceof Player &&
             targetManager.isInRange(this, target) &&
             attackCoolDown < 0 &&
             !attacking
         ){
             pursue();
-            lockOnDuration = -Gdx.graphics.getDeltaTime();
+            lockOnDuration -= Gdx.graphics.getDeltaTime();
             if (lockOnDuration < 0) {
                 lockOnDuration = Settings.gooseLockOnDuration;
                 attacking = true;
@@ -122,5 +146,5 @@ public class Goose extends MovingElement {
             }
 
         }
-    }
-}
+    }*/
+

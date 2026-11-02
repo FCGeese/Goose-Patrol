@@ -18,7 +18,6 @@ public class Player extends MovingElement {
             Settings.playerWidth,
             Settings.playerHeight
         ));
-        this.setSpeed(Settings.playerSpeed);
     }
 
     /**
