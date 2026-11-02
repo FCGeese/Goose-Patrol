@@ -25,7 +25,7 @@ public class Player extends MovingElement {
      * Handles player movement
      * @param collisionManager Handles player collisions
      */
-    public void move(collisionManager collisionManager) {
+    public void move(CollisionManager collisionManager) {
         if (Gdx.input.isKeyPressed(Input.Keys.W)) {
             if (collisionManager.canMove(this, 0, 1)) {
                 setDisplacementVector(getDisplacementVector().add(0, 1));
@@ -53,7 +53,6 @@ public class Player extends MovingElement {
         }
         update();
         setDisplacementVector(0,0);
-
         }
     }
 

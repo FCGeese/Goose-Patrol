@@ -86,8 +86,9 @@ public class Goose extends MovingElement {
         }
     }
 
-    public void move(targetManager targetManager, collisionManager collisionManager){
+    public void move(targetManager targetManager, CollisionManager collisionManager){
         target = (targetManager.getTarget(this));
+        System.out.println(target);
         if ( target instanceof Player &&
             targetManager.isInRange(this, target) &&
             attackCoolDown < 0 &&
