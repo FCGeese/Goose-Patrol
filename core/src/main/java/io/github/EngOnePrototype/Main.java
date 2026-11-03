@@ -19,6 +19,7 @@ import io.github.EngOnePrototype.UI.MiniMap;
 import io.github.EngOnePrototype.Utils.Coord;
 import io.github.EngOnePrototype.Utils.Hitbox;
 import io.github.EngOnePrototype.Utils.Rect;
+import io.github.EngOnePrototype.asset.AssetService;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,8 +36,9 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
  */
 
 public class Main extends Game implements InputProcessor {
-    static final int WORLD_WIDTH = 1920;
-    static final int WORLD_HEIGHT = 1080;
+    // 
+    public static final float WORLD_WIDTH = 16f;
+    public static final float WORLD_HEIGHT = 9f;
     ShapeRenderer shape;
     Player player;
     ArrayList<Goose> geese = new ArrayList<>();
@@ -49,12 +51,11 @@ public class Main extends Game implements InputProcessor {
     private SpriteBatch batch;
     private Camera cam;
     private Viewport viewport;
-
-    // GOT TO 20:58
+    private AssetService assetService;
 
     boolean paused = false;
 
-    // Define screen cache hashmap
+    /** Hashmap for storing the game's screens. */
     private final Map<Class<? extends Screen>, Screen> screenCache = new HashMap<>();
 
     @Override
@@ -86,6 +87,13 @@ public class Main extends Game implements InputProcessor {
         buildings.add(new Hitbox(new Rect(new Coord(973, 454), 148, 272)));
 
         Gdx.input.setInputProcessor(this);
+    }
+
+    // Window size is changed by the user
+    @Override
+    public void resize(int width, int height) {
+        viewport.update(width, height, true);
+        super.resize(width, height);
     }
 
     @Override
