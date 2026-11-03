@@ -25,6 +25,8 @@ public class Player extends MovingElement {
      * @param collisionManager Handles player collisions
      */
     public void move(CollisionManager collisionManager) {
+        //polls key input and adjusts displacement vector
+        //each collision dimension handled independently to allow smooth sliding along walls
         if (Gdx.input.isKeyPressed(Input.Keys.W)) {
             if (collisionManager.canMove(this, 0, 1)) {
                 setDisplacementVector(getDisplacementVector().add(0, 1));
@@ -45,11 +47,13 @@ public class Player extends MovingElement {
                 setDisplacementVector(getDisplacementVector().add(1, 0));
             }
         }
+        //normalises and scales to player speed
         setDisplacementVector(getDisplacementVector().nor().scl(Settings.playerSpeed));
-
+        //doubles speed if sprinting, could be changed to one time dash?
         if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)){
             setDisplacementVector(getDisplacementVector().scl(2));
         }
+        //updates position vector
         update();
         setDisplacementVector(0,0);
         }

@@ -48,9 +48,12 @@ public class Goose extends MovingElement {
      * turns the goose towards their target, affects displacmentVector in place
      */
     public void pursue() {
-
+        //finds the angle from the goose to the target in rads as a float
         float targetAngle = target.getPositionVector().cpy().sub(getPositionVector()).angleRad();
+        //finds the absolute difference between the current direction and the target direction
         double angleDifference = Math.abs((getDisplacementVector().angleRad()%Math.PI)- targetAngle);
+
+        //sorts the differences into regions to avoid wraparound errors
         if (getDisplacementVector().angleRad() < targetAngle) {
             if (angleDifference < Math.PI) {
                 getDisplacementVector().rotateRad(accuracy);
@@ -64,6 +67,7 @@ public class Goose extends MovingElement {
                 getDisplacementVector().rotateRad(-accuracy);
             }
         }
+        //normalises the vector and scales it to speed
         getDisplacementVector().nor().scl(Settings.gooseSpeed);
     }
 
@@ -74,80 +78,23 @@ public class Goose extends MovingElement {
      * @param collisionManager
      */
     public void move(TargetManager targetManager, CollisionManager collisionManager){
+        //sets target, as nearest in view targetable element
         target = targetManager.getTarget(this);
+        //current displacment
+        Vector2 currentDisplacement = getDisplacementVector().cpy();
         if (target != null){
-            if (collisionManager.canMove(this, getDisplacementVector())) {
-                pursue();
-            }
-            else{
+            //attempts to chase, otherwise wanders
+            //sets displacement
+            pursue();
+            if (!collisionManager.canMove(this, getDisplacementVector())) {
+                getDisplacementVector().set(currentDisplacement);
                 wander();
             }
         }
         else {
             wander();
         }
+
         update();
     }
 }
-
-
-
-
-
-
-   /*
-       public void attack(){
-        if (attackDuration>0){
-            attackDuration -= Gdx.graphics.getDeltaTime();
-            //draw line tot next vector(big displacement
-            /*ShapeRenderer shape = new ShapeRenderer();
-            shape.begin(ShapeRenderer.ShapeType.Line);
-            shape.line(getPositionVector(),getDisplacementVector());
-            shape.end();
-            shape.dispose();
-
-        }
-            else{
-                getDisplacementVector().nor();
-                attacking=false;
-                attackCoolDown = Settings.gooseAttackCoolDown;
-        }
-    }
-
-    public void move(TargetManager targetManager, CollisionManager collisionManager){
-        target = (targetManager.getTarget(this));
-        if ( target instanceof Player &&
-            targetManager.isInRange(this, target) &&
-            attackCoolDown < 0 &&
-            !attacking
-        ){
-            pursue();
-            lockOnDuration -= Gdx.graphics.getDeltaTime();
-            if (lockOnDuration < 0) {
-                lockOnDuration = Settings.gooseLockOnDuration;
-                attacking = true;
-                setDisplacementVector(getDisplacementVector().scl(15));
-            }
-        }
-        else if (!targetManager.isInRange(this, target)){
-            lockOnDuration = Settings.gooseLockOnDuration;
-            setDisplacementVector(getDisplacementVector().nor());
-            if (target!=null){
-                pursue();
-            }
-            else{
-                wander();
-            }
-        }
-
-        if (collisionManager.canMove(this)){
-            if(attacking){
-                attack();
-            }
-            else{
-                update();
-            }
-
-        }
-    }*/
-
