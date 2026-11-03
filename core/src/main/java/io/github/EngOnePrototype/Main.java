@@ -2,6 +2,8 @@ package io.github.EngOnePrototype;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.*;
@@ -9,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.ScreenUtils;
 import io.github.EngOnePrototype.Elements.*;
 import io.github.EngOnePrototype.UI.HealthBar;
@@ -18,18 +21,23 @@ import io.github.EngOnePrototype.Utils.Hitbox;
 import io.github.EngOnePrototype.Utils.Rect;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+// ExtendViewport keeps aspect ratio, extends visible world - best for open world
+import com.badlogic.gdx.utils.viewport.Viewport;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
+
 
 /*
  * {@link com.badlogic.gdx.ApplicationListener} implementation shared by all
  * platforms.
  */
 
-public class Main extends ApplicationAdapter implements InputProcessor {
+public class Main extends Game implements InputProcessor {
     static final int WORLD_WIDTH = 1920;
     static final int WORLD_HEIGHT = 1080;
-    Camera cam;
     ShapeRenderer shape;
-    SpriteBatch batch;
     Player player;
     ArrayList<Goose> geese = new ArrayList<>();
     ArrayList<Hitbox> buildings = new ArrayList<>();
@@ -38,14 +46,30 @@ public class Main extends ApplicationAdapter implements InputProcessor {
     HealthBar health;
     MiniMap miniMap;
 
+    private SpriteBatch batch;
+    private Camera cam;
+    private Viewport viewport;
+
+    // GOT TO 20:58
+
     boolean paused = false;
+
+    // Define screen cache hashmap
+    private final Map<Class<? extends Screen>, Screen> screenCache = new HashMap<>();
 
     @Override
     public void create() {
+        this.batch = new SpriteBatch();
+        this.cam = new OrthographicCamera(WORLD_WIDTH / 2, WORLD_HEIGHT / 2);
+        this.viewport = new ExtendViewport(WORLD_WIDTH, WORLD_HEIGHT, this.cam);
+
+        addScreen(new GameScreen(this));
+        setScreen(GameScreen.class);
+        
         Gdx.graphics.setSystemCursor(Cursor.SystemCursor.Crosshair);
-        cam = new OrthographicCamera(WORLD_WIDTH / 2, WORLD_HEIGHT / 2);
+        
         shape = new ShapeRenderer();
-        batch = new SpriteBatch();
+        
         Map = new TextureRegion(new Texture(Gdx.files.internal("mapImage.png")));
         player = new Player(new Coord(Settings.playerStartX, Settings.playerStartY),
                 Settings.playerSpeed);
@@ -110,8 +134,11 @@ public class Main extends ApplicationAdapter implements InputProcessor {
 
     @Override
     public void dispose() {
+        screenCache.values().forEach(Screen::dispose);
+        screenCache.clear();
+
+        this.batch.dispose();
         shape.dispose();
-        batch.dispose();
     }
 
     @Override
@@ -188,4 +215,15 @@ public class Main extends ApplicationAdapter implements InputProcessor {
         return false;
     }
 
+    public void addScreen(Screen screen) {
+        screenCache.put(screen.getClass(), screen);
+    }
+
+    public void setScreen(Class<? extends Screen> screenClass) {
+        Screen screen = screenCache.get(screenClass);
+        if(screen == null) {
+            throw new GdxRuntimeException("No screen with class " + screenClass + " found in the screen cache");
+        }
+        super.setScreen(screen);
+    }
 }
