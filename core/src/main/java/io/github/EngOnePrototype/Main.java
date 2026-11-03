@@ -1,6 +1,5 @@
 package io.github.EngOnePrototype;
 
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Screen;
@@ -13,6 +12,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import io.github.EngOnePrototype.Elements.*;
 import io.github.EngOnePrototype.UI.HealthBar;
 import io.github.EngOnePrototype.UI.MiniMap;
@@ -39,6 +39,7 @@ public class Main extends Game implements InputProcessor {
     // 
     public static final float WORLD_WIDTH = 16f;
     public static final float WORLD_HEIGHT = 9f;
+    public static final float UNIT_SCALE = 1f / 16f; // 1 unit = 16 pixels
     ShapeRenderer shape;
     Player player;
     ArrayList<Goose> geese = new ArrayList<>();
@@ -49,7 +50,7 @@ public class Main extends Game implements InputProcessor {
     MiniMap miniMap;
 
     private SpriteBatch batch;
-    private Camera cam;
+    private OrthographicCamera cam;
     private Viewport viewport;
     private AssetService assetService;
 
@@ -63,6 +64,7 @@ public class Main extends Game implements InputProcessor {
         this.batch = new SpriteBatch();
         this.cam = new OrthographicCamera(WORLD_WIDTH / 2, WORLD_HEIGHT / 2);
         this.viewport = new ExtendViewport(WORLD_WIDTH, WORLD_HEIGHT, this.cam);
+        this.assetService = new AssetService(new InternalFileHandleResolver());
 
         addScreen(new GameScreen(this));
         setScreen(GameScreen.class);
@@ -96,9 +98,16 @@ public class Main extends Game implements InputProcessor {
         super.resize(width, height);
     }
 
+
+    // GOT TO 45:18
+
+
+
     @Override
     public void render() {
-
+    
+        super.render();
+    /*
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         ScreenUtils.clear(0, 0, 1, 1, true);
 
@@ -138,15 +147,7 @@ public class Main extends Game implements InputProcessor {
         miniMap.draw(batch, shape, player, mapGeese);
         batch.end();
         shape.end();
-    }
-
-    @Override
-    public void dispose() {
-        screenCache.values().forEach(Screen::dispose);
-        screenCache.clear();
-
-        this.batch.dispose();
-        shape.dispose();
+        */
     }
 
     @Override
@@ -233,5 +234,33 @@ public class Main extends Game implements InputProcessor {
             throw new GdxRuntimeException("No screen with class " + screenClass + " found in the screen cache");
         }
         super.setScreen(screen);
+    }
+
+    @Override
+    public void dispose() {
+        screenCache.values().forEach(Screen::dispose);
+        screenCache.clear();
+
+        this.batch.dispose();
+        this.assetService.debugDiagnostics();
+        this.assetService.dispose();
+
+        shape.dispose();
+    }
+
+    public SpriteBatch getBatch() {
+        return batch;
+    }
+
+    public AssetService getAssetService() {
+        return assetService;
+    }
+
+    public Viewport getViewport() {
+        return viewport;
+    }
+
+    public OrthographicCamera getCamera() {
+        return cam;
     }
 }
