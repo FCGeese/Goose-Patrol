@@ -25,9 +25,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-// ExtendViewport keeps aspect ratio, extends visible world - best for open world
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 
 
 /*
@@ -36,10 +35,12 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
  */
 
 public class Main extends Game implements InputProcessor {
-    // 
-    public static final float WORLD_WIDTH = 16f;
-    public static final float WORLD_HEIGHT = 9f;
+
+    // Keep 16:9 aspect ratio for the game world, so that it looks the same on all devices.
+    public static final float WORLD_WIDTH = 32f; // Shown world width in tiled units
+    public static final float WORLD_HEIGHT = 18f; // Shown world height in tiled units
     public static final float UNIT_SCALE = 1f / 16f; // 1 unit = 16 pixels
+    
     ShapeRenderer shape;
     Player player;
     ArrayList<Goose> geese = new ArrayList<>();
@@ -63,7 +64,7 @@ public class Main extends Game implements InputProcessor {
     public void create() {
         this.batch = new SpriteBatch();
         this.cam = new OrthographicCamera(WORLD_WIDTH / 2, WORLD_HEIGHT / 2);
-        this.viewport = new ExtendViewport(WORLD_WIDTH, WORLD_HEIGHT, this.cam);
+        this.viewport = new FitViewport(WORLD_WIDTH, WORLD_HEIGHT, this.cam);
         this.assetService = new AssetService(new InternalFileHandleResolver());
 
         addScreen(new GameScreen(this));
