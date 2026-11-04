@@ -5,9 +5,10 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.ashley.core.Engine;
 import io.github.EngOnePrototype.asset.AssetService;
 import io.github.EngOnePrototype.asset.MapAsset;
-import com.badlogic.gdx.graphics.Color;
 
 /**
  * Represents the main gameplay screen.
@@ -21,6 +22,7 @@ public class GameScreen extends ScreenAdapter {
     private final OrthogonalTiledMapRenderer mapRenderer;
     private final Viewport viewport;
     private final OrthographicCamera cam;
+    private final Engine engine;
 
     /**
      * Constructs a new GameScreen using resources provided by the main game.
@@ -34,6 +36,12 @@ public class GameScreen extends ScreenAdapter {
         this.mapRenderer = new OrthogonalTiledMapRenderer(null, Main.UNIT_SCALE, this.batch);
         this.viewport = game.getViewport();
         this.cam = game.getCamera();
+        this.engine = game.getEngine();
+
+        this.engine.addSystem(new RenderSystem(this.batch, this.viewport, this.assetService));
+        this.engine.addSystem(new MovementSystem());
+        this.engine.addSystem(new DamageSystem(this.cam, this.viewport));
+        this.engine.addSystem(new HealSystem(this.cam, this.viewport));
     }
 
     /**
@@ -47,12 +55,25 @@ public class GameScreen extends ScreenAdapter {
     }
 
     /**
-     * Renders the Tiled map using the current viewport and camera settings.
+    * Called when this screen is no longer the current screen for the game.
+    * Removes all entities from the Ashley engine to clear the screen's game objects.
+    */
+    @Override
+    public void hide() {
+        this.engine.removeAllEntities();
+    }
+
+    /**
+     * Renders the Tiled map and updates the Ashley engine.
      * 
      * @param delta The time elapsed since the previous frame, in seconds.
      */
     @Override
     public void render(float delta) {
+        // Update engine and cap delta time to avoid large jumps in game logic
+        this.engine.update(delta);
+        delta = Math.min(delta, 1 / 30f);
+
         this.viewport.apply();
         this.batch.setColor(Color.WHITE);
         this.mapRenderer.setView(this.cam);

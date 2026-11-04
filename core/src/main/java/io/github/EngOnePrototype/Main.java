@@ -14,6 +14,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.profiling.GLProfiler;
+import com.badlogic.ashley.core.Engine;
 
 import io.github.EngOnePrototype.Elements.*;
 import io.github.EngOnePrototype.UI.HealthBar;
@@ -65,6 +66,8 @@ public class Main extends Game implements InputProcessor {
     private GLProfiler glProfiler;
     /** Logger for monitoring FPS & diagnostics for asset servers. */
     private FPSLogger fpsLogger;
+    /** Ashely engine for managing game entities and systems. */
+    private Engine engine;
 
     boolean paused = false;
 
@@ -83,6 +86,7 @@ public class Main extends Game implements InputProcessor {
         this.glProfiler = new GLProfiler(Gdx.graphics);
         this.glProfiler.enable();
         this.fpsLogger = new FPSLogger();
+        this.engine = new Engine();
 
         // Add the GameScreen to the screen cache and set it as the current screen.
         addScreen(new GameScreen(this));
@@ -291,5 +295,9 @@ public class Main extends Game implements InputProcessor {
 
     public OrthographicCamera getCamera() {
         return cam;
+    }
+
+    public Engine getEngine() {
+        return engine;
     }
 }
