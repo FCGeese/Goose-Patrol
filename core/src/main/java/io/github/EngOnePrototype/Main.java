@@ -1,5 +1,6 @@
 package io.github.EngOnePrototype;
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Screen;
@@ -11,8 +12,9 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.GdxRuntimeException;
-import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
+import com.badlogic.gdx.graphics.profiling.GLProfiler;
+
 import io.github.EngOnePrototype.Elements.*;
 import io.github.EngOnePrototype.UI.HealthBar;
 import io.github.EngOnePrototype.UI.MiniMap;
@@ -20,6 +22,7 @@ import io.github.EngOnePrototype.Utils.Coord;
 import io.github.EngOnePrototype.Utils.Hitbox;
 import io.github.EngOnePrototype.Utils.Rect;
 import io.github.EngOnePrototype.asset.AssetService;
+
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -50,10 +53,18 @@ public class Main extends Game implements InputProcessor {
     HealthBar health;
     MiniMap miniMap;
 
+    /** SpriteBatch for rendering 2D graphics. */
     private SpriteBatch batch;
+    /** Orthographic camera for rendering the game world. */
     private OrthographicCamera cam;
+    /** Viewport for managing the game world's display. */
     private Viewport viewport;
+    /** Service for managing game assets (e.g., textures, sounds). */
     private AssetService assetService;
+    /** Profiler for monitoring OpenGL calls. */
+    private GLProfiler glProfiler;
+    /** Logger for monitoring FPS & diagnostics for asset servers. */
+    private FPSLogger fpsLogger;
 
     boolean paused = false;
 
@@ -62,11 +73,18 @@ public class Main extends Game implements InputProcessor {
 
     @Override
     public void create() {
+        // Set the log level to DEBUG for detailed logging during development.
+        Gdx.app.setLogLevel(Application.LOG_DEBUG);
+
         this.batch = new SpriteBatch();
         this.cam = new OrthographicCamera(WORLD_WIDTH / 2, WORLD_HEIGHT / 2);
         this.viewport = new FitViewport(WORLD_WIDTH, WORLD_HEIGHT, this.cam);
         this.assetService = new AssetService(new InternalFileHandleResolver());
+        this.glProfiler = new GLProfiler(Gdx.graphics);
+        this.glProfiler.enable();
+        this.fpsLogger = new FPSLogger();
 
+        // Add the GameScreen to the screen cache and set it as the current screen.
         addScreen(new GameScreen(this));
         setScreen(GameScreen.class);
         
@@ -99,15 +117,25 @@ public class Main extends Game implements InputProcessor {
         super.resize(width, height);
     }
 
-
-    // GOT TO 45:18
-
-
-
     @Override
     public void render() {
-    
+        
+        // Reset the GLProfiler at the start of each frame to get accurate profiling data for the current frame.
+        glProfiler.reset();
+        // Clear the screen with a black color before rendering the next frame.
+        Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
         super.render();
+
+        // Update the window title with the current FPS and OpenGL profiling data.
+        Gdx.graphics.setTitle("EngOnePrototype | FPS: " + Gdx.graphics.getFramesPerSecond() +
+                " | Draw Calls: " + glProfiler.getDrawCalls() +
+                " | Texture Bindings: " + glProfiler.getTextureBindings() +
+                " | Shader Switches: " + glProfiler.getShaderSwitches());
+
+        // Log the current FPS to the console.
+        fpsLogger.log();
     /*
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         ScreenUtils.clear(0, 0, 1, 1, true);
