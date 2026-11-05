@@ -1,7 +1,12 @@
 {
   "cSpell.words": [
     "badlogic",
+    "badlogicgames",
+    "GLES",
     "hitbox",
-    "Pixmap"
+    "libgdx",
+    "lwjgl",
+    "Pixmap",
+    "Vsync"
   ]
 }

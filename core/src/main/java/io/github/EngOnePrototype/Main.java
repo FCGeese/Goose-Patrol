@@ -92,7 +92,7 @@ public class Main extends Game implements InputProcessor {
         
         shape = new ShapeRenderer();
         
-        Map = new TextureRegion(new Texture(Gdx.files.internal("mapImage.png")));
+        Map = new TextureRegion(new Texture(Gdx.files.internal("maps/mapImage.png")));
         player = new Player(new Coord(Settings.playerStartX, Settings.playerStartY),
                 Settings.playerSpeed);
         health = new HealthBar();

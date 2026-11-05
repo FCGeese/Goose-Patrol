@@ -5,8 +5,8 @@ import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.gdx.math.Vector2;
 
 /**
- * Represents the position, size, scaling, and rotation of an entity in the game world.
- * Also provides information about the entity's rendering order through the z-index.
+ * Represents the position, dimensions, scaling and rotation of an entity in the game world.
+ * Also provides information about the entity's rendering order through its z-index.
  */
 public class Transform implements Component, Comparable<Transform> {
 
@@ -51,17 +51,17 @@ public class Transform implements Component, Comparable<Transform> {
      */
     @Override
     public int compareTo(Transform other) {
-        // Compare z-values first; higher z-values are rendered on top of lower z-values.
+        // Compare z-values first; higher z-values are rendered first.
         if (this.z != other.z) {
             return Float.compare(this.z, other.z);
         }
 
-        // If z-values match, compare y coordinates; higher y-values are rendered on top of lower y-values.
+        // If z-values match, compare y coordinates; higher y-values are rendered first.
         if (this.position.y != other.position.y) {
-            return Float.compare(this.position.y, other.position.y);
+            return Float.compare(other.position.y, this.position.y);
         }
 
-        // If both z and y values match, compare x coordinates; higher x-values are rendered on top of lower x-values.
+        // If both z and y values match, compare x coordinates; higher x-values are rendered first.
         return Float.compare(this.position.x, other.position.x);
     }
 

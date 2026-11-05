@@ -30,12 +30,13 @@ public class RenderSystem extends SortedIteratingSystem implements Disposable {
     private final OrthographicCamera cam;
     
     /**
-     * Constructs a new RenderSystem using the specified Batch and Viewport.
+     * Constructs a new RenderSystem using the specified Batch, Viewport and Camera.
      * 
      * @param batch The batch used for rendering sprites and textures.
      * @param viewport The viewport used to manage the game's camera and screen dimensions.
+     * @param cam The camera used to determine the viewing area of the game.
      */
-    public RenderSystem(Batch batch, Viewport viewport) {
+    public RenderSystem(Batch batch, Viewport viewport, OrthographicCamera cam) {
         super(
             // Only processes entities containing both Transform and Graphic components.
             Family.all(Transform.class, Graphic.class).get(),
@@ -46,7 +47,7 @@ public class RenderSystem extends SortedIteratingSystem implements Disposable {
 
         this.batch = batch;
         this.viewport = viewport;
-        this.cam = (OrthographicCamera) viewport.getCamera();
+        this.cam = cam;
 
         // Creates the Tiled map renderer using the game's world unit scale and shared batch.
         this.mapRenderer = new OrthogonalTiledMapRenderer(null, Main.UNIT_SCALE, this.batch);
@@ -63,21 +64,31 @@ public class RenderSystem extends SortedIteratingSystem implements Disposable {
         // Applies the viewport settings to ensure the camera and rendering are correctly 
         // aligned with the screen dimensions.
         this.viewport.apply();
+
         // Resets the batch colour to white to avoid color tinting from previous frames.
         this.batch.setColor(Color.WHITE);
+
         // Updates the map renderer's viewing area to match the camera's current position and zoom level.
         this.mapRenderer.setView(this.cam);
+
         // Renders the Tiled map.
         this.mapRenderer.render();
         
         // Re-sorts entities to account for any changes in their Transform components.
         forceSort();
+
+        // Begins batch rendering before processing the game entities.
+        batch.begin();
+
         // Processes all entities belonging to this system's family.
         super.update(deltaTime);
+
+        // Ends batch rendering after all entities have been processed.
+        batch.end();
     }
 
     /** 
-     * Renders an individual entity to the screen based on its Transform and Graphic components.
+     * Renders an individual entity to the screen using its Transform and Graphic components.
      * 
      * @param entity The entity to be rendered.
      * @param deltaTime The time elapsed since the previous frame, in seconds.

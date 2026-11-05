@@ -15,7 +15,7 @@ import io.github.EngOnePrototype.Utils.Rect;
 
 public class Player extends Entity {
     public Player(Coord position, int defaultSpeed) {
-        super(new TextureRegion(new Texture(Gdx.files.internal("32x32player.png"))),
+        super(new TextureRegion(new Texture(Gdx.files.internal("player/32x32player.png"))),
                 position, defaultSpeed);
         setHealth(100);
         hitbox = new Hitbox(new Rect(position, 32, 32));

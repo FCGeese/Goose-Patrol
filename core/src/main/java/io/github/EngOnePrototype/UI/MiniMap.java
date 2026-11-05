@@ -19,7 +19,7 @@ public class MiniMap {
 
     public MiniMap() {
         screenPos = new Coord(0, 0);
-        miniMap = new TextureRegion(new Texture(Gdx.files.internal("mapImage.png"))); // https://gist.github.com/metaphore/ce78cafbd1ebdde02903
+        miniMap = new TextureRegion(new Texture(Gdx.files.internal("maps/mapImage.png"))); // https://gist.github.com/metaphore/ce78cafbd1ebdde02903
     }
 
     public void draw(SpriteBatch batch, ShapeRenderer shape, Player player, ArrayList<Goose> geese) {
