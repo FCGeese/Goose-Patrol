@@ -57,6 +57,15 @@ public class AssetService implements Disposable {
     }
 
     /**
+     * Unloads an asset from the AssetManager when it is no longer needed.
+     * 
+     * @param asset The asset to unload.
+     */
+    public <T> void unload(Asset<T> asset) {
+        this.assetManager.unload(asset.getDescriptor().fileName);
+    }
+
+    /**
      * Processes queued asset loading tasks.
      * 
      * @return True if all queued assets have finished loading, otherwise false.

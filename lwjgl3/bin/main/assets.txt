@@ -1,5 +1,16 @@
-.gitkeep
 16x16SideGoose3.png
+32x32player.png
+8x8foodImage.png
 SideGoose1.png
 SideGoose2.png
 SideGoose3.png
+mapImage.png
+maps/GoosePatrol Practice Map.tiled-project
+maps/GoosePatrol Practice Map.tiled-session
+maps/Pixel Plains Free Pack/All free tiles.png
+maps/Pixel Plains Free Pack/New Basic Tiles Free.png
+maps/Pixel Plains Free Pack/ReadMe.txt
+maps/Pixel Plains Free Pack/Trees and bushes.png
+maps/Pixel Plains Objects.tsx
+maps/Pixel Plains.tsx
+maps/main.tmx
