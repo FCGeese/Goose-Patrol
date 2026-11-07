@@ -9,10 +9,13 @@
             "scaleInDock": 1
         },
         "Ground & Background.tsx": {
+            "dynamicWrapping": false,
             "scaleInDock": 1
         },
         "Objects.tsx": {
-            "dynamicWrapping": true
+            "dynamicWrapping": false,
+            "scaleInDock": 1,
+            "scaleInEditor": 1
         },
         "Pixel Plains - Ground.tsx": {
             "dynamicWrapping": false,
@@ -41,24 +44,25 @@
             "scaleInDock": 1
         },
         "main.tmx": {
-            "scale": 1.5,
-            "selectedLayer": 1,
+            "scale": 3,
+            "selectedLayer": 2,
             "viewCenter": {
-                "x": 243.66666666666666,
-                "y": 250.99999999999997
+                "x": 125.66666666666666,
+                "y": 170.83333333333334
             }
         }
     },
     "last.externalTilesetPath": "C:/Users/thoma/Documents/GitHub/PrototypeSandboxRepo/assets/maps/Tiled Project",
-    "last.imagePath": "C:/Users/thoma/Documents/GitHub/PrototypeSandboxRepo/assets/maps",
+    "last.imagePath": "C:/Users/Thomas/Documents/GitHub/PrototypeSandboxRepo/assets/maps",
     "openFiles": [
         "main.tmx",
-        "Pixel Plains - Ground.tsx"
+        "Objects.tsx"
     ],
     "project": "GoosePatrol Practice Map.tiled-project",
     "recentFiles": [
-        "Pixel Plains - Ground.tsx",
+        "Objects.tsx",
         "main.tmx",
+        "Pixel Plains - Ground.tsx",
         "Pixel Plains - Trees & Bushes.tsx",
         "Pixel Plains.tsx",
         "Pixel Plains Objects.tsx",

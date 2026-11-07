@@ -1,0 +1,169 @@
+These are all the old lines of code from the 'Main' class, in case we ever need them again. Imports were not specified:
+
+### Removed 'implements InputProcessor' from the line 'public class Main extends Game' ###
+
+### Removed from line 46, below the world width, height and unit scale definitions of the 'Main' class ###
+
+    ShapeRenderer shape;
+    Player player;
+    ArrayList<Goose> geese = new ArrayList<>();
+    ArrayList<Hitbox> buildings = new ArrayList<>();
+    ArrayList<Food> placedFood = new ArrayList<>();
+    TextureRegion Map;
+    HealthBar health;
+    MiniMap miniMap;
+
+
+
+### Removed from line 90, at the end of the 'create()' function ###
+
+Gdx.graphics.setSystemCursor(Cursor.SystemCursor.Crosshair);
+        
+        shape = new ShapeRenderer();
+        
+        Map = new TextureRegion(new Texture(Gdx.files.internal("maps/mapImage.png")));
+        player = new Player(new Coord(Settings.playerStartX, Settings.playerStartY),
+                Settings.playerSpeed);
+        health = new HealthBar();
+        miniMap = new MiniMap();
+
+        for (int i = 0; i < Settings.numberOfGeese; i++) {
+            geese.add(new Goose(new Coord(i * 100, i * 100),
+                    Settings.gooseSpeed, Settings.gooseAccuracy));
+        }
+
+        buildings.add(new Hitbox(new Rect(new Coord(291, 741), 200, 182)));
+        buildings.add(new Hitbox(new Rect(new Coord(811, 263), 85, 75)));
+        buildings.add(new Hitbox(new Rect(new Coord(973, 454), 148, 272)));
+
+        Gdx.input.setInputProcessor(this);
+
+
+
+### Removed from line 110, at the end of the 'render()' function: ###
+
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        ScreenUtils.clear(0, 0, 1, 1, true);
+
+        batch.begin();
+        batch.draw(Map, 0, 0);
+        batch.end();
+
+        shape.begin(ShapeRenderer.ShapeType.Filled);
+
+        player.render(batch, buildings);
+
+        cam.position.set(player.getX(), player.getY(), 0);
+        cam.viewportWidth = 300;
+        cam.viewportHeight = 300;
+        cam.update();
+        batch.begin();
+        batch.setProjectionMatrix(cam.combined);
+
+        for (Goose goose : geese) {
+            Element nearestFood = player;
+            if (!placedFood.isEmpty()) {
+                for (Food food : placedFood) {
+                    food.draw(batch);
+                    if (goose.getPosition().distanceFrom(food.getPosition()) < goose.getPosition()
+                            .distanceFrom(nearestFood.getPosition())) {
+                        nearestFood = food;
+                    }
+                }
+                goose.render(batch, geese, buildings, nearestFood);
+            } else {
+                goose.render(batch, geese, buildings, player);
+            }
+        }
+        placedFood.removeIf(food -> food.getHealth() < 0);
+        health.draw(shape, player);
+        ArrayList<Goose> mapGeese = new ArrayList<Goose>(geese);
+        miniMap.draw(batch, shape, player, mapGeese);
+        batch.end();
+        shape.end();
+
+
+
+### Removed from line 111, after the 'render()' function, all unnecessary input overrides: ###
+
+@Override
+    public boolean keyDown(int keycode) {
+        if (keycode == Input.Keys.ESCAPE) {
+            paused = !paused;
+            if (paused) {
+                player.setSpeed(0);
+                for (Goose goose : geese) {
+                    goose.setSpeed(0);
+                }
+            } else {
+                player.setSpeed(Settings.playerSpeed);
+                for (Goose goose : geese) {
+                    goose.setSpeed(Settings.gooseSpeed);
+                }
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        if (button == Input.Buttons.LEFT) {
+
+            Vector3 mouseVector = cam.unproject(new Vector3(screenX, screenY, 0));
+
+            float direction = player.getPosition().findDirectionTo(
+                    new Coord(
+                            (int) mouseVector.x,
+                            (int) mouseVector.y));
+
+            Coord foodPos = new Coord(
+                    player.getPosition().getX() + (int) (Math.cos(Math.toRadians(direction)) * 50),
+                    player.getPosition().getY() + (int) (Math.sin(Math.toRadians(direction)) * 50));
+
+            placedFood.add(new Food(foodPos));
+        }
+        return false;
+    }
+
+    @Override
+    public boolean keyUp(int keycode) {
+        return false;
+    }
+
+    @Override
+    public boolean keyTyped(char character) {
+        return false;
+    }
+
+    @Override
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchCancelled(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
+        return false;
+    }
+
+    @Override
+    public boolean mouseMoved(int screenX, int screenY) {
+        return false;
+    }
+
+    @Override
+    public boolean scrolled(float amountX, float amountY) {
+        return false;
+    }
+
+### Removed from line 128, at the end of the 'dispose()' function, as shapes were no longer used: ###
+
+shape.dispose();
+
+
+
+### Removed from line 

@@ -1,0 +1,153 @@
+
+objects.png
+size: 512, 128
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+breadcrumbs/8x8foodImage
+  rotate: false
+  xy: 0, 1
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: -1
+buildings/house1
+  rotate: false
+  xy: 0, 9
+  size: 133, 119
+  orig: 133, 119
+  offset: 0, 0
+  index: -1
+player/32x32player
+  rotate: false
+  xy: 177, 10
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+player/player
+  rotate: false
+  xy: 413, 109
+  size: 14, 19
+  orig: 14, 19
+  offset: 0, 0
+  index: -1
+trees/darkTree1
+  rotate: false
+  xy: 321, 101
+  size: 16, 27
+  orig: 16, 27
+  offset: 0, 0
+  index: -1
+trees/darkTree2
+  rotate: false
+  xy: 261, 85
+  size: 30, 43
+  orig: 30, 43
+  offset: 0, 0
+  index: -1
+trees/darkTree3
+  rotate: false
+  xy: 133, 85
+  size: 42, 43
+  orig: 42, 43
+  offset: 0, 0
+  index: -1
+trees/darkTree4
+  rotate: false
+  xy: 217, 74
+  size: 22, 54
+  orig: 22, 54
+  offset: 0, 0
+  index: -1
+trees/darkTree5
+  rotate: false
+  xy: 133, 0
+  size: 22, 42
+  orig: 22, 42
+  offset: 0, 0
+  index: -1
+trees/darkTree6
+  rotate: false
+  xy: 133, 42
+  size: 42, 43
+  orig: 42, 43
+  offset: 0, 0
+  index: -1
+trees/lightTree1
+  rotate: false
+  xy: 337, 101
+  size: 16, 27
+  orig: 16, 27
+  offset: 0, 0
+  index: -1
+trees/lightTree2
+  rotate: false
+  xy: 291, 85
+  size: 30, 43
+  orig: 30, 43
+  offset: 0, 0
+  index: -1
+trees/lightTree3
+  rotate: false
+  xy: 175, 85
+  size: 42, 43
+  orig: 42, 43
+  offset: 0, 0
+  index: -1
+trees/lightTree4
+  rotate: false
+  xy: 239, 74
+  size: 22, 54
+  orig: 22, 54
+  offset: 0, 0
+  index: -1
+trees/lightTree5
+  rotate: false
+  xy: 155, 0
+  size: 22, 42
+  orig: 22, 42
+  offset: 0, 0
+  index: -1
+trees/lightTree6
+  rotate: false
+  xy: 175, 42
+  size: 42, 43
+  orig: 42, 43
+  offset: 0, 0
+  index: -1
+trees/stump
+  rotate: false
+  xy: 261, 74
+  size: 18, 11
+  orig: 18, 11
+  offset: 0, 0
+  index: -1
+whiteGoose/16x16SideGoose3
+  rotate: false
+  xy: 321, 85
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+whiteGoose/SideGoose1
+  rotate: false
+  xy: 353, 108
+  size: 20, 20
+  orig: 20, 20
+  offset: 0, 0
+  index: -1
+whiteGoose/SideGoose2
+  rotate: false
+  xy: 373, 108
+  size: 20, 20
+  orig: 20, 20
+  offset: 0, 0
+  index: -1
+whiteGoose/SideGoose3
+  rotate: false
+  xy: 393, 108
+  size: 20, 20
+  orig: 20, 20
+  offset: 0, 0
+  index: -1

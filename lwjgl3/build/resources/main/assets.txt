@@ -1,92 +1,10 @@
-enemies/16x16SideGoose3.png
-enemies/SideGoose1.png
-enemies/SideGoose2.png
-enemies/SideGoose3.png
-items/8x8foodImage.png
-maps/Asset Packs/Pixel Plains Free Pack/Object Images/Dark Tree 1.png
-maps/Asset Packs/Pixel Plains Free Pack/Object Images/Dark Tree 2.png
-maps/Asset Packs/Pixel Plains Free Pack/Object Images/Dark Tree 3.png
-maps/Asset Packs/Pixel Plains Free Pack/Object Images/Dark Tree 4.png
-maps/Asset Packs/Pixel Plains Free Pack/Object Images/Dark Tree 5.png
-maps/Asset Packs/Pixel Plains Free Pack/Object Images/Dark Tree 6.png
-maps/Asset Packs/Pixel Plains Free Pack/Object Images/Light Tree 1.png
-maps/Asset Packs/Pixel Plains Free Pack/Object Images/Light Tree 2.png
-maps/Asset Packs/Pixel Plains Free Pack/Object Images/Light Tree 3.png
-maps/Asset Packs/Pixel Plains Free Pack/Object Images/Light Tree 4.png
-maps/Asset Packs/Pixel Plains Free Pack/Object Images/Light Tree 5.png
-maps/Asset Packs/Pixel Plains Free Pack/Object Images/Light Tree 6.png
-maps/Asset Packs/Pixel Plains Free Pack/Object Images/Tree Stump.png
-maps/Asset Packs/Pixel Plains Free Pack/ReadMe.txt
-maps/Asset Packs/Pixel Plains Free Pack/Tile Sets/All.png
-maps/Asset Packs/Pixel Plains Free Pack/Tile Sets/Ground & Background.png
-maps/Asset Packs/Pixel Plains Free Pack/Tile Sets/Trees & Bushes.png
-maps/Asset Packs/Ranitaya’s 50+ City Essential Assets Pack/All in one.aseprite
-maps/Asset Packs/Ranitaya’s 50+ City Essential Assets Pack/Assets/Back chair.png
-maps/Asset Packs/Ranitaya’s 50+ City Essential Assets Pack/Assets/Back red chair.png
-maps/Asset Packs/Ranitaya’s 50+ City Essential Assets Pack/Assets/Beige Vending Machine.png
-maps/Asset Packs/Ranitaya’s 50+ City Essential Assets Pack/Assets/Bush1.png
-maps/Asset Packs/Ranitaya’s 50+ City Essential Assets Pack/Assets/Bush2.png
-maps/Asset Packs/Ranitaya’s 50+ City Essential Assets Pack/Assets/Circular table.png
-maps/Asset Packs/Ranitaya’s 50+ City Essential Assets Pack/Assets/Closed Trashbin.png
-maps/Asset Packs/Ranitaya’s 50+ City Essential Assets Pack/Assets/Fire Hidrant.png
-maps/Asset Packs/Ranitaya’s 50+ City Essential Assets Pack/Assets/Front chair.png
-maps/Asset Packs/Ranitaya’s 50+ City Essential Assets Pack/Assets/Front red chair.png
-maps/Asset Packs/Ranitaya’s 50+ City Essential Assets Pack/Assets/Green Vending Machine.png
-maps/Asset Packs/Ranitaya’s 50+ City Essential Assets Pack/Assets/Horizental cardboard box.png
-maps/Asset Packs/Ranitaya’s 50+ City Essential Assets Pack/Assets/Light Pole.png
-maps/Asset Packs/Ranitaya’s 50+ City Essential Assets Pack/Assets/Opened Cardboard box.png
-maps/Asset Packs/Ranitaya’s 50+ City Essential Assets Pack/Assets/Opened Trashbin.png
-maps/Asset Packs/Ranitaya’s 50+ City Essential Assets Pack/Assets/Plant1.png
-maps/Asset Packs/Ranitaya’s 50+ City Essential Assets Pack/Assets/Plant2.png
-maps/Asset Packs/Ranitaya’s 50+ City Essential Assets Pack/Assets/Plant3.png
-maps/Asset Packs/Ranitaya’s 50+ City Essential Assets Pack/Assets/Plant4.png
-maps/Asset Packs/Ranitaya’s 50+ City Essential Assets Pack/Assets/Plant5.png
-maps/Asset Packs/Ranitaya’s 50+ City Essential Assets Pack/Assets/Red Table.png
-maps/Asset Packs/Ranitaya’s 50+ City Essential Assets Pack/Assets/Red Vending machine.png
-maps/Asset Packs/Ranitaya’s 50+ City Essential Assets Pack/Assets/Side chair.png
-maps/Asset Packs/Ranitaya’s 50+ City Essential Assets Pack/Assets/Side red chair.png
-maps/Asset Packs/Ranitaya’s 50+ City Essential Assets Pack/Assets/Sign1.png
-maps/Asset Packs/Ranitaya’s 50+ City Essential Assets Pack/Assets/Sign2.png
-maps/Asset Packs/Ranitaya’s 50+ City Essential Assets Pack/Assets/Square table.png
-maps/Asset Packs/Ranitaya’s 50+ City Essential Assets Pack/Assets/Trashbag.png
-maps/Asset Packs/Ranitaya’s 50+ City Essential Assets Pack/Assets/Tree1.png
-maps/Asset Packs/Ranitaya’s 50+ City Essential Assets Pack/Assets/Tree2.png
-maps/Asset Packs/Ranitaya’s 50+ City Essential Assets Pack/Assets/Tree3.png
-maps/Asset Packs/Ranitaya’s 50+ City Essential Assets Pack/Assets/Yellow Vending Machine.png
-maps/Asset Packs/Ranitaya’s 50+ City Essential Assets Pack/Assets/vertical cardboardbox.png
-maps/Asset Packs/Ranitaya’s 50+ City Essential Assets Pack/Buildings/Building1.aseprite
-maps/Asset Packs/Ranitaya’s 50+ City Essential Assets Pack/Buildings/Building2.aseprite
-maps/Asset Packs/Ranitaya’s 50+ City Essential Assets Pack/Buildings/Building3.aseprite
-maps/Asset Packs/Ranitaya’s 50+ City Essential Assets Pack/Buildings/Building4.aseprite
-maps/Asset Packs/Ranitaya’s 50+ City Essential Assets Pack/Buildings/Building5.aseprite
-maps/Asset Packs/Ranitaya’s 50+ City Essential Assets Pack/Buildings/Building6.aseprite
-maps/Asset Packs/Ranitaya’s 50+ City Essential Assets Pack/Buildings/Building7.aseprite
-maps/Asset Packs/Ranitaya’s 50+ City Essential Assets Pack/Buildings/Pngs/Building1.png
-maps/Asset Packs/Ranitaya’s 50+ City Essential Assets Pack/Buildings/Pngs/Building2.png
-maps/Asset Packs/Ranitaya’s 50+ City Essential Assets Pack/Buildings/Pngs/Building3.png
-maps/Asset Packs/Ranitaya’s 50+ City Essential Assets Pack/Buildings/Pngs/Building4.png
-maps/Asset Packs/Ranitaya’s 50+ City Essential Assets Pack/Buildings/Pngs/Building5.png
-maps/Asset Packs/Ranitaya’s 50+ City Essential Assets Pack/Buildings/Pngs/Building6.png
-maps/Asset Packs/Ranitaya’s 50+ City Essential Assets Pack/Buildings/Pngs/Building7.png
-maps/Building 1.png
-maps/Dark Tree 1.png
-maps/Dark Tree 2.png
-maps/Dark Tree 3.png
-maps/Dark Tree 4.png
-maps/Dark Tree 5.png
-maps/Dark Tree 6.png
+graphics/README.txt
+graphics/objects.atlas
+graphics/objects.png
 maps/Ground & Background.png
-maps/Light Tree 1.png
-maps/Light Tree 2.png
-maps/Light Tree 3.png
-maps/Light Tree 4.png
-maps/Light Tree 5.png
-maps/Light Tree 6.png
 maps/Tiled Project/GoosePatrol Practice Map.tiled-project
 maps/Tiled Project/GoosePatrol Practice Map.tiled-session
 maps/Tiled Project/Ground & Background.tsx
 maps/Tiled Project/Objects.tsx
 maps/Tiled Project/main.tmx
-maps/Tree Stump.png
 maps/mapImage.png
-player/32x32player.png
