@@ -31,11 +31,9 @@ public class GameScreen extends ScreenAdapter {
 
     // Ashley engine for managing game entities and systems.
     private final Engine engine;
-
     
     private final TiledService tiledService;
     private final TiledAshleyConfigurator tiledAshleyConfigurator;
-
 
     /**
      * Constructs a new GameScreen using resources provided by the main game.
