@@ -11,6 +11,8 @@ import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.profiling.GLProfiler;
 
 import io.github.EngOnePrototype.asset.AssetService;
+import io.github.EngOnePrototype.screen.GameScreen;
+import io.github.EngOnePrototype.screen.LoadingScreen;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -62,9 +64,9 @@ public class Main extends Game {
         this.glProfiler.enable();
         this.fpsLogger = new FPSLogger();
 
-        // Add the GameScreen to the screen cache and set it as the current screen.
-        addScreen(new GameScreen(this));
-        setScreen(GameScreen.class);
+        // Add the LoadingScreen to the screen cache and set it as the current screen.
+        addScreen(new LoadingScreen(this, assetService));
+        setScreen(LoadingScreen.class);
         
     }
 
@@ -98,6 +100,10 @@ public class Main extends Game {
 
     public void addScreen(Screen screen) {
         screenCache.put(screen.getClass(), screen);
+    }
+
+    public void removeScreen(Screen screen) {
+        screenCache.remove(screen.getClass());
     }
 
     public void setScreen(Class<? extends Screen> screenClass) {

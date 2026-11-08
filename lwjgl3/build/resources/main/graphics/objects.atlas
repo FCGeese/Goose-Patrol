@@ -4,13 +4,6 @@ size: 512, 128
 format: RGBA8888
 filter: Nearest, Nearest
 repeat: none
-breadcrumbs/8x8foodImage
-  rotate: false
-  xy: 0, 1
-  size: 8, 8
-  orig: 8, 8
-  offset: 0, 0
-  index: -1
 buildings/house1
   rotate: false
   xy: 0, 9
@@ -18,23 +11,16 @@ buildings/house1
   orig: 133, 119
   offset: 0, 0
   index: -1
-player/32x32player
-  rotate: false
-  xy: 177, 10
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
 player/player
   rotate: false
-  xy: 413, 109
+  xy: 193, 23
   size: 14, 19
   orig: 14, 19
   offset: 0, 0
   index: -1
 trees/darkTree1
   rotate: false
-  xy: 321, 101
+  xy: 177, 15
   size: 16, 27
   orig: 16, 27
   offset: 0, 0
@@ -76,7 +62,7 @@ trees/darkTree6
   index: -1
 trees/lightTree1
   rotate: false
-  xy: 337, 101
+  xy: 321, 101
   size: 16, 27
   orig: 16, 27
   offset: 0, 0
@@ -121,33 +107,5 @@ trees/stump
   xy: 261, 74
   size: 18, 11
   orig: 18, 11
-  offset: 0, 0
-  index: -1
-whiteGoose/16x16SideGoose3
-  rotate: false
-  xy: 321, 85
-  size: 16, 16
-  orig: 16, 16
-  offset: 0, 0
-  index: -1
-whiteGoose/SideGoose1
-  rotate: false
-  xy: 353, 108
-  size: 20, 20
-  orig: 20, 20
-  offset: 0, 0
-  index: -1
-whiteGoose/SideGoose2
-  rotate: false
-  xy: 373, 108
-  size: 20, 20
-  orig: 20, 20
-  offset: 0, 0
-  index: -1
-whiteGoose/SideGoose3
-  rotate: false
-  xy: 393, 108
-  size: 20, 20
-  orig: 20, 20
   offset: 0, 0
   index: -1

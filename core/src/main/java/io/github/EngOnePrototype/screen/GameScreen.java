@@ -1,4 +1,4 @@
-package io.github.EngOnePrototype;
+package io.github.EngOnePrototype.screen;
 
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -12,6 +12,7 @@ import java.util.function.Consumer;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.EntitySystem;
 
+import io.github.EngOnePrototype.Main;
 import io.github.EngOnePrototype.asset.AssetService;
 import io.github.EngOnePrototype.asset.MapAsset;
 import io.github.EngOnePrototype.tiled.TiledAshleyConfigurator;
