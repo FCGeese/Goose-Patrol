@@ -3,13 +3,16 @@ package io.github.EngOnePrototype.tiled;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.FileTextureData;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject;
 import com.badlogic.gdx.math.Vector2;
 
 import io.github.EngOnePrototype.Main;
 import io.github.EngOnePrototype.asset.AssetService;
+import io.github.EngOnePrototype.asset.AtlasAsset;
 import io.github.EngOnePrototype.component.Graphic;
 import io.github.EngOnePrototype.component.Transform;
 
@@ -93,10 +96,43 @@ public class TiledAshleyConfigurator {
     /**
      * Retrieves the texture region associated with a Tiled map tile.
      * 
+     * Attempts to find the tile's corresponding region within its specified
+     * texture atlas. If no matching region is found, the tile's original
+     * texture region is returned instead.
+     * 
      * @param tile The Tiled map tile containing the texture region.
      * @return The texture region associated with the specified tile.
      */
     private TextureRegion getTextureRegion(TiledMapTile tile) {
+
+        // Retrieve the name of the atlas asset from the tile's properties.
+        // Defaults to the OBJECTS atlas if no "atlasAsset" property is specified.
+        String atlasAssetStr = tile.getProperties().get(
+            "atlasAsset", AtlasAsset.OBJECTS.name(), String.class
+        );
+
+        // Convert the retrieved string into its corresponding AtlasAsset enum constant.
+        AtlasAsset atlasAsset = AtlasAsset.valueOf(atlasAssetStr);
+
+        // Retrieve the texture atlas associated with the specified asset.
+        TextureAtlas textureAtlas = this.assetService.get(atlasAsset);
+
+        // Retrieve the underlying file data for the tile's original texture.
+        // Cast to FileTextureData to access the source image's file hangle.
+        FileTextureData textureData = (FileTextureData) 
+            tile.getTextureRegion().getTexture().getTextureData();
+        
+        // Extract the source image's filename without its file extension.
+        String atlasKey = textureData.getFileHandle().nameWithoutExtension();
+
+        // Search the texture atlas for a region using the naming convention:
+        // "atlasKey/atlasKey" (Used within 'asset_raw' folder structure.)
+        TextureAtlas.AtlasRegion region = textureAtlas.findRegion(atlasKey + "/" + atlasKey);
+        if (region != null) {
+            return region;
+        }
+
+        // Otherwise, fall back to the tile's original texture region.
         return tile.getTextureRegion();
     }
 }

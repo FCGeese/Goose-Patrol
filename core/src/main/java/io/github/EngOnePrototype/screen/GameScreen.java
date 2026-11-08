@@ -24,14 +24,10 @@ import io.github.EngOnePrototype.system.RenderSystem;
  * Handles map loading, rendering and screen-specific resources.
  */
 public class GameScreen extends ScreenAdapter {
-    private final SpriteBatch batch;
-    private final AssetService assetService;
-    private final Viewport viewport;
-    private final OrthographicCamera cam;
 
     // Ashley engine for managing game entities and systems.
     private final Engine engine;
-    
+
     private final TiledService tiledService;
     private final TiledAshleyConfigurator tiledAshleyConfigurator;
 
@@ -41,16 +37,12 @@ public class GameScreen extends ScreenAdapter {
      * @param game The main game instance providing access to shared resources.
      */
     public GameScreen(Main game) {
-        this.batch = game.getBatch();
-        this.assetService = game.getAssetService();
-        this.viewport = game.getViewport();
-        this.cam = game.getCamera();
-        this.tiledService = new TiledService(this.assetService);
+        this.tiledService = new TiledService(game.getAssetService());
         this.engine = new Engine();
-        this.tiledAshleyConfigurator = new TiledAshleyConfigurator(this.engine, this.assetService);
+        this.tiledAshleyConfigurator = new TiledAshleyConfigurator(this.engine, game.getAssetService());
 
         // Registers the rendering system with the Ashley engine.
-        this.engine.addSystem(new RenderSystem(this.batch, this.viewport, this.cam));
+        this.engine.addSystem(new RenderSystem(game.getBatch(), game.getViewport(), game.getCamera()));
     }
 
     /**

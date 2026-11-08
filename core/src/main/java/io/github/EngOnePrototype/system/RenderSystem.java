@@ -1,6 +1,8 @@
 package io.github.EngOnePrototype.system;
 
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
@@ -8,8 +10,10 @@ import com.badlogic.ashley.systems.SortedIteratingSystem;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.maps.tiled.tiles.AnimatedTiledMapTile;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -28,6 +32,12 @@ public class RenderSystem extends SortedIteratingSystem implements Disposable {
     private final Batch batch;
     private final Viewport viewport;
     private final OrthographicCamera cam;
+
+    // Foreground list for rendering above the player (object layer)
+    private final List<MapLayer> fgdLayers;
+
+    // Background list for rendering below the player (object layer)
+    private final List<MapLayer> bgdLayers;
     
     /**
      * Constructs a new RenderSystem using the specified Batch, Viewport and Camera.
@@ -48,42 +58,47 @@ public class RenderSystem extends SortedIteratingSystem implements Disposable {
         this.batch = batch;
         this.viewport = viewport;
         this.cam = cam;
+        this.fgdLayers = new ArrayList<>();
+        this.bgdLayers = new ArrayList<>();
 
         // Creates the Tiled map renderer using the game's world unit scale and shared batch.
         this.mapRenderer = new OrthogonalTiledMapRenderer(null, Main.UNIT_SCALE, this.batch);
+
     }
 
     /**
      * Updates the rendering system for the current frame.
-     * Applies the viewport, renders the Tiled map and processes the game entities.
+     * Applies the viewport, updates animated tiles, renders background layers,
+     * processes game entities and finally renders foreground layers.
      * 
      * @param deltaTime The time elapsed since the previous frame, in seconds.
      */
     @Override
     public void update(float deltaTime) {
-        // Applies the viewport settings to ensure the camera and rendering are correctly 
-        // aligned with the screen dimensions.
+        // Update the animation timing for animated Tiled map tiles.
+        AnimatedTiledMapTile.updateAnimationBaseTime();
+
+        // Apply the viewport settings to ensure rendering uses the correct world dimensions.
         this.viewport.apply();
 
-        // Resets the batch colour to white to avoid color tinting from previous frames.
+        // Begin drawing and reset the batch colour to white.
+        // Set the map renderer's view to match the current camera.
+        batch.begin();
         this.batch.setColor(Color.WHITE);
-
-        // Updates the map renderer's viewing area to match the camera's current position and zoom level.
         this.mapRenderer.setView(this.cam);
 
-        // Renders the Tiled map.
-        this.mapRenderer.render();
-        
-        // Re-sorts entities to account for any changes in their Transform components.
+        // Render the background map layers before drawing game entities.
+        bgdLayers.forEach(mapRenderer::renderMapLayer);
+
+        // Re-sort entities according to their Transform components before processing them.
         forceSort();
-
-        // Begins batch rendering before processing the game entities.
-        batch.begin();
-
-        // Processes all entities belonging to this system's family.
         super.update(deltaTime);
 
-        // Ends batch rendering after all entities have been processed.
+        // Reset the batch colour and render foreground map layers over game entities.
+        this.batch.setColor(Color.WHITE);
+        fgdLayers.forEach(mapRenderer::renderMapLayer);
+
+        // Finish the current drawing operation.
         batch.end();
     }
 
@@ -125,12 +140,36 @@ public class RenderSystem extends SortedIteratingSystem implements Disposable {
     }
     
     /**
-     * Assigns the Tiled map to the map renderer.
+     * Assigns the Tiled map to the map renderer and separates its layers
+     * into background and foreground collections.
+     * 
+     * Layers are initially treated as background layers. Once the "Objects"
+     * layer is encountered, subsequent layers are treated as foreground layers.
      * 
      * @param tiledMap The Tiled map to be rendered.
      */
     public void setMap(TiledMap tiledMap) {
         this.mapRenderer.setMap(tiledMap);
+
+        // Clear the previously stored layers before processing the new map.
+        this.fgdLayers.clear();
+        this.bgdLayers.clear();
+
+        List<MapLayer> currentLayers = bgdLayers;
+        for (MapLayer layer : tiledMap.getLayers()) {
+            // Use the "Objects" layer as the boundary between foreground and background.
+            if ("Objects".equals(layer.getName())) {
+                currentLayers = fgdLayers;
+                continue;
+            }
+
+            // Skip layers that are exactly instances of the base MapLayer class.
+            if (layer.getClass().equals(MapLayer.class)) {
+                continue;
+            }
+            
+            currentLayers.add(layer);
+        }
     }
 
     /**

@@ -2,6 +2,8 @@ package io.github.EngOnePrototype;
 
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.*;
@@ -11,7 +13,6 @@ import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.profiling.GLProfiler;
 
 import io.github.EngOnePrototype.asset.AssetService;
-import io.github.EngOnePrototype.screen.GameScreen;
 import io.github.EngOnePrototype.screen.LoadingScreen;
 
 import java.util.HashMap;
@@ -19,7 +20,6 @@ import java.util.Map;
 
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-
 
 /*
  * {@link com.badlogic.gdx.ApplicationListener} implementation shared by all
@@ -45,6 +45,8 @@ public class Main extends Game {
     private GLProfiler glProfiler;
     /** Logger for monitoring FPS & diagnostics for asset servers. */
     private FPSLogger fpsLogger;
+    /** Handles and distributes input events to multiple input processors. */
+    private InputMultiplexer inputMultiplexer;
 
     boolean paused = false;
 
@@ -55,6 +57,9 @@ public class Main extends Game {
     public void create() {
         // Set the log level to DEBUG for detailed logging during development.
         Gdx.app.setLogLevel(Application.LOG_DEBUG);
+        // Create a new InputMultiplexer and set it as LibGDX's active input processor.
+        this.inputMultiplexer = new InputMultiplexer();
+        Gdx.input.setInputProcessor(inputMultiplexer);
 
         this.batch = new SpriteBatch();
         this.cam = new OrthographicCamera(WORLD_WIDTH / 2, WORLD_HEIGHT / 2);
@@ -140,4 +145,12 @@ public class Main extends Game {
         return cam;
     }
 
+    public void setInputProcessors(InputProcessor ... processors) {
+        inputMultiplexer.clear();
+        if(processors == null) return;
+
+        for (InputProcessor processor : processors) {
+            inputMultiplexer.addProcessor(processor);
+        }
+    }
 }
