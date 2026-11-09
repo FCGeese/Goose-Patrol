@@ -1,4 +1,4 @@
-package io.github.EngOnePrototype.UI;
+package io.github.GoosePatrolGame.UI;
 
 import java.util.ArrayList;
 
@@ -9,9 +9,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
-import io.github.EngOnePrototype.Elements.Goose;
-import io.github.EngOnePrototype.Elements.Player;
-import io.github.EngOnePrototype.Utils.Coord;
+import io.github.GoosePatrolGame.Elements.Goose;
+import io.github.GoosePatrolGame.Elements.Player;
+import io.github.GoosePatrolGame.Utils.Coord;
 
 public class MiniMap {
     Coord screenPos;

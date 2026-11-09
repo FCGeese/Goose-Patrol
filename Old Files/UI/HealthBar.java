@@ -1,9 +1,9 @@
-package io.github.EngOnePrototype.UI;
+package io.github.GoosePatrolGame.UI;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import io.github.EngOnePrototype.Elements.Player;
-import io.github.EngOnePrototype.Utils.Coord;
+import io.github.GoosePatrolGame.Elements.Player;
+import io.github.GoosePatrolGame.Utils.Coord;
 
 public class HealthBar {
     Coord screenPos;

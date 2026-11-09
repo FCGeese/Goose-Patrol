@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Main-Class: io.github.EngOnePrototype.lwjgl3.Lwjgl3Launcher
+Main-Class: io.github.GoosePatrolGame.lwjgl3.Lwjgl3Launcher
 Enable-Native-Access: ALL-UNNAMED
 Multi-Release: true
 Add-Exports: java.base/jdk.internal.misc

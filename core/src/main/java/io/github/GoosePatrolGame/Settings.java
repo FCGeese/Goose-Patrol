@@ -1,0 +1,11 @@
+package io.github.GoosePatrolGame;
+
+public class Settings {
+    public static int playerStartX = 300;
+    public static int playerStartY = 40;
+    public static int playerSpeed = 2;
+
+    public static int numberOfGeese = 100;
+    public static int gooseSpeed = 2;
+    public static int gooseAccuracy = 2;
+}

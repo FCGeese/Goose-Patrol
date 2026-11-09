@@ -19,7 +19,7 @@
 @if "%DEBUG%"=="" @echo off
 @rem ##########################################################################
 @rem
-@rem  EngOnePrototype startup script for Windows
+@rem  GoosePatrolGame startup script for Windows
 @rem
 @rem ##########################################################################
 
@@ -72,13 +72,13 @@ goto exitWithErrorLevel
 :execute
 @rem Setup the command line
 
-set CLASSPATH=%APP_HOME%\lib\EngOnePrototype-1.0.0.jar
+set CLASSPATH=%APP_HOME%\lib\GoosePatrolGame-1.0.0.jar
 
 
-@rem Execute EngOnePrototype
+@rem Execute GoosePatrolGame
 @rem endlocal doesn't take effect until after the line is parsed and variables are expanded
 @rem which allows us to clear the local environment before executing the java command
-endlocal & "%JAVA_EXE%" %DEFAULT_JVM_OPTS% %JAVA_OPTS% %ENG_ONE_PROTOTYPE_OPTS%  -classpath "%CLASSPATH%" io.github.EngOnePrototype.lwjgl3.Lwjgl3Launcher %* & call :exitWithErrorLevel & goto exitWithErrorLevel
+endlocal & "%JAVA_EXE%" %DEFAULT_JVM_OPTS% %JAVA_OPTS% %ENG_ONE_PROTOTYPE_OPTS%  -classpath "%CLASSPATH%" io.github.GoosePatrolGame.lwjgl3.Lwjgl3Launcher %* & call :exitWithErrorLevel & goto exitWithErrorLevel
 
 @rem This label must not be changed. We rely on old scripts being able to jump to this point.
 :exitWithErrorLevel

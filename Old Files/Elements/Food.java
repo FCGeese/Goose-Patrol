@@ -1,11 +1,11 @@
-package io.github.EngOnePrototype.Elements;
+package io.github.GoosePatrolGame.Elements;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import io.github.EngOnePrototype.Utils.Coord;
-import io.github.EngOnePrototype.Utils.Hitbox;
-import io.github.EngOnePrototype.Utils.Rect;
+import io.github.GoosePatrolGame.Utils.Coord;
+import io.github.GoosePatrolGame.Utils.Hitbox;
+import io.github.GoosePatrolGame.Utils.Rect;
 
 public class Food extends Element{
 

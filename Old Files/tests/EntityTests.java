@@ -6,9 +6,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 
-import io.github.EngOnePrototype.Settings;
-import io.github.EngOnePrototype.Mobs.Goose;
-import io.github.EngOnePrototype.Utils.Coord;
+import io.github.GoosePatrolGame.Settings;
+import io.github.GoosePatrolGame.Mobs.Goose;
+import io.github.GoosePatrolGame.Utils.Coord;
 
 @DisplayName("Entity Tests")
 

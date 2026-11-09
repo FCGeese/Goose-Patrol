@@ -1,4 +1,4 @@
-package io.github.EngOnePrototype.Utils;
+package io.github.GoosePatrolGame.Utils;
 
 import java.util.ArrayList;
 

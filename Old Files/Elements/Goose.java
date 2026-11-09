@@ -1,4 +1,4 @@
-package io.github.EngOnePrototype.Elements;
+package io.github.GoosePatrolGame.Elements;
 
 import java.util.ArrayList;
 
@@ -7,9 +7,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-import io.github.EngOnePrototype.Utils.Coord;
-import io.github.EngOnePrototype.Utils.Hitbox;
-import io.github.EngOnePrototype.Utils.Rect;
+import io.github.GoosePatrolGame.Utils.Coord;
+import io.github.GoosePatrolGame.Utils.Hitbox;
+import io.github.GoosePatrolGame.Utils.Rect;
 
 public class Goose extends Entity {
     int accuracy = 4;
