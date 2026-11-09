@@ -6,9 +6,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import java.util.List;
 
-import static io.github.fcgeese.goose_patrol.MovingElement.State.HIT;
-
-public class Goose extends MovingElement implements HealthListener {
+public class Goose extends MovingElement {
     private final float accuracy = Settings.gooseAccuracy;
     private Element target;
     private final CollisionManager collider = new CollisionManager();
@@ -32,7 +30,7 @@ public class Goose extends MovingElement implements HealthListener {
             Settings.gooseWidth,
             Settings.gooseHeight
         ));
-        setAnimationState(State.MOVING);
+        setState(State.MOVING);
     }
 
     public void setColliderList(List<Element> colliderList) {
@@ -95,7 +93,7 @@ public class Goose extends MovingElement implements HealthListener {
             target = targeter.getTarget(this);
 
             if (collidesWith(target)) {
-                target.damage(4);  //MAGIC DAMAGE NUMBER FOR TEST USE ONLY
+                target.changeHealth(-4);  //MAGIC DAMAGE NUMBER FOR TEST USE ONLY
             }
 
             if (target != null) {
@@ -105,14 +103,14 @@ public class Goose extends MovingElement implements HealthListener {
                 System.out.println(collider.canMove(this));
 
                 //Runs away if satitated w/bread or "fleeing"
-                if (getState() == State.FLEEING) {
+                if (getState() == State.ZERO_HEALTH) {
                     setDisplacementVector(getDisplacementVector().scl(-1));
                     if (getPositionVector().dst(target.getPositionVector())>200){   //MAGIC NUMBER FOR FLEE DIST TEST ONLY
                         setHealth(100);
                         setState(State.MOVING);
                     }
                 }
-                if (getState() == HIT){
+                if (getState() == State.HIT){
                     if (stunTime <= 0){
                         getDisplacementVector().scl(Settings.gooseSpeed);
                         setState(State.MOVING);
@@ -132,17 +130,5 @@ public class Goose extends MovingElement implements HealthListener {
             }
 
             update();
-
-
-    }
-
-    @Override
-    public void onDeath() {
-        setState(State.FLEEING);
-    }
-
-    @Override
-    public void onDamage() {
-        setState(HIT);
     }
 }

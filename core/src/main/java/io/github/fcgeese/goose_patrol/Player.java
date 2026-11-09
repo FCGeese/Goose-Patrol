@@ -3,26 +3,25 @@ package io.github.fcgeese.goose_patrol;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 public class Player extends MovingElement {
-    private CollisionManager colliders = new CollisionManager();
+    private final CollisionManager colliders = new CollisionManager();
 
     public Player(Vector2 position) {
         setPositionVector(position);
         setDisplacementVector(0, 0);
         setDisplacementVector(getDisplacementVector().nor());
         setTexturePack(Settings.playerTexturePack.split(64,128));
-        movingAnimation = new Animation<TextureRegion>(0.3f, getTexturePack()[0]);
+        movingAnimation = new Animation<>(0.3f, getTexturePack()[0]);
         setHitbox(new Rectangle(
             getPositionVector().x,
             getPositionVector().y,
             Settings.playerWidth,
             Settings.playerHeight
         ));
-        setAnimationState(State.IDLE);
+        setState(State.IDLE);
     }
 
     /**
@@ -60,10 +59,10 @@ public class Player extends MovingElement {
             setDisplacementVector(getDisplacementVector().scl(2));
         }
         if (getDisplacementVector().isZero()){
-            setAnimationState(State.IDLE);
+            setState(State.IDLE);
         }
         else{
-            setAnimationState(State.MOVING);
+            setState(State.MOVING);
         }
         //updates position vector
         update();

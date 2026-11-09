@@ -13,6 +13,7 @@ public abstract class Element {
     public ArrayList<HealthListener> healthListeners = new ArrayList<>();
     private float health;
     private Rectangle hitbox;
+    private State state;
 
     public float getHealth() {
         return health;
@@ -42,17 +43,27 @@ public abstract class Element {
         this.hitbox = hitbox;
     }
 
-    public void damage(float damage){
-        health -= damage;
-        for (HealthListener h : healthListeners){
-            if (getHealth() >= 0){
+    public void addHealthListener(HealthListener h){
+        healthListeners.add(h);
+    }
+
+    public void changeHealth(float delta) {
+        health += delta;
+        if (getHealth() >= 0) {
+            this.setState(State.ZERO_HEALTH);
+            for (HealthListener h : healthListeners) {
                 h.onDeath();
             }
-            else{
-                h.onDamage();
+        }
+        else{
+            if (delta<0){this.setState(State.HIT);}
+            for (HealthListener h : healthListeners) {
+                h.onChange();
             }
         }
     }
+
+
 
 
     /**
@@ -72,6 +83,21 @@ public abstract class Element {
      */
     public void draw(SpriteBatch batch){
         batch.draw(texture, positionVector.x, positionVector.y);
+    }
+
+    protected void setState(State state) {
+        this.state = state;
+    }
+
+    protected State getState() {
+        return state;
+    }
+
+    protected enum State {
+        ZERO_HEALTH,
+        HIT,
+        IDLE,
+        MOVING
     }
 
 }

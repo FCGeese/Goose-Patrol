@@ -11,8 +11,7 @@ public class MovingElement extends Element{
     public Animation<TextureRegion> movingAnimation;
     private TextureRegion[][] texturePack;
     private float stateTime = 0;
-    private State animationState;
-    private State state = State.IDLE;
+
 
 
     public Vector2 getDisplacementVector() {
@@ -25,17 +24,6 @@ public class MovingElement extends Element{
         this.displacementVector = new Vector2(x, y);
     }
 
-    public void setAnimationState(State animationState) {
-        this.animationState = animationState;
-    }
-
-    public void setState(State state) {
-        this.state = state;
-    }
-
-    public State getState() {
-        return state;
-    }
 
     public void setTexturePack(TextureRegion[][] texturePack) {
         this.texturePack = texturePack;
@@ -57,7 +45,7 @@ public class MovingElement extends Element{
     @Override
     public void draw(SpriteBatch batch){
         stateTime += Gdx.graphics.getDeltaTime();
-        setTexture(movingAnimation.getKeyFrame(stateTime, animationState.equals(State.MOVING)));
+        setTexture(movingAnimation.getKeyFrame(stateTime, getState().equals(State.MOVING)));
         super.draw(batch);
 
     }
@@ -67,14 +55,6 @@ public class MovingElement extends Element{
                              getPositionVector().y+getDisplacementVector().y,
                               getHitbox().width,
                               getHitbox().height);
-    }
-
-    public enum State{
-        MOVING,
-        FLEEING,
-        HIT,
-        DEAD,
-        IDLE
     }
 
 }
