@@ -114,7 +114,7 @@ public class Goose extends MovingElement {
                     if (stunTime <= 0){
                         getDisplacementVector().scl(Settings.gooseSpeed);
                         setState(State.MOVING);
-                        stunTime = 30;
+                        stunTime = 3;
                     }
                     stunTime -= Gdx.graphics.getDeltaTime();
                     getDisplacementVector().scl(0.1f);
@@ -128,7 +128,6 @@ public class Goose extends MovingElement {
             } else {
                 wander();
             }
-
             update();
     }
 }
