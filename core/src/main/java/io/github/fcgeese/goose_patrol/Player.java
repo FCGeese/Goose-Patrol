@@ -20,6 +20,7 @@ public class Player extends MovingElement {
             Settings.playerWidth,
             Settings.playerHeight
         ));
+        setAnimationState(State.IDLE);
     }
 
     /**
@@ -54,6 +55,12 @@ public class Player extends MovingElement {
         //doubles speed if sprinting, could be changed to one time dash?
         if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)){
             setDisplacementVector(getDisplacementVector().scl(2));
+        }
+        if (getDisplacementVector().isZero()){
+            setAnimationState(State.IDLE);
+        }
+        else{
+            setAnimationState(State.MOVING);
         }
         //updates position vector
         update();

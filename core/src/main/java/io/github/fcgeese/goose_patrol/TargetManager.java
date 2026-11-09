@@ -2,12 +2,19 @@ package io.github.fcgeese.goose_patrol;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 
 public class TargetManager {
     ArrayList<Element> possibleTargets = new ArrayList<>();
 
     public void addTarget(Element e){
         possibleTargets.add(e);
+    }
+
+    public void setTargetList(List<Element> targetList){
+        for (Element e : targetList){
+            addTarget(e);
+        }
     }
 
     public boolean isInRange(Goose goose, Element target){
@@ -20,4 +27,5 @@ public class TargetManager {
                 goose.getPositionVector().dst(possibleTargets.getPositionVector())))
             .orElse(null);
     }
+
 }

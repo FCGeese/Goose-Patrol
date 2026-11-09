@@ -17,7 +17,7 @@ public class Main extends ApplicationAdapter {
 
     private Player player;
     private ArrayList<Goose> geese = new ArrayList<>();;
-    private CollisionManager collisionManager;
+    private ArrayList<Element> gooseColliders;
     private TargetManager targetManager;
 
     private Camera playerCamera;
@@ -27,11 +27,17 @@ public class Main extends ApplicationAdapter {
         batch = new SpriteBatch();
         image = new Texture("libgdx.png");
         player = new Player(new Vector2(10,10));
-        geese.add(new Goose(new Vector2(300,100)));
-        collisionManager = new CollisionManager();
-        targetManager = new TargetManager();
-        targetManager.addTarget(player);
-        playerCamera = new OrthographicCamera(player.getPositionVector().x-32, player.getPositionVector().y-64);
+        for(int x = 0; x<10; x++) {
+            geese.add(new Goose(new Vector2(300+20, 100*x)));
+        }
+        gooseColliders.addAll(geese);
+        for (Goose g : geese){
+            g.setColliderList(gooseColliders);
+        }
+
+        playerCamera = new OrthographicCamera(
+            player.getPositionVector().x-32,
+            player.getPositionVector().y-64);
         playerCamera.viewportWidth = 600;
         playerCamera.viewportHeight = 600;
     }

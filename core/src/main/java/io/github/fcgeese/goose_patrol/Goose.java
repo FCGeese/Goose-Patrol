@@ -1,21 +1,21 @@
 package io.github.fcgeese.goose_patrol;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-
-import java.util.ArrayList;
+import java.util.List;
 
 public class Goose extends MovingElement {
     private final float accuracy = Settings.gooseAccuracy;
     private Element target;
-    private float attackDuration = Settings.gooseAttackDuration;
+    private CollisionManager collider = new CollisionManager();
+    private TargetManager targeter = new TargetManager();
+
+    /*private float attackDuration = Settings.gooseAttackDuration;
     private float attackCoolDown = Settings.gooseAttackCoolDown;
     private boolean attacking = false;
-    private float lockOnDuration = Settings.gooseLockOnDuration;
+    private float lockOnDuration = Settings.gooseLockOnDuration;*/
 
     public Goose(Vector2 position) {
         setPositionVector(position);
@@ -29,8 +29,17 @@ public class Goose extends MovingElement {
             Settings.gooseWidth,
             Settings.gooseHeight
         ));
+        setAnimationState(State.MOVING);
     }
 
+    public void setColliderList(List<Element> colliderList) {
+        this.collider.addCollidableList(colliderList);
+    }
+
+    public void setTargetList(List<Element> targetList){
+        targetList.removeIf(t -> t==this);
+        this.targeter.setTargetList(targetList);
+    }
     /**
      * goose wanders randomly by changing its displacements vectors angle in place
      *
