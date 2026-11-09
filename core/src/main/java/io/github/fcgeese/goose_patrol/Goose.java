@@ -1,16 +1,19 @@
 package io.github.fcgeese.goose_patrol;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import java.util.List;
 
-public class Goose extends MovingElement {
+import static io.github.fcgeese.goose_patrol.MovingElement.State.HIT;
+
+public class Goose extends MovingElement implements HealthListener {
     private final float accuracy = Settings.gooseAccuracy;
     private Element target;
-    private CollisionManager collider = new CollisionManager();
-    private TargetManager targeter = new TargetManager();
+    private final CollisionManager collider = new CollisionManager();
+    private final TargetManager targeter = new TargetManager();
+    private float stunTime = 30;
 
     /*private float attackDuration = Settings.gooseAttackDuration;
     private float attackCoolDown = Settings.gooseAttackCoolDown;
@@ -22,7 +25,7 @@ public class Goose extends MovingElement {
         setDisplacementVector(1,1);
         getDisplacementVector().nor();
         setTexturePack(Settings.gooseTexturePack.split(64,64));
-        movingAnimation = new Animation<TextureRegion>(0.3f, getTexturePack()[0]);
+        movingAnimation = new Animation<>(0.3f, getTexturePack()[0]);
         setHitbox(new Rectangle(
             getPositionVector().x,
             getPositionVector().y,
@@ -89,23 +92,57 @@ public class Goose extends MovingElement {
      */
     public void move(){
         //sets target, as nearest in view targetable element
-        target = targeter.getTarget(this);
-        //current displacment
-        Vector2 currentDisplacement = getDisplacementVector().cpy();
-        if (target != null){
-            //attempts to chase, otherwise wanders
-            //sets displacement
-            pursue();
-            System.out.println(collider.canMove(this));
+            target = targeter.getTarget(this);
 
-            if (!collider.canMove(this)) {
-                setDisplacementVector(getDisplacementVector().rotateRad(accuracy));
-                getDisplacementVector().scl(-1);
+            if (collidesWith(target)) {
+                target.damage(4);  //MAGIC DAMAGE NUMBER FOR TEST USE ONLY
             }
-        }
-        else {
-            wander();
-        }
-        update();
+
+            if (target != null) {
+                //attempts to chase, otherwise wanders
+                //sets displacement
+                pursue();
+                System.out.println(collider.canMove(this));
+
+                //Runs away if satitated w/bread or "fleeing"
+                if (getState() == State.FLEEING) {
+                    setDisplacementVector(getDisplacementVector().scl(-1));
+                    if (getPositionVector().dst(target.getPositionVector())>200){   //MAGIC NUMBER FOR FLEE DIST TEST ONLY
+                        setHealth(100);
+                        setState(State.MOVING);
+                    }
+                }
+                if (getState() == HIT){
+                    if (stunTime <= 0){
+                        getDisplacementVector().scl(Settings.gooseSpeed);
+                        setState(State.MOVING);
+                        stunTime = 30;
+                    }
+                    stunTime -= Gdx.graphics.getDeltaTime();
+                    getDisplacementVector().scl(0.1f);
+                }
+
+                if (!collider.canMove(this)) {
+                    setDisplacementVector(getDisplacementVector().rotateRad(accuracy));
+                    getDisplacementVector().scl(-0.5f);
+                }
+
+            } else {
+                wander();
+            }
+
+            update();
+
+
+    }
+
+    @Override
+    public void onDeath() {
+        setState(State.FLEEING);
+    }
+
+    @Override
+    public void onDamage() {
+        setState(HIT);
     }
 }

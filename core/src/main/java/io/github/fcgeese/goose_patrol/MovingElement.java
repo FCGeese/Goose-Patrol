@@ -12,6 +12,7 @@ public class MovingElement extends Element{
     private TextureRegion[][] texturePack;
     private float stateTime = 0;
     private State animationState;
+    private State state = State.IDLE;
 
 
     public Vector2 getDisplacementVector() {
@@ -28,8 +29,12 @@ public class MovingElement extends Element{
         this.animationState = animationState;
     }
 
-    public State getAnimationState(){
-        return animationState;
+    public void setState(State state) {
+        this.state = state;
+    }
+
+    public State getState() {
+        return state;
     }
 
     public void setTexturePack(TextureRegion[][] texturePack) {
@@ -64,8 +69,11 @@ public class MovingElement extends Element{
                               getHitbox().height);
     }
 
-    protected enum State{
+    public enum State{
         MOVING,
+        FLEEING,
+        HIT,
+        DEAD,
         IDLE
     }
 

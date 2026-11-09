@@ -5,17 +5,20 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
+import java.util.ArrayList;
+
 public abstract class Element {
     private Vector2 positionVector;
     private TextureRegion texture;
-    private int health;
+    public ArrayList<HealthListener> healthListeners = new ArrayList<>();
+    private float health;
     private Rectangle hitbox;
 
-    public int getHealth() {
+    public float getHealth() {
         return health;
     }
 
-    public void setHealth(int health) {
+    public void setHealth(float health) {
         this.health = health;
     }
 
@@ -37,6 +40,18 @@ public abstract class Element {
 
     public void setHitbox(Rectangle hitbox) {
         this.hitbox = hitbox;
+    }
+
+    public void damage(float damage){
+        health -= damage;
+        for (HealthListener h : healthListeners){
+            if (getHealth() >= 0){
+                h.onDeath();
+            }
+            else{
+                h.onDamage();
+            }
+        }
     }
 
 
