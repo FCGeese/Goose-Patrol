@@ -3,6 +3,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 public class MovingElement extends Element{
@@ -54,6 +55,13 @@ public class MovingElement extends Element{
         setTexture(movingAnimation.getKeyFrame(stateTime, animationState.equals(State.MOVING)));
         super.draw(batch);
 
+    }
+
+    public Rectangle nxtHitbox(){
+        return new Rectangle(getPositionVector().x+getDisplacementVector().x,
+                             getPositionVector().y+getDisplacementVector().y,
+                              getHitbox().width,
+                              getHitbox().height);
     }
 
     protected enum State{

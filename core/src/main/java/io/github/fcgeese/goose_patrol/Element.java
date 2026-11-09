@@ -59,5 +59,4 @@ public abstract class Element {
         batch.draw(texture, positionVector.x, positionVector.y);
     }
 
-
 }

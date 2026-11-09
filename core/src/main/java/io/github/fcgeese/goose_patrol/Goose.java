@@ -85,27 +85,27 @@ public class Goose extends MovingElement {
 
     /**
      * redirects and moves the goose forward
-     * @param targetManager
-     * @param collisionManager
+
      */
-    public void move(TargetManager targetManager, CollisionManager collisionManager){
+    public void move(){
         //sets target, as nearest in view targetable element
-        target = targetManager.getTarget(this);
+        target = targeter.getTarget(this);
         //current displacment
         Vector2 currentDisplacement = getDisplacementVector().cpy();
         if (target != null){
             //attempts to chase, otherwise wanders
             //sets displacement
             pursue();
-            if (!collisionManager.canMove(this, getDisplacementVector())) {
-                getDisplacementVector().set(currentDisplacement);
-                wander();
+            System.out.println(collider.canMove(this));
+
+            if (!collider.canMove(this)) {
+                setDisplacementVector(getDisplacementVector().rotateRad(accuracy));
+                getDisplacementVector().scl(-1);
             }
         }
         else {
             wander();
         }
-
         update();
     }
 }

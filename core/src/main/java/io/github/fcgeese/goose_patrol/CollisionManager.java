@@ -1,5 +1,6 @@
 package io.github.fcgeese.goose_patrol;
 
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 import java.util.ArrayList;
@@ -17,27 +18,29 @@ public class CollisionManager {
         }
     }
 
-    /**
-     * Checks
-     * @param e
-     * @param v
-     * @return
-     */
-    public boolean canMove(MovingElement e, Vector2 v){
-        if (collidables == null){return true;}
-        Vector2 oldPos = e.getPositionVector();
-        e.setPositionVector(v);
+    public boolean canMove(MovingElement e){
+        Rectangle nextHitbox = new Rectangle(e.nxtHitbox());
         for(Element collidable : collidables){
-            if (e.collidesWith(collidable) && (e != collidable)){
-                e.setPositionVector(oldPos);
+            if (collidable != e) {
+                if (nextHitbox.overlaps(collidable.getHitbox())) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+    public boolean canMove(MovingElement e, float x, float y){
+        Rectangle nextHitbox = new Rectangle(
+            e.getHitbox().x + x,
+            e.getHitbox().y + y,
+            e.getHitbox().width,
+            e.getHitbox().height
+        );
+        for(Element collidable : collidables){
+            if (nextHitbox.overlaps(collidable.getHitbox())){
                 return false;
             }
         }
-        e.setPositionVector(oldPos);
         return true;
-    }
-    public boolean canMove(MovingElement e, int x, int y){
-        Vector2 v = new Vector2(x,y);
-        return canMove(e, v);
     }
 }

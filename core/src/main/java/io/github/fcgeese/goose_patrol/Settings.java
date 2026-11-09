@@ -7,8 +7,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 public class Settings {
 
     public static float gooseAccuracy = 0.035f;
-    public static float gooseWidth = 16;
-    public static float gooseHeight = 16;
+    public static float gooseWidth = 64;
+    public static float gooseHeight = 64;
     public static TextureRegion gooseTexturePack =
        new TextureRegion( new Texture( Gdx.files.internal("Goose_Run_Pack.png") ) ) ;
     public static float gooseSpeed = 1;
@@ -22,7 +22,7 @@ public class Settings {
     public static TextureRegion playerTexturePack =
         new TextureRegion( new Texture( Gdx.files.internal("Player_Run_Pack.png") ) ) ;
 
-    public static float playerWidth = 16;
-    public static float playerHeight = 32;
+    public static float playerWidth = 64;
+    public static float playerHeight = 128;
     public static float playerSpeed = 1;
 }

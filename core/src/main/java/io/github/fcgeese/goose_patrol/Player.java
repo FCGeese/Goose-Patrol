@@ -8,6 +8,8 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 public class Player extends MovingElement {
+    private CollisionManager colliders = new CollisionManager();
+
     public Player(Vector2 position) {
         setPositionVector(position);
         setDisplacementVector(0, 0);
@@ -25,28 +27,29 @@ public class Player extends MovingElement {
 
     /**
      * Handles player movement
-     * @param collisionManager Handles player collisions
+     *
      */
-    public void move(CollisionManager collisionManager) {
+    public void move() {
         //polls key input and adjusts displacement vector
         //each collision dimension handled independently to allow smooth sliding along walls
         if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-            if (collisionManager.canMove(this, 0, 1)) {
+
+            if (colliders.canMove(this, 0, 1)) {
                 setDisplacementVector(getDisplacementVector().add(0, 1));
             }
         }
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-            if (collisionManager.canMove(this, -1, 0)) {
+            if (colliders.canMove(this, -1, 0)) {
                 setDisplacementVector(getDisplacementVector().add(-1, 0));
             }
         }
         if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-            if (collisionManager.canMove(this, 0, -1)) {
+            if (colliders.canMove(this, 0, -1)) {
                 setDisplacementVector(getDisplacementVector().add(0, -1));
             }
         }
         if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-            if (collisionManager.canMove(this, 1, 0)) {
+            if (colliders.canMove(this, 1, 0)) {
                 setDisplacementVector(getDisplacementVector().add(1, 0));
             }
         }
