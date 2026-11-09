@@ -9,7 +9,8 @@ public class Settings {
     public static float gooseAccuracy = 0.035f;
     public static float gooseWidth = 16;
     public static float gooseHeight = 16;
-    public static Texture gooseTexture = new Texture(Gdx.files.internal("Goose.png"));
+    public static TextureRegion gooseTexturePack =
+       new TextureRegion( new Texture( Gdx.files.internal("Goose_Run_Pack.png") ) ) ;
     public static float gooseSpeed = 1;
     public static float gooseAttackCoolDown = 1f;
     public static float gooseAttackDuration = 5f;
@@ -18,7 +19,8 @@ public class Settings {
 
 
 
-    public static Texture playerTexture = new Texture(Gdx.files.internal("Player.png"));
+    public static TextureRegion playerTexturePack =
+        new TextureRegion( new Texture( Gdx.files.internal("Player_Run_Pack.png") ) ) ;
 
     public static float playerWidth = 16;
     public static float playerHeight = 32;

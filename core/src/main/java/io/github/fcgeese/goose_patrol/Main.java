@@ -31,9 +31,9 @@ public class Main extends ApplicationAdapter {
         collisionManager = new CollisionManager();
         targetManager = new TargetManager();
         targetManager.addTarget(player);
-        playerCamera = new OrthographicCamera(player.getPositionVector().x, player.getPositionVector().y);
-        playerCamera.viewportWidth = 300;
-        playerCamera.viewportHeight = 300;
+        playerCamera = new OrthographicCamera(player.getPositionVector().x-32, player.getPositionVector().y-64);
+        playerCamera.viewportWidth = 600;
+        playerCamera.viewportHeight = 600;
     }
 
     @Override

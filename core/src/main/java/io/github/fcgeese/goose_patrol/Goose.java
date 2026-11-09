@@ -1,6 +1,7 @@
 package io.github.fcgeese.goose_patrol;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
@@ -20,7 +21,8 @@ public class Goose extends MovingElement {
         setPositionVector(position);
         setDisplacementVector(1,1);
         getDisplacementVector().nor();
-        setTexture(new TextureRegion(Settings.gooseTexture));
+        setTexturePack(Settings.gooseTexturePack.split(64,64));
+        movingAnimation = new Animation<TextureRegion>(0.3f, getTexturePack()[0]);
         setHitbox(new Rectangle(
             getPositionVector().x,
             getPositionVector().y,

@@ -2,6 +2,7 @@ package io.github.fcgeese.goose_patrol;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -11,7 +12,8 @@ public class Player extends MovingElement {
         setPositionVector(position);
         setDisplacementVector(0, 0);
         setDisplacementVector(getDisplacementVector().nor());
-        setTexture(new TextureRegion(Settings.playerTexture));
+        setTexturePack(Settings.playerTexturePack.split(64,128));
+        movingAnimation = new Animation<TextureRegion>(0.3f, getTexturePack()[0]);
         setHitbox(new Rectangle(
             getPositionVector().x,
             getPositionVector().y,
