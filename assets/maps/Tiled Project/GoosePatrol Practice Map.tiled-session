@@ -59,6 +59,7 @@
         "Objects.tsx"
     ],
     "project": "GoosePatrol Practice Map.tiled-project",
+    "property.type": "float",
     "recentFiles": [
         "Objects.tsx",
         "main.tmx",

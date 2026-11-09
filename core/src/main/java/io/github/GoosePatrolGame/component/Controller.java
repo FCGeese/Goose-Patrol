@@ -14,7 +14,7 @@ public class Controller implements Component {
     private final List<Command> pressedCommands;
     private final List<Command> releasedCommands;
 
-    public Controller(List<Command> pressedCommands, List<Command> releasedCommands) {
+    public Controller() {
         this.pressedCommands = new ArrayList<>();
         this.releasedCommands = new ArrayList<>();
     }

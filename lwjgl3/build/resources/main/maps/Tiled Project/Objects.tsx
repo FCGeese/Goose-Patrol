@@ -82,6 +82,8 @@
  <tile id="13">
   <properties>
    <property name="atlasAsset" value="OBJECTS"/>
+   <property name="controller" type="bool" value="true"/>
+   <property name="speed" type="float" value="4"/>
   </properties>
   <image source="../../../assets_raw/objects/player/player.png" width="14" height="19"/>
  </tile>

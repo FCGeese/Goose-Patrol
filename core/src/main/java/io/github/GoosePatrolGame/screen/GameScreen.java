@@ -1,35 +1,36 @@
 package io.github.GoosePatrolGame.screen;
 
-import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.utils.Disposable;
-import com.badlogic.gdx.utils.viewport.Viewport;
-
 import java.util.function.Consumer;
 
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.EntitySystem;
+import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.utils.Disposable;
 
 import io.github.GoosePatrolGame.Main;
-import io.github.GoosePatrolGame.asset.AssetService;
 import io.github.GoosePatrolGame.asset.MapAsset;
+import io.github.GoosePatrolGame.input.GameControllerState;
+import io.github.GoosePatrolGame.input.KeyboardController;
+import io.github.GoosePatrolGame.system.ControllerSystem;
+import io.github.GoosePatrolGame.system.MoveSystem;
+import io.github.GoosePatrolGame.system.RenderSystem;
 import io.github.GoosePatrolGame.tiled.TiledAshleyConfigurator;
 import io.github.GoosePatrolGame.tiled.TiledService;
-import io.github.GoosePatrolGame.system.RenderSystem;
 
 /**
  * Represents the main gameplay screen.
  * Handles map loading, rendering and screen-specific resources.
  */
 public class GameScreen extends ScreenAdapter {
+    private final Main game;
 
     // Ashley engine for managing game entities and systems.
     private final Engine engine;
 
     private final TiledService tiledService;
     private final TiledAshleyConfigurator tiledAshleyConfigurator;
+    private final KeyboardController keyboardController;
 
     /**
      * Constructs a new GameScreen using resources provided by the main game.
@@ -37,11 +38,15 @@ public class GameScreen extends ScreenAdapter {
      * @param game The main game instance providing access to shared resources.
      */
     public GameScreen(Main game) {
-        this.tiledService = new TiledService(game.getAssetService());
+        this.game = game;
         this.engine = new Engine();
+        this.tiledService = new TiledService(game.getAssetService());
         this.tiledAshleyConfigurator = new TiledAshleyConfigurator(this.engine, game.getAssetService());
+        this.keyboardController = new KeyboardController(GameControllerState.class, engine);
 
-        // Registers the rendering system with the Ashley engine.
+        // Registers all necessary systems for this screen with the Ashley engine.
+        this.engine.addSystem(new ControllerSystem());
+        this.engine.addSystem(new MoveSystem());
         this.engine.addSystem(new RenderSystem(game.getBatch(), game.getViewport(), game.getCamera()));
     }
 
@@ -52,6 +57,9 @@ public class GameScreen extends ScreenAdapter {
      */
     @Override
     public void show() {
+        game.setInputProcessors(keyboardController);
+        keyboardController.setActiveState(GameControllerState.class);
+        
         // Connects map changes to the rendering system.
         Consumer<TiledMap> renderConsumer = this.engine.getSystem(RenderSystem.class)::setMap;
         this.tiledService.setMapChangeConsumer(renderConsumer);

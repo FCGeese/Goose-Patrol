@@ -13,7 +13,9 @@ import com.badlogic.gdx.math.Vector2;
 import io.github.GoosePatrolGame.Main;
 import io.github.GoosePatrolGame.asset.AssetService;
 import io.github.GoosePatrolGame.asset.AtlasAsset;
+import io.github.GoosePatrolGame.component.Controller;
 import io.github.GoosePatrolGame.component.Graphic;
+import io.github.GoosePatrolGame.component.Move;
 import io.github.GoosePatrolGame.component.Transform;
 
 /**
@@ -57,9 +59,29 @@ public class TiledAshleyConfigurator {
             textureRegion.getRegionWidth(), textureRegion.getRegionHeight(),
             tileMapObject.getScaleX(), tileMapObject.getScaleY(),
             entity);
+
+        // Creates and assigns a controller to the entity so it can recognise controls.
+        addEntityController(tile, entity);
+
+        // Creates and assigns a movement component to the entity so that it can transform in-game.
+        addEntityMove(tile, entity);
         
         // Adds the fully configured entity to the Ashley engine.
         this.engine.addEntity(entity);
+    }
+
+    private void addEntityController(TiledMapTile tile, Entity entity) {
+        Boolean controller = tile.getProperties().get("controller", false, Boolean.class);
+        if (!controller) return;
+
+        entity.add(new Controller());
+    }
+
+    private void addEntityMove(TiledMapTile tile, Entity entity) {
+        float speed = tile.getProperties().get("speed", 0f, Float.class);
+        if (speed == 0f) return;
+
+        entity.add(new Move(speed));
     }
 
     /**
