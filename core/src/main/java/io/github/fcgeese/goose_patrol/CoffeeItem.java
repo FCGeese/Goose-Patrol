@@ -23,8 +23,13 @@ public class CoffeeItem extends Item {
         return Input.Buttons.RIGHT;
     }
 
-    //Consumes item
-    //Starts speed boost timer
+
+    /**
+     * Consumes item
+     * Starts speed boost timer
+     * @param userCentre
+     * @param aimTarget
+     */
     @Override
     protected void OnUse(Vector2 userCentre, Vector2 aimTarget) {
         boostTimeLeft = boostDuration;
