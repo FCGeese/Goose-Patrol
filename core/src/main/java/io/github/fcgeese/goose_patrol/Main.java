@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.profiling.GLProfiler;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import io.github.EngOnePrototype.asset.AssetService;
 
 import java.util.ArrayList;
@@ -22,16 +23,26 @@ public class Main extends Game {
     public static final float WORLD_WIDTH = 32f; // Shown world width in tiled units
     public static final float WORLD_HEIGHT = 18f; // Shown world height in tiled units
     public static final float UNIT_SCALE = 1f / 16f; // 1 unit = 16 pixels
+
+
+    /** SpriteBatch for rendering 2D graphics. */
+    private SpriteBatch batch;
+    /** Orthographic camera for rendering the game world. */
+    private OrthographicCamera cam;
+    /** Viewport for managing the game world's display. */
+    private Viewport viewport;
     /** Service for managing game assets (e.g., textures, sounds). */
-    private io.github.EngOnePrototype.asset.AssetService assetService;
+    private AssetService assetService;
     /** Profiler for monitoring OpenGL calls. */
     private GLProfiler glProfiler;
     /** Logger for monitoring FPS & diagnostics for asset servers. */
     private FPSLogger fpsLogger;
-    private SpriteBatch batch;
-    private Texture image;
+
+
     /** Hashmap for storing the game's screens. */
     private final Map<Class<? extends Screen>, Screen> screenCache = new HashMap<>();
+
+
 
     private Player player;
     private List<Goose> geese = new ArrayList<>();;
@@ -39,18 +50,16 @@ public class Main extends Game {
     private List<Element> targets = new ArrayList<>();
     private TargetManager targetManager;
 
-    private Camera playerCamera;
-
     @Override
     public void create() {
         // Set the log level to DEBUG for detailed logging during development.
         Gdx.app.setLogLevel(Application.LOG_DEBUG);
 
-        this.batch = new SpriteBatch();
-        this.assetService = new io.github.EngOnePrototype.asset.AssetService(new InternalFileHandleResolver());
-        this.glProfiler = new GLProfiler(Gdx.graphics);
-        this.glProfiler.enable();
-        this.fpsLogger = new FPSLogger();
+        batch = new SpriteBatch();
+        assetService = new io.github.EngOnePrototype.asset.AssetService(new InternalFileHandleResolver());
+        glProfiler = new GLProfiler(Gdx.graphics);
+        glProfiler.enable();
+        fpsLogger = new FPSLogger();
 
         // Add the GameScreen to the screen cache and set it as the current screen.
         addScreen(new io.github.EngOnePrototype.GameScreen(this));
@@ -59,7 +68,6 @@ public class Main extends Game {
         Gdx.graphics.setSystemCursor(Cursor.SystemCursor.Crosshair);
 
         batch = new SpriteBatch();
-        image = new Texture("libgdx.png");
         player = new Player(new Vector2(100,100));
 
         targets.add(player);
@@ -75,11 +83,6 @@ public class Main extends Game {
             g.setTargetList(targets);
         }
 
-        playerCamera = new OrthographicCamera(
-            player.getPositionVector().x-32,
-            player.getPositionVector().y-64);
-        playerCamera.viewportWidth = 600;
-        playerCamera.viewportHeight = 600;
     }
 
     // Window size is changed by the user
@@ -88,16 +91,35 @@ public class Main extends Game {
         viewport.update(width, height, true);
         super.resize(width, height);
     }
+
+
     @Override
     public void render() {
-        ScreenUtils.clear(0.15f, 0.15f, 0.2f, 1f);
+
+        // Reset the GLProfiler at the start of each frame to get accurate profiling data for the current frame.
+        glProfiler.reset();
+        // Clear the screen with a black color before rendering the next frame.
+        Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        super.render();
+
+        // Update the window title with the current FPS and OpenGL profiling data.
+        Gdx.graphics.setTitle("Goose-Patrol | FPS: " + Gdx.graphics.getFramesPerSecond() +
+            " | Draw Calls: " + glProfiler.getDrawCalls() +
+            " | Texture Bindings: " + glProfiler.getTextureBindings() +
+            " | Shader Switches: " + glProfiler.getShaderSwitches());
+
+        // Log the current FPS to the console.
+        fpsLogger.log();
+
+
         batch.begin();
-        batch.draw(image, 140, 210);
         player.move();
         player.draw(batch);
-        playerCamera.position.set(player.getPositionVector().x, player.getPositionVector().y, 0);
-        playerCamera.update();
-        batch.setProjectionMatrix(playerCamera.combined);
+        cam.position.set(player.getPositionVector().x, player.getPositionVector().y, 0);
+        cam.update();
+        batch.setProjectionMatrix(cam.combined);
 
         for ( Goose g : geese){
             g.move();
@@ -109,7 +131,6 @@ public class Main extends Game {
     @Override
     public void dispose() {
         batch.dispose();
-        image.dispose();
     }
 
     public void addScreen(Screen screen) {
@@ -130,5 +151,13 @@ public class Main extends Game {
 
     public SpriteBatch getBatch() {
         return batch;
+    }
+
+    public Viewport getViewport() {
+        return viewport;
+    }
+
+    public OrthographicCamera getCamera() {
+        return cam;
     }
 }
