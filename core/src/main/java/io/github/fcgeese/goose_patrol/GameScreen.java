@@ -8,6 +8,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import io.github.EngOnePrototype.asset.AssetService;
 import io.github.EngOnePrototype.asset.MapAsset;
 import com.badlogic.gdx.graphics.Color;
+import io.github.fcgeese.goose_patrol.Main;
 
 /**
  * Represents the main gameplay screen.
