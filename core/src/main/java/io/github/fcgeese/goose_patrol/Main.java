@@ -43,50 +43,42 @@ public class Main extends Game {
     /** Hashmap for storing the game's screens. */
     private final Map<Class<? extends Screen>, Screen> screenCache = new HashMap<>();
 
-
-
+    //Player object
     private Player player;
-    private List<Goose> geese = new ArrayList<>();;
+    //List of every goose object
+    private List<Goose> geese = new ArrayList<>();
+    //List of everything geese can colide with
     private List<Element> gooseColliders = new ArrayList<>();
+    //List of everything geese can target
     private List<Element> targets = new ArrayList<>();
-    private TargetManager targetManager;
+    //Target manager for all geese
+    private TargetManager gooseTargetManager;
 
     @Override
     public void create() {
         // Set the log level to DEBUG for detailed logging during development.
         Gdx.app.setLogLevel(Application.LOG_DEBUG);
-
-        batch = new SpriteBatch();
-
         cam = new OrthographicCamera(WORLD_WIDTH / 2, WORLD_HEIGHT / 2);
         viewport = new FitViewport(WORLD_WIDTH, WORLD_HEIGHT, cam);
         assetService = new AssetService(new InternalFileHandleResolver());
         glProfiler = new GLProfiler(Gdx.graphics);
         glProfiler.enable();
         fpsLogger = new FPSLogger();
-
+        batch = new SpriteBatch();
         // Add the GameScreen to the screen cache and set it as the current screen.
         addScreen(new GameScreen(this));
         setScreen(GameScreen.class);
-
         Gdx.graphics.setSystemCursor(Cursor.SystemCursor.Crosshair);
-
-        batch = new SpriteBatch();
         player = new Player(new Vector2(100,100));
-
         targets.add(player);
-
         for(int x = 0; x<10; x++) {
             geese.add(new Goose(new Vector2(300+200, 1000*x)));
         }
-
         gooseColliders.addAll(geese);
-
         for (Goose g : geese){
             g.setColliderList(gooseColliders);
             g.setTargetList(targets);
         }
-        batch.begin();
 
     }
 
@@ -100,26 +92,20 @@ public class Main extends Game {
 
     @Override
     public void render() {
-
         // Reset the GLProfiler at the start of each frame to get accurate profiling data for the current frame.
         glProfiler.reset();
         // Clear the screen with a black color before rendering the next frame.
         Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
         screen.render(Gdx.graphics.getDeltaTime());
-
+        batch.begin();
         // Update the window title with the current FPS and OpenGL profiling data.
         Gdx.graphics.setTitle("Goose-Patrol | FPS: " + Gdx.graphics.getFramesPerSecond() +
             " | Draw Calls: " + glProfiler.getDrawCalls() +
             " | Texture Bindings: " + glProfiler.getTextureBindings() +
             " | Shader Switches: " + glProfiler.getShaderSwitches());
-
         // Log the current FPS to the console.
         fpsLogger.log();
-
-
-        //batch.begin();
         player.move();
         player.draw(batch);
         cam.position.set(player.getPositionVector().x, player.getPositionVector().y, 0);
@@ -129,12 +115,11 @@ public class Main extends Game {
             g.move();
             g.draw(batch);
         }
-        //batch.end();
+        batch.end();
     }
 
     @Override
     public void dispose() {
-        batch.end();
         batch.dispose();
     }
 

@@ -59,6 +59,7 @@ public class GameScreen extends ScreenAdapter {
         this.batch.setColor(Color.WHITE);
         this.mapRenderer.setView(this.cam);
         this.mapRenderer.render();
+
     }
 
     /**
