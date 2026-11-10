@@ -1,13 +1,14 @@
-package io.github.EngOnePrototype;
+package io.github.fcgeese.goose_patrol;
 
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import io.github.EngOnePrototype.asset.AssetService;
-import io.github.EngOnePrototype.asset.MapAsset;
+
 import com.badlogic.gdx.graphics.Color;
+import io.github.fcgeese.goose_patrol.Asset.AssetService;
+import io.github.fcgeese.goose_patrol.Asset.MapAsset;
 import io.github.fcgeese.goose_patrol.Main;
 
 /**

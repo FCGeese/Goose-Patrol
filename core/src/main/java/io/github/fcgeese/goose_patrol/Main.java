@@ -7,9 +7,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.profiling.GLProfiler;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.GdxRuntimeException;
-import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import io.github.EngOnePrototype.asset.AssetService;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import io.github.fcgeese.goose_patrol.Asset.Asset;
+import io.github.fcgeese.goose_patrol.Asset.AssetService;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -56,14 +57,17 @@ public class Main extends Game {
         Gdx.app.setLogLevel(Application.LOG_DEBUG);
 
         batch = new SpriteBatch();
-        assetService = new io.github.EngOnePrototype.asset.AssetService(new InternalFileHandleResolver());
+
+        cam = new OrthographicCamera(WORLD_WIDTH / 2, WORLD_HEIGHT / 2);
+        viewport = new FitViewport(WORLD_WIDTH, WORLD_HEIGHT, this.cam);
+        assetService = new AssetService(new InternalFileHandleResolver());
         glProfiler = new GLProfiler(Gdx.graphics);
         glProfiler.enable();
         fpsLogger = new FPSLogger();
 
         // Add the GameScreen to the screen cache and set it as the current screen.
-        addScreen(new io.github.EngOnePrototype.GameScreen(this));
-        setScreen(io.github.EngOnePrototype.GameScreen.class);
+        addScreen(new GameScreen(this));
+        setScreen(GameScreen.class);
 
         Gdx.graphics.setSystemCursor(Cursor.SystemCursor.Crosshair);
 

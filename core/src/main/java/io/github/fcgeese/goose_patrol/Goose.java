@@ -11,7 +11,7 @@ public class Goose extends MovingElement {
     private Element target;
     private final CollisionManager collider = new CollisionManager();
     private final TargetManager targeter = new TargetManager();
-    private float stunTime = 30;
+    private float stunTime = 2;
 
     /*private float attackDuration = Settings.gooseAttackDuration;
     private float attackCoolDown = Settings.gooseAttackCoolDown;

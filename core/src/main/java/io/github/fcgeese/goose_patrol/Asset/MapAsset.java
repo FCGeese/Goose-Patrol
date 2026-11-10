@@ -1,4 +1,4 @@
-package io.github.EngOnePrototype.asset;
+package io.github.fcgeese.goose_patrol.Asset;
 
 import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.maps.tiled.TiledMap;

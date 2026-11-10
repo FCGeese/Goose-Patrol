@@ -1,11 +1,11 @@
-package io.github.EngOnePrototype.asset;
+package io.github.fcgeese.goose_patrol.Asset;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.FileHandleResolver;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.utils.Disposable;
-import com.badlogic.gdx.Gdx;
 
 /**
  * Provides centralised asset loading and management using LibGDX's AssetManager.
