@@ -5,11 +5,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CollisionManager {
+
     List<Element> collidables = new ArrayList<>();
 
     public void addCollidable(Element e) {
         collidables.add(e);
     }
+
     public void addCollidableList(List<Element> collidables){
         for (Element e : collidables){
             addCollidable(e);
@@ -27,6 +29,7 @@ public class CollisionManager {
         }
         return true;
     }
+
     public boolean canMove(MovingElement e, float x, float y){
         Rectangle nextHitbox = new Rectangle(
             e.getHitbox().x + x,
@@ -41,4 +44,5 @@ public class CollisionManager {
         }
         return true;
     }
+
 }

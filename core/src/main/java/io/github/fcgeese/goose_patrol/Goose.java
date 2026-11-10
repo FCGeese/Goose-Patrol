@@ -8,7 +8,7 @@ import java.util.List;
 
 public class Goose extends MovingElement {
     private final float accuracy = Settings.gooseAccuracy;
-    private Element target;
+    private Element target = null;
     private final CollisionManager collider = new CollisionManager();
     private final TargetManager targeter = new TargetManager();
     private float stunTime = 2;
@@ -41,6 +41,7 @@ public class Goose extends MovingElement {
         targetList.removeIf(t -> t==this);
         this.targeter.setTargetList(targetList);
     }
+
     /**
      * goose wanders randomly by changing its displacements vectors angle in place
      *
@@ -83,7 +84,6 @@ public class Goose extends MovingElement {
         getDisplacementVector().nor().scl(Settings.gooseSpeed);
     }
 
-
     /**
      * redirects and moves the goose forward
 
@@ -93,15 +93,15 @@ public class Goose extends MovingElement {
             target = targeter.getTarget(this);
 
             if (collidesWith(target)) {
-                target.changeHealth(-4);  //MAGIC DAMAGE NUMBER FOR TEST USE ONLY
+                if (target instanceof MovingElement){
+                    ((MovingElement) target).changeHealth(-4); //MAGIC DAMAGE NUMBER FOR TEST USE ONLY
+                }
             }
 
             if (target != null) {
                 //attempts to chase, otherwise wanders
                 //sets displacement
                 pursue();
-                System.out.println(collider.canMove(this));
-
                 //Runs away if satitated w/bread or "fleeing"
                 if (getState() == State.ZERO_HEALTH) {
                     setDisplacementVector(getDisplacementVector().scl(-1));

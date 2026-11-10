@@ -1,25 +1,21 @@
 package io.github.fcgeese.goose_patrol;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-
 import java.util.ArrayList;
 
 public class MovingElement extends Element{
-    private Vector2 displacementVector;
+    private Vector2 displacementVector = new Vector2();
     public Animation<TextureRegion> movingAnimation;
     private TextureRegion[][] texturePack;
     private float stateTime = 0;
     public ArrayList<HealthListener> healthListeners = new ArrayList<>();
-    private float health;
-    private State state;
-
-    public Vector2 getDisplacementVector() {
-        return displacementVector;
-    }
+    private float health = 100;
+    private State state = State.IDLE;
 
     public void setDisplacementVector(Vector2 displacementVector) {
         this.displacementVector = displacementVector;
@@ -33,24 +29,28 @@ public class MovingElement extends Element{
         this.texturePack = texturePack;
     }
 
+    public void setHealth(float health) {
+        this.health = health;
+    }
+
+    protected void setState(State state) {
+        this.state = state;
+    }
+
+    protected State getState() {
+        return state;
+    }
+
     public TextureRegion[][] getTexturePack() {
         return texturePack;
     }
 
-    /**
-     * Updates the elements position using its displacement vector
-     */
-    public void update(){
-        getPositionVector().add(getDisplacementVector());
-        getHitbox().setPosition(getPositionVector());
+    public Vector2 getDisplacementVector() {
+        return displacementVector;
     }
 
     public float getHealth() {
         return health;
-    }
-
-    public void setHealth(float health) {
-        this.health = health;
     }
 
     public void addHealthListener(HealthListener h){
@@ -73,6 +73,10 @@ public class MovingElement extends Element{
         }
     }
 
+    /**
+     * Draws the animation frame for a moving object overriding its static super method
+     * @param batch open SpriteBatch (batch.begin must be called before this method and batch.end() after!!)
+     */
     @Override
     public void draw(SpriteBatch batch){
         stateTime += Gdx.graphics.getDeltaTime();
@@ -81,6 +85,10 @@ public class MovingElement extends Element{
 
     }
 
+    /**
+     * Grabs a new post-update hitbox
+     * @return Rectangle Next hitbox
+     */
     public Rectangle nxtHitbox(){
         return new Rectangle(getPositionVector().x+getDisplacementVector().x,
                              getPositionVector().y+getDisplacementVector().y,
@@ -88,12 +96,12 @@ public class MovingElement extends Element{
                               getHitbox().height);
     }
 
-    protected void setState(State state) {
-        this.state = state;
-    }
-
-    protected State getState() {
-        return state;
+    /**
+     * Updates the elements position using its displacement vector
+     */
+    public void update(){
+        getPositionVector().add(getDisplacementVector());
+        getHitbox().setPosition(getPositionVector());
     }
 
     protected enum State {
@@ -102,7 +110,4 @@ public class MovingElement extends Element{
         IDLE,
         MOVING
     }
-
-
-
 }
