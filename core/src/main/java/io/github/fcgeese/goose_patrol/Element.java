@@ -11,7 +11,7 @@ public abstract class Element {
     private Rectangle hitbox;
 
     public Vector2 getPositionVector() {
-        return positionVector;
+        return new Vector2(positionVector);
     }
 
     public Rectangle getHitbox() {

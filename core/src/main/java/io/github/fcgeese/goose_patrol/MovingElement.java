@@ -46,7 +46,7 @@ public class MovingElement extends Element{
     }
 
     public Vector2 getDisplacementVector() {
-        return displacementVector;
+        return new Vector2(displacementVector);
     }
 
     public float getHealth() {

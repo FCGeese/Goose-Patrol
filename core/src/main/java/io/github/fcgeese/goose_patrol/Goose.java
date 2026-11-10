@@ -43,91 +43,163 @@ public class Goose extends MovingElement {
     }
 
     /**
-     * goose wanders randomly by changing its displacements vectors angle in place
-     *
+     * Returns a random rotation direction (weighted towards not turning).
+     * @return float random direction of goose rotation in radians.
      */
-    public void wander(){
-        if (Math.random()>0.85){
-            getDisplacementVector().rotateRad(accuracy);
-            getDisplacementVector().nor().scl(Settings.gooseSpeed);
+    public float wander(){
+        double rand = Math.random();
+        if (rand>0.85){
+            return accuracy;
         }
-        else if (Math.random()<0.15){
-            getDisplacementVector().rotateRad( - accuracy);
-            getDisplacementVector().nor().scl(Settings.gooseSpeed);
+        else if (rand<0.15){
+            return -accuracy;
+        }
+        else{
+            return 0;
         }
     }
 
     /**
-     * turns the goose towards their target, affects displacmentVector in place
+     * Returns a rotation of magnitude "accuracy" towards the player, or the direct turn if
+     * closer.
+     * @return float direction of goose rotation in radians, scaled to goose accuracy.
      */
-    public void pursue() {
+    public float pursue() {
         //finds the angle from the goose to the target in rads as a float
         float targetAngle = target.getPositionVector().cpy().sub(getPositionVector()).angleRad();
         //finds the absolute difference between the current direction and the target direction
         double angleDifference = Math.abs((getDisplacementVector().angleRad()%Math.PI)- targetAngle);
-
+        //if goose is with its accuracy to the target returns the exact "lock on" rotation
+        if (angleDifference<accuracy){
+            return (float) angleDifference;
+        }
         //sorts the differences into regions to avoid wraparound errors
         if (getDisplacementVector().angleRad() < targetAngle) {
             if (angleDifference < Math.PI) {
-                getDisplacementVector().rotateRad(accuracy);
+                return accuracy;
             } else {
-                getDisplacementVector().rotateRad(-accuracy);
+                return -accuracy;
             }
         } else {
             if (angleDifference > Math.PI) {
-                getDisplacementVector().rotateRad(accuracy);
+                return accuracy;
             } else {
-                getDisplacementVector().rotateRad(-accuracy);
+                return -accuracy;
             }
         }
-        //normalises the vector and scales it to speed
-        getDisplacementVector().nor().scl(Settings.gooseSpeed);
     }
 
     /**
-     * redirects and moves the goose forward
+     * Grabs the next goose displacement vector depending on current goose state
+     * @return Vector2 Next Displacement Vector
+     */
+    public Vector2 getNewDispVect(){
 
+        if (getDisplacementVector() == Vector2.Zero &&
+            getState() != State.HIT &&
+            getState() != State.IDLE){
+
+            return new Vector2(Vector2.One.rotateRad((float) (Math.random()*Math.PI*2)));
+
+        }
+
+        switch(getState()){
+            case HIT -> {
+                return Vector2.Zero;
+            }
+            case MOVING -> {
+                if (target == null){
+                    return new Vector2(getDisplacementVector().rotateRad(wander()));
+                }
+                else{
+                    return new Vector2(getDisplacementVector().rotateRad(pursue()));
+                }
+            }
+            case ZERO_HEALTH -> {
+                return new Vector2(getDisplacementVector().rotateRad(-pursue()));
+            }
+        }
+        return Vector2.Zero;
+    }
+
+    /**
+     * gets state, target, and moves in appropriate direction
      */
     public void move(){
-        //sets target, as nearest in view targetable element
-            target = targeter.getTarget(this);
 
-            if (collidesWith(target)) {
-                if (target instanceof MovingElement){
-                    ((MovingElement) target).changeHealth(-4); //MAGIC DAMAGE NUMBER FOR TEST USE ONLY
-                }
-            }
+        react(); //polls heath and stun time, sets to appropriate state
+        targeter.getTarget(this);
+        Vector2 nextDisplacement = getNewDispVect();
+        setDisplacementVector(Vector2.Zero);
 
-            if (target != null) {
-                //attempts to chase, otherwise wanders
-                //sets displacement
-                pursue();
-                //Runs away if satitated w/bread or "fleeing"
-                if (getState() == State.ZERO_HEALTH) {
-                    setDisplacementVector(getDisplacementVector().scl(-1));
-                    if (getPositionVector().dst(target.getPositionVector())>200){   //MAGIC NUMBER FOR FLEE DIST TEST ONLY
-                        setHealth(100);
-                        setState(State.MOVING);
-                    }
-                }
-                if (getState() == State.HIT){
-                    if (stunTime <= 0){
-                        getDisplacementVector().scl(Settings.gooseSpeed);
-                        setState(State.MOVING);
-                        stunTime = 3;
-                    }
-                    stunTime -= Gdx.graphics.getDeltaTime();
-                    getDisplacementVector().scl(0.1f);
-                }
+        if (collider.canMove(this, nextDisplacement.x, 0)){
+            setDisplacementVector(getDisplacementVector().add(nextDisplacement.x, 0 ));
+        }
+        if (collider.canMove(this, 0, nextDisplacement.y)){
+            setDisplacementVector(getDisplacementVector().add(0, nextDisplacement.y ));
+        }
+        setDisplacementVector(getDisplacementVector().nor().scl(Settings.gooseSpeed));
+        update();
+    }
 
-                if (!collider.canMove(this)) {
-                    setDisplacementVector(getDisplacementVector().rotateRad(accuracy));
-                    getDisplacementVector().scl(-0.5f);
-                }
+    /**
+     * polls heath and stun time, sets to appropriate state
+     */
+    public void react(){
+        stunTime = Math.max(0, stunTime-Gdx.graphics.getDeltaTime());
+        if (stunTime <= 0){
+            setState(State.HIT);
+        }
+        else if(getHealth() <= 0){
+            setState(State.ZERO_HEALTH);
+        }
+        else {
+            setState(State.MOVING);
+        }
 
-            } else {
-                wander();
-            }
-            update();
     }
 }
+
+/*
+public void move(){
+    //sets target, as nearest in view targetable element
+    target = targeter.getTarget(this);
+
+    if (collidesWith(target)) {
+        if (target instanceof MovingElement){
+            ((MovingElement) target).changeHealth(-4); //MAGIC DAMAGE NUMBER FOR TEST USE ONLY
+        }
+    }
+
+    if (target != null) {
+        //attempts to chase, otherwise wanders
+        //sets displacement
+        pursue();
+        //Runs away if satitated w/bread or "fleeing"
+        if (getState() == MovingElement.State.ZERO_HEALTH) {
+            setDisplacementVector(getDisplacementVector().scl(-1));
+            if (getPositionVector().dst(target.getPositionVector())>200){   //MAGIC NUMBER FOR FLEE DIST TEST ONLY
+                setHealth(100);
+                setState(MovingElement.State.MOVING);
+            }
+        }
+        if (getState() == MovingElement.State.HIT){
+            if (stunTime <= 0){
+                getDisplacementVector().scl(Settings.gooseSpeed);
+                setState(MovingElement.State.MOVING);
+                stunTime = 3;
+            }
+            stunTime -= Gdx.graphics.getDeltaTime();
+            getDisplacementVector().scl(0.1f);
+        }
+
+        if (!collider.canMove(this)) {
+            setDisplacementVector(getDisplacementVector().rotateRad(accuracy));
+            getDisplacementVector().scl(-0.5f);
+        }
+
+    } else {
+        wander();
+    }
+    update();
+}*/

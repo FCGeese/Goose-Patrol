@@ -97,7 +97,7 @@ public class Main extends Game {
         // Clear the screen with a black color before rendering the next frame.
         Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        screen.render(Gdx.graphics.getDeltaTime());
+       // screen.render(Gdx.graphics.getDeltaTime());
         batch.begin();
         // Update the window title with the current FPS and OpenGL profiling data.
         Gdx.graphics.setTitle("Goose-Patrol | FPS: " + Gdx.graphics.getFramesPerSecond() +
