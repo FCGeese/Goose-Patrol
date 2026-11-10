@@ -1,6 +1,7 @@
 package io.github.fcgeese.goose_patrol;
 
 import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -12,7 +13,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
-public class Main extends ApplicationAdapter {
+public class Main extends Game {
+
+    // Keep 16:9 aspect ratio for the game world, so that it looks the same on all devices.
+    public static final float WORLD_WIDTH = 32f; // Shown world width in tiled units
+    public static final float WORLD_HEIGHT = 18f; // Shown world height in tiled units
+    public static final float UNIT_SCALE = 1f / 16f; // 1 unit = 16 pixels
+    private io.github.EngOnePrototype.asset.AssetService assetService;
+
     private SpriteBatch batch;
     private Texture image;
 
