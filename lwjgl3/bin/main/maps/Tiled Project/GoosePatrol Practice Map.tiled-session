@@ -1,0 +1,79 @@
+{
+    "activeFile": "main.tmx",
+    "expandedProjectPaths": [
+        "."
+    ],
+    "file.lastUsedOpenFilter": "All Files (*)",
+    "fileStates": {
+        "": {
+            "scaleInDock": 1
+        },
+        "Ground & Background.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1
+        },
+        "Objects.tsx": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "Pixel Plains - Ground.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 2,
+            "scaleInEditor": 1
+        },
+        "Pixel Plains - Trees & Bushes.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "Pixel Plains Objects 32x32.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "Pixel Plains Objects.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 2,
+            "scaleInEditor": 3
+        },
+        "Pixel Plains.tsx": {
+            "dynamicWrapping": true,
+            "scaleInDock": 2,
+            "scaleInEditor": 3
+        },
+        "Tiled Project/Ground & Background.tsx": {
+            "scaleInDock": 1
+        },
+        "main.tmx": {
+            "scale": 1.5,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 222,
+                "y": 288.33333333333326
+            }
+        }
+    },
+    "last.externalTilesetPath": "C:/Users/thoma/Documents/GitHub/PrototypeSandboxRepo/assets/maps/Tiled Project",
+    "last.imagePath": "C:/Users/Thomas/Documents/GitHub/PrototypeSandboxRepo/assets/maps",
+    "openFiles": [
+        "main.tmx",
+        "Objects.tsx"
+    ],
+    "project": "GoosePatrol Practice Map.tiled-project",
+    "property.type": "float",
+    "recentFiles": [
+        "Objects.tsx",
+        "main.tmx",
+        "Pixel Plains - Ground.tsx",
+        "Pixel Plains - Trees & Bushes.tsx",
+        "Pixel Plains.tsx",
+        "Pixel Plains Objects.tsx",
+        "Pixel Plains Objects 32x32.tsx"
+    ],
+    "tileset.lastUsedFilter": "Tiled tileset files (*.tsx *.xml)",
+    "tileset.lastUsedFormat": "tsx",
+    "tileset.tileSize": {
+        "height": 16,
+        "width": 16
+    },
+    "tileset.type": 1
+}
