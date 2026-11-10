@@ -59,7 +59,7 @@ public class Main extends Game {
         batch = new SpriteBatch();
 
         cam = new OrthographicCamera(WORLD_WIDTH / 2, WORLD_HEIGHT / 2);
-        viewport = new FitViewport(WORLD_WIDTH, WORLD_HEIGHT, this.cam);
+        viewport = new FitViewport(WORLD_WIDTH, WORLD_HEIGHT, cam);
         assetService = new AssetService(new InternalFileHandleResolver());
         glProfiler = new GLProfiler(Gdx.graphics);
         glProfiler.enable();
@@ -86,6 +86,7 @@ public class Main extends Game {
             g.setColliderList(gooseColliders);
             g.setTargetList(targets);
         }
+        batch.begin();
 
     }
 
@@ -106,7 +107,7 @@ public class Main extends Game {
         Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        super.render();
+        screen.render(Gdx.graphics.getDeltaTime());
 
         // Update the window title with the current FPS and OpenGL profiling data.
         Gdx.graphics.setTitle("Goose-Patrol | FPS: " + Gdx.graphics.getFramesPerSecond() +
@@ -118,22 +119,22 @@ public class Main extends Game {
         fpsLogger.log();
 
 
-        batch.begin();
+        //batch.begin();
         player.move();
         player.draw(batch);
         cam.position.set(player.getPositionVector().x, player.getPositionVector().y, 0);
         cam.update();
         batch.setProjectionMatrix(cam.combined);
-
-        for ( Goose g : geese){
+        for (Goose g : geese){
             g.move();
             g.draw(batch);
         }
-        batch.end();
+        //batch.end();
     }
 
     @Override
     public void dispose() {
+        batch.end();
         batch.dispose();
     }
 

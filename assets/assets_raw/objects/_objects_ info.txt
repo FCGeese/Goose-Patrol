@@ -1,0 +1,8 @@
+'objects':
+
+- Player
+- Enemies
+- Map sprites such as trees, buildings
+- Item sprites that are displayed on the screen, either in the UI or on the world map
+
+All images in the 'objects' folder and all subdirectories will be added to the image atlas.

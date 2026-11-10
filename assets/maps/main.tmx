@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.12.2" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="16" tileheight="16" infinite="0" nextlayerid="5" nextobjectid="12">
+ <tileset firstgid="1" source="Pixel Plains.tsx"/>
+ <tileset firstgid="157" source="Pixel Plains Objects.tsx"/>
+ <layer id="1" name="Ground" width="30" height="20">
+  <data encoding="base64" compression="zlib">
+   eJzt0k0LgkAUheH5hUrYqjB3ubBt0a4ol9PHztJ+bOfCXJChIRDOiODiwUHBlzsz1hhjZ2YBGaSQuPWS3CwghxKOsIctrMltmXXjmvpO2ztiNw/8X9oVceZQ99+3qXZD+ynnviKfsbazHmnqHWd1tX3wsJtDXeAFV6gjNt/wcJoIbb+pnuTu7UdzrO4JPuTufYSmaOEMnXvGaE7JF0iZQEk=
+  </data>
+ </layer>
+ <layer id="2" name="Background" width="30" height="20">
+  <data encoding="base64" compression="zlib">
+   eJxjYBi5QIdIdVo4xDXxqDMk3TlkAyU62jWYgDSVzZOhkjmSFOi1poL9PVQwg9j0iytvDCagSqJ6WLmAnr+JAfJk6BlqgNhyc6gC+4F2AA0BLL+SWz8NhfxODiBUZtuSaS4ArTwETg==
+  </data>
+ </layer>
+ <layer id="3" name="Foreground" width="30" height="20">
+  <data encoding="base64" compression="zlib">
+   eJztwTEBAAAAwqD1T20JT6AAAHgaCWAAAQ==
+  </data>
+ </layer>
+</map>
