@@ -146,9 +146,11 @@ public class Goose extends MovingElement {
      * polls heath and stun time, sets to appropriate state
      */
     public void react(){
-        stunTime = Math.max(0, stunTime-Gdx.graphics.getDeltaTime());
-        if (stunTime <= 0){
-            setState(State.HIT);
+        if (getState() == State.HIT){
+            stunTime = Math.max(0, stunTime-Gdx.graphics.getDeltaTime());
+            if (stunTime == 0){
+                setState(State.MOVING);
+            }
         }
         else if(getHealth() <= 0){
             setState(State.ZERO_HEALTH);

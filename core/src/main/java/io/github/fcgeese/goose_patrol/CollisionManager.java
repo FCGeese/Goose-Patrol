@@ -18,18 +18,6 @@ public class CollisionManager {
         }
     }
 
-    public boolean canMove(MovingElement e){
-        Rectangle nextHitbox = new Rectangle(e.nxtHitbox());
-        for(Element collidable : collidables){
-            if (collidable != e) {
-                if (nextHitbox.overlaps(collidable.getHitbox())) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-
     public boolean canMove(MovingElement e, float x, float y){
         Rectangle nextHitbox = new Rectangle(
             e.getHitbox().x + x,
@@ -45,4 +33,12 @@ public class CollisionManager {
         return true;
     }
 
+    public Element hitObj(Element e){
+        for (Element c : collidables){
+            if (e.getHitbox().overlaps(c.getHitbox())){
+                return e;
+            }
+        }
+        return null;
+    }
 }

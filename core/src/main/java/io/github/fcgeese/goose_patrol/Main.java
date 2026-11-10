@@ -59,7 +59,7 @@ public class Main extends Game {
         // Set the log level to DEBUG for detailed logging during development.
         Gdx.app.setLogLevel(Application.LOG_DEBUG);
         cam = new OrthographicCamera(WORLD_WIDTH / 2, WORLD_HEIGHT / 2);
-        viewport = new FitViewport(WORLD_WIDTH, WORLD_HEIGHT, cam);
+        viewport = new FitViewport(1000, 1000, cam);
         assetService = new AssetService(new InternalFileHandleResolver());
         glProfiler = new GLProfiler(Gdx.graphics);
         glProfiler.enable();

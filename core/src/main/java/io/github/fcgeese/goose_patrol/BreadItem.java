@@ -78,24 +78,44 @@ public class BreadItem extends Item{
 
     public static class BreadProjectile extends MovingElement{
         public static float speed = 400f;
+        private CollisionManager collider;
+
 
         BreadProjectile(Vector2 centre, Vector2 direction, TextureRegion texture){
             float w = texture.getRegionWidth();
             float h = texture.getRegionHeight();
             setTexture(texture);
-
             setPositionVector(new Vector2(centre.x - w /2f, centre.y - h / 2f));
             setHitbox(new Rectangle(getPositionVector().x,getPositionVector().y,w,h));
             setDisplacementVector(new Vector2(direction).nor().scl(speed));
         }
 
+        public void setCollider(CollisionManager collider) {
+            this.collider = collider;
+        }
+
+        public CollisionManager getCollider() {
+            return collider;
+        }
+
         void move(float delta){
+            collisionHandling();
             getPositionVector().mulAdd(getDisplacementVector(),delta);
             getHitbox().setPosition(getPositionVector());
         }
         boolean IsOffScreen(float screenW, float screenH){
             Rectangle box = getHitbox();
             return (box.x + box.width < 0) || (box.x > screenW) || (box.y + box.height < 0) || (box.y > screenH);
+        }
+
+        void collisionHandling(){
+            if (!collider.canMove(this, getDisplacementVector().x, getDisplacementVector().y)){
+                Element hitElement = collider.hitObj(this);
+                if(hitElement instanceof MovingElement){
+                    ((MovingElement) hitElement).changeHealth(-10);// MAGIC DAMAGE NUMBER FOR TESTING
+                    ((MovingElement) hitElement).setState(State.HIT);
+                }
+            }
         }
     }
 }
