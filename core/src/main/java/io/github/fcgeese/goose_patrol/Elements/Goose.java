@@ -136,11 +136,11 @@ public class Goose extends MovingElement {
         Vector2 nextDisplacement = getNewDispVect();
         setDisplacementVector(Vector2.Zero);
 
-        if (collider.canMove(this, nextDisplacement.x, 0)){
-            setDisplacementVector(getDisplacementVector().add(nextDisplacement.x, 0 ));
+        if (collider.canMove(this, nextDisplacement.x, nextDisplacement.y)){
+            setDisplacementVector(getDisplacementVector().add(nextDisplacement ));
         }
-        if (collider.canMove(this, 0, nextDisplacement.y)){
-            setDisplacementVector(getDisplacementVector().add(0, nextDisplacement.y ));
+        else{
+            setDisplacementVector(getDisplacementVector().add(nextDisplacement.scl(-1)));
         }
         setDisplacementVector(getDisplacementVector().nor().scl(Settings.gooseSpeed));
         update();
