@@ -26,8 +26,10 @@ public class CollisionManager {
             e.getHitbox().height
         );
         for(Element collidable : collidables){
-            if (nextHitbox.overlaps(collidable.getHitbox())){
-                return false;
+            if (collidable != e) {
+                if (nextHitbox.overlaps(collidable.getHitbox())) {
+                    return false;
+                }
             }
         }
         return true;

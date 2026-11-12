@@ -23,8 +23,8 @@ public class TargetManager {
 
     public Element getTarget(Goose goose){
         return possibleTargets.stream()
-            .min(Comparator.comparingDouble(possibleTargets ->
-                goose.getPositionVector().dst(possibleTargets.getPositionVector())))
+            .min(Comparator.comparingDouble(target ->
+                goose.getPositionVector().dst(target.getPositionVector())))
             .orElse(null);
     }
 

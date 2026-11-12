@@ -128,7 +128,7 @@ public class Goose extends MovingElement {
     public void move(){
 
         react(); //polls heath and stun time, sets to appropriate state
-        targeter.getTarget(this);
+        target = targeter.getTarget(this);
         Vector2 nextDisplacement = getNewDispVect();
         setDisplacementVector(Vector2.Zero);
 
