@@ -57,6 +57,12 @@ public class Main extends Game {
     //Target manager for all geese
     private TargetManager gooseTargetManager;
 
+    //Time remaining in game
+    public float timeRemaining = 300f;
+    //Timer that will count up to 1 second.
+    public float secondTimer = 0f;
+
+
     @Override
     public void create() {
         // Set the log level to DEBUG for detailed logging during development.
@@ -109,6 +115,31 @@ public class Main extends Game {
             " | Shader Switches: " + glProfiler.getShaderSwitches());
         // Log the current FPS to the console.
         fpsLogger.log();
+
+        // Reduce game time remaining every tick
+        timeRemaining -= Gdx.graphics.getDeltaTime();
+        //Increase every tick, used so we know when a second has passed.
+        secondTimer += Gdx.graphics.getDeltaTime();
+        // Increase goose speed by 1% every second for the final 50 seconds.
+        // Note: gooseSpeed ends up being ~1.974f after 50 seconds, is initialised as 1f.
+        if(timeRemaining <= 50) {
+            //Need to check if a second has passed because otherwise speed gets increased every tick.
+            if(secondTimer >= 1f) {
+                secondTimer = 0f;
+                Settings.gooseSpeed = 1.01f*Settings.gooseSpeed;
+                Gdx.app.log("Event", "Final " + timeRemaining + " secs. Goose speed: " + Settings.gooseSpeed);
+            }
+        }
+        // Increase goose speed statically when game is halfway finished.
+        else if(timeRemaining <= 150) {
+            //Ensure we only change gooseSpeed once.
+            if(Settings.gooseSpeed == 1f) {
+                Gdx.app.log("Time", "Time remaining: " + timeRemaining);
+                Gdx.app.log("Event", "Halfway through game. Goose speed increased.");
+                Settings.gooseSpeed = 1.2f;
+            }
+        };
+
         player.move();
         player.draw(batch);
         cam.position.set(player.getPositionVector().x, player.getPositionVector().y, 0);
