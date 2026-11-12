@@ -40,7 +40,7 @@ public class CollisionManager {
 
     public Element hitObj(Element e){
         for (Element c : collidables){
-            if (e.getHitbox().overlaps(c.getHitbox())){
+            if ( c!=e && e.getHitbox().overlaps(c.getHitbox())){
                 return e;
             }
         }

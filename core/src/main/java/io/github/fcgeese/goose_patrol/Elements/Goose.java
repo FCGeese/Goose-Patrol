@@ -126,6 +126,14 @@ public class Goose extends MovingElement {
         return Vector2.Zero;
     }
 
+
+    private void attack(){
+        if (this.getHitbox().overlaps(target.getHitbox()) &&
+            target instanceof MovingElement){
+            ((MovingElement) target).changeHealth(-Settings.gooseDamage);
+        }
+    }
+
     /**
      * gets state, target, and moves in appropriate direction
      */
@@ -133,6 +141,9 @@ public class Goose extends MovingElement {
 
         react(); //polls heath and stun time, sets to appropriate state
         target = targeter.getTarget(this);
+        if(targeter.isInRange(this, target)){
+            attack();
+        }
         Vector2 nextDisplacement = getNewDispVect();
         setDisplacementVector(Vector2.Zero);
 

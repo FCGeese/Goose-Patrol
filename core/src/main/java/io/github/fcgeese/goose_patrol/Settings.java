@@ -16,6 +16,7 @@ public class Settings {
     public static float gooseAttackDuration = 5f;
     public static float gooseLockOnDuration = 500f;
     public static float gooseAttackRange = 50f;
+    public static float gooseDamage=1;
 
 
 

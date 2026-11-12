@@ -60,8 +60,8 @@ public class MovingElement extends Element{
     }
 
     public void changeHealth(float delta) {
-        health += delta;
-        if (getHealth() >= 0) {
+        health = Math.max(health + delta, 0);
+        if (getHealth() == 0) {
             this.setState(State.ZERO_HEALTH);
             for (HealthListener h : healthListeners) {
                 h.onDeath();

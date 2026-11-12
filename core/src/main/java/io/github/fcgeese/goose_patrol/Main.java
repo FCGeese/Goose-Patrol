@@ -4,6 +4,7 @@ import com.badlogic.gdx.*;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.profiling.GLProfiler;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.GdxRuntimeException;
@@ -14,6 +15,7 @@ import io.github.fcgeese.goose_patrol.Elements.Element;
 import io.github.fcgeese.goose_patrol.Elements.Goose;
 import io.github.fcgeese.goose_patrol.Elements.Player;
 import io.github.fcgeese.goose_patrol.Managers.TargetManager;
+import io.github.fcgeese.goose_patrol.UI.HealthBar;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -61,10 +63,14 @@ public class Main extends Game {
     public float timeRemaining = 300f;
     //Timer that will count up to 1 second.
     public float secondTimer = 0f;
-
+    public HealthBar health;
+    public ShapeRenderer shape;
 
     @Override
     public void create() {
+        //UI
+        health = new HealthBar();
+        shape = new ShapeRenderer();
         // Set the log level to DEBUG for detailed logging during development.
         Gdx.app.setLogLevel(Application.LOG_DEBUG);
         cam = new OrthographicCamera(WORLD_WIDTH / 2, WORLD_HEIGHT / 2);
@@ -79,6 +85,7 @@ public class Main extends Game {
         setScreen(GameScreen.class);
         Gdx.graphics.setSystemCursor(Cursor.SystemCursor.Crosshair);
         player = new Player(new Vector2(100,100));
+        player.addHealthListener(health);
         targets.add(player);
         for(int x = 0; x<10; x++) {
             geese.add(new Goose(new Vector2(300+200, 1000*x)));
@@ -150,11 +157,14 @@ public class Main extends Game {
             g.draw(batch);
         }
         batch.end();
+        shape.begin(ShapeRenderer.ShapeType.Filled);
+        health.draw(shape);
+        shape.end();
     }
 
     @Override
     public void dispose() {
-        batch.dispose();
+        batch.dispose(); shape.dispose();
     }
 
     public void addScreen(Screen screen) {

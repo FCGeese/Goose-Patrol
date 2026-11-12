@@ -69,5 +69,5 @@ public class Player extends MovingElement {
         //updates position vector
         update();
         setDisplacementVector(0,0);
-        }
+    }
 }
