@@ -137,6 +137,7 @@ public class Goose extends MovingElement {
     /**
      * gets state, target, and moves in appropriate direction
      */
+    @Override
     public void move(){
 
         react(); //polls heath and stun time, sets to appropriate state

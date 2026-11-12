@@ -106,6 +106,10 @@ public class MovingElement extends Element{
         getHitbox().setPosition(getPositionVector());
     }
 
+    public void move() {
+
+    }
+
     protected enum State {
         ZERO_HEALTH,
         HIT,
