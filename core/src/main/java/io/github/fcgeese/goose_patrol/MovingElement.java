@@ -100,7 +100,7 @@ public class MovingElement extends Element{
      * Updates the elements position using its displacement vector
      */
     public void update(){
-        getPositionVector().add(getDisplacementVector());
+        setPositionVector(getPositionVector().add(getDisplacementVector()));
         getHitbox().setPosition(getPositionVector());
     }
 

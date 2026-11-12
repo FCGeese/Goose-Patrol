@@ -103,6 +103,7 @@ public class BreadItem extends Item{
             getPositionVector().mulAdd(getDisplacementVector(),delta);
             getHitbox().setPosition(getPositionVector());
         }
+
         boolean IsOffScreen(float screenW, float screenH){
             Rectangle box = getHitbox();
             return (box.x + box.width < 0) || (box.x > screenW) || (box.y + box.height < 0) || (box.y > screenH);
