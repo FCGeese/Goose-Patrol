@@ -47,7 +47,6 @@ public class HealthBar implements HealthListener {
 
     @Override
     public void onChange() {
-        System.out.println("HIT");
         playerHealth -= Settings.gooseDamage;
         healthBar = new Rectangle(
             screenPos.x + 10,

@@ -20,20 +20,23 @@ import io.github.fcgeese.goose_patrol.Events.WinEvent;
 import io.github.fcgeese.goose_patrol.Managers.EventListener;
 import io.github.fcgeese.goose_patrol.Managers.TargetManager;
 import io.github.fcgeese.goose_patrol.UI.HealthBar;
+import io.github.fcgeese.goose_patrol.UI.WinCountdown;
 
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
-public class Main extends Game {
+public class Main extends Game implements InputProcessor {
 
     // Keep 16:9 aspect ratio for the game world, so that it looks the same on all devices.
     public static final float WORLD_WIDTH = 32f; // Shown world width in tiled units
     public static final float WORLD_HEIGHT = 18f; // Shown world height in tiled units
     public static final float UNIT_SCALE = 1f / 16f; // 1 unit = 16 pixels
-
+    public boolean isPuased = false;
 
     /** SpriteBatch for rendering 2D graphics. */
     private SpriteBatch batch;
@@ -69,9 +72,9 @@ public class Main extends Game {
 
     //Time remaining in game
     public float timeRemaining = 300f;
-    //Timer that will count up to 1 second.
-    public float secondTimer = 0f;
+    //UI elements
     public HealthBar health;
+    public WinCountdown winBar;
     public ShapeRenderer shape;
     //Events
     public SpeedUpEvent gooseSpeedEvent;
@@ -79,8 +82,11 @@ public class Main extends Game {
 
     @Override
     public void create() {
+        //gdx treats main as its primary input handler
+        Gdx.input.setInputProcessor(this);
         //UI
         health = new HealthBar();
+        winBar = new WinCountdown();
         shape = new ShapeRenderer();
         //Events
         gooseSpeedEvent = new SpeedUpEvent();
@@ -97,6 +103,8 @@ public class Main extends Game {
         addScreen(new GameScreen(this));
         setScreen(GameScreen.class);
         Gdx.graphics.setSystemCursor(Cursor.SystemCursor.Crosshair);
+
+        //generates player and assigns it healthbars listener
         player = new Player(new Vector2(100, 100));
         player.addHealthListener(health);
         targets.add(player);
@@ -124,59 +132,63 @@ public class Main extends Game {
 
     @Override
     public void render() {
-        // Reset the GLProfiler at the start of each frame to get accurate profiling data for the current frame.
-        glProfiler.reset();
-        // Clear the screen with a black color before rendering the next frame.
-        Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        screen.render(Gdx.graphics.getDeltaTime());
-        batch.begin();
-        // Update the window title with the current FPS and OpenGL profiling data.
-        Gdx.graphics.setTitle("Goose-Patrol | FPS: " + Gdx.graphics.getFramesPerSecond() +
-            " | Draw Calls: " + glProfiler.getDrawCalls() +
-            " | Texture Bindings: " + glProfiler.getTextureBindings() +
-            " | Shader Switches: " + glProfiler.getShaderSwitches());
-        // Log the current FPS to the console.
-        fpsLogger.log();
+        if(!isPuased) {
+            // Reset the GLProfiler at the start of each frame to get accurate profiling data for the current frame.
+            glProfiler.reset();
+            // Clear the screen with a black color before rendering the next frame.
+            Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
+            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+            screen.render(Gdx.graphics.getDeltaTime());
+            batch.begin();
+            // Update the window title with the current FPS and OpenGL profiling data.
+            Gdx.graphics.setTitle("Goose-Patrol | FPS: " + Gdx.graphics.getFramesPerSecond() +
+                " | Draw Calls: " + glProfiler.getDrawCalls() +
+                " | Texture Bindings: " + glProfiler.getTextureBindings() +
+                " | Shader Switches: " + glProfiler.getShaderSwitches());
+            // Log the current FPS to the console.
+            fpsLogger.log();
 
-        // Reduce game time remaining every tick
-        timeRemaining = Math.max(timeRemaining-Gdx.graphics.getDeltaTime(),0);
-        if (timeRemaining == 0){
-            win.onStart();
-        }
-        // Increase goose speed by 1% every second for the final 50 seconds.
-        // Note: gooseSpeed ends up being ~1.974f after 50 seconds, is initialised as 1f.
-        if(timeRemaining <= 50) {
-            gooseSpeedEvent.changeEffect();
-        }
-        // Increase goose speed statically when game is halfway finished.
-        else if(timeRemaining <= 150) {
-            //Ensure we only change gooseSpeed once.
-            if(Settings.gooseSpeed == 1f) {
-                Gdx.app.log("Time", "Time remaining: " + timeRemaining);
-                Gdx.app.log("Event", "Halfway through game. Goose speed increased.");
-                gooseSpeedEvent.onStart();
+            //EVENT HANDLING
+            // Reduce game time remaining every tick
+            timeRemaining = Math.max(timeRemaining - Gdx.graphics.getDeltaTime(), 0);
+            if (timeRemaining == 0) {
+                win.onStart();
             }
+            // Increase goose speed by 1% every second for the final 50 seconds.
+            // Note: gooseSpeed ends up being ~1.974f after 50 seconds, is initialised as 1f.
+            if (timeRemaining <= 50) {
+                gooseSpeedEvent.changeEffect();
+            }
+            // Increase goose speed statically when game is halfway finished.
+            else if (timeRemaining <= 150) {
+                //Ensure we only change gooseSpeed once.
+                if (Settings.gooseSpeed == 1f) {
+                    Gdx.app.log("Time", "Time remaining: " + timeRemaining);
+                    Gdx.app.log("Event", "Halfway through game. Goose speed increased.");
+                    gooseSpeedEvent.onStart();
+                }
+            }
+            //GAME LOGIC
+            //all movement logic
+            for (MovingElement e : allMovers) {
+                e.move();
+            }
+            //SPRITE RENDER
+            //all rendering(other than map
+            for (Element e : allElements) {
+                e.draw(batch);
+            }
+            batch.end();
+            //sets camera
+            cam.position.set(player.getPositionVector().x, player.getPositionVector().y, 0);
+            cam.update();
+            batch.setProjectionMatrix(cam.combined);
+            //draws UI elements
+            shape.begin(ShapeRenderer.ShapeType.Filled);
+            winBar.draw(shape, timeRemaining);
+            health.draw(shape);
+            shape.end();
         }
-
-        //all movement logic
-        for (MovingElement e : allMovers){
-            e.move();
-        }
-        //all rendering(other than map
-        for (Element e : allElements){
-            e.draw(batch);
-        }
-        batch.end();
-        //sets camera
-        cam.position.set(player.getPositionVector().x, player.getPositionVector().y, 0);
-        cam.update();
-        batch.setProjectionMatrix(cam.combined);
-
-        //draws UI elements
-        shape.begin(ShapeRenderer.ShapeType.Filled);
-        health.draw(shape);
-        shape.end();
     }
 
     @Override
@@ -210,5 +222,55 @@ public class Main extends Game {
 
     public OrthographicCamera getCamera() {
         return cam;
+    }
+
+
+    @Override
+    public boolean keyDown(int keycode) {
+        if (keycode == Input.Keys.ESCAPE){
+            isPuased = !isPuased;
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean keyUp(int keycode) {
+        return false;
+    }
+
+    @Override
+    public boolean keyTyped(char character) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchCancelled(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
+        return false;
+    }
+
+    @Override
+    public boolean mouseMoved(int screenX, int screenY) {
+        return false;
+    }
+
+    @Override
+    public boolean scrolled(float amountX, float amountY) {
+        return false;
     }
 }
