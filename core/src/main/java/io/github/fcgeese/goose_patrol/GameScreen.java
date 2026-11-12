@@ -60,6 +60,7 @@ public class GameScreen extends ScreenAdapter {
         this.mapRenderer.setView(this.cam);
         this.mapRenderer.render();
 
+
     }
 
     /**

@@ -11,10 +11,8 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 public enum MapAsset implements Asset<TiledMap> {
     /** Main game map. */
     MAIN("main.tmx");
-
     /** Stores the map's file path, type and loading parameters. */
     private final AssetDescriptor<TiledMap> descriptor;
-
     /**
      * Creates an asset descriptor for the specified Tiled map.
      *

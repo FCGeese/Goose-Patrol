@@ -30,6 +30,7 @@ public class Player extends MovingElement {
      * Handles player movement
      *
      */
+    @Override
     public void move() {
         //polls key input and adjusts displacement vector
         //each collision dimension handled independently to allow smooth sliding along walls
