@@ -1,4 +1,4 @@
-package io.github.fcgeese.goose_patrol;
+package io.github.fcgeese.goose_patrol.Elements;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -6,13 +6,14 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import io.github.fcgeese.goose_patrol.Managers.CollisionManager;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 
-public class BreadItem extends Item{
+public class BreadItem extends Item {
     private static int maxShots = 1;
     private TextureRegion breadTexture;
     private List<BreadProjectile> loaves = new ArrayList<>();
@@ -76,7 +77,7 @@ public class BreadItem extends Item{
         return super.ItemEffectEnded() && loaves.isEmpty();
     }
 
-    public static class BreadProjectile extends MovingElement{
+    public static class BreadProjectile extends MovingElement {
         public static float speed = 400f;
         private CollisionManager collider;
 

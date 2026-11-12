@@ -1,9 +1,13 @@
-package io.github.fcgeese.goose_patrol;
+package io.github.fcgeese.goose_patrol.Elements;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import io.github.fcgeese.goose_patrol.Managers.CollisionManager;
+import io.github.fcgeese.goose_patrol.Settings;
+import io.github.fcgeese.goose_patrol.Managers.TargetManager;
+
 import java.util.List;
 
 public class Goose extends MovingElement {

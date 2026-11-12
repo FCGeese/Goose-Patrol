@@ -1,10 +1,12 @@
-package io.github.fcgeese.goose_patrol;
+package io.github.fcgeese.goose_patrol.Elements;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import io.github.fcgeese.goose_patrol.Managers.CollisionManager;
+import io.github.fcgeese.goose_patrol.Settings;
 
 public class Player extends MovingElement {
     private final CollisionManager colliders = new CollisionManager();

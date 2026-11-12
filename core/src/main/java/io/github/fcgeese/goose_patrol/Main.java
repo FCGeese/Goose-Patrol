@@ -9,8 +9,11 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import io.github.fcgeese.goose_patrol.Asset.Asset;
 import io.github.fcgeese.goose_patrol.Asset.AssetService;
+import io.github.fcgeese.goose_patrol.Elements.Element;
+import io.github.fcgeese.goose_patrol.Elements.Goose;
+import io.github.fcgeese.goose_patrol.Elements.Player;
+import io.github.fcgeese.goose_patrol.Managers.TargetManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;

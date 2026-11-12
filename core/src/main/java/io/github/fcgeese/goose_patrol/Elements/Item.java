@@ -1,11 +1,10 @@
-package io.github.fcgeese.goose_patrol;
+package io.github.fcgeese.goose_patrol.Elements;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import java.util.List;
 
 
 public abstract class Item extends Element {

@@ -1,4 +1,8 @@
-package io.github.fcgeese.goose_patrol;
+package io.github.fcgeese.goose_patrol.Managers;
+
+import io.github.fcgeese.goose_patrol.Elements.Element;
+import io.github.fcgeese.goose_patrol.Elements.Goose;
+import io.github.fcgeese.goose_patrol.Settings;
 
 import java.util.ArrayList;
 import java.util.Comparator;

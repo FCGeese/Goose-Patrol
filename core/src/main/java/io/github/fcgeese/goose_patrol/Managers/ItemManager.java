@@ -1,4 +1,4 @@
-package io.github.fcgeese.goose_patrol;
+package io.github.fcgeese.goose_patrol.Managers;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -8,6 +8,10 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import io.github.fcgeese.goose_patrol.Elements.BreadItem;
+import io.github.fcgeese.goose_patrol.Elements.CoffeeItem;
+import io.github.fcgeese.goose_patrol.Elements.Element;
+import io.github.fcgeese.goose_patrol.Elements.Item;
 
 import java.util.ArrayList;
 import java.util.Iterator;

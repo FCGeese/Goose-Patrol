@@ -1,6 +1,9 @@
-package io.github.fcgeese.goose_patrol;
+package io.github.fcgeese.goose_patrol.Managers;
 
 import com.badlogic.gdx.math.Rectangle;
+import io.github.fcgeese.goose_patrol.Elements.Element;
+import io.github.fcgeese.goose_patrol.Elements.MovingElement;
+
 import java.util.ArrayList;
 import java.util.List;
 

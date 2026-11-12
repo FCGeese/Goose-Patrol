@@ -1,5 +1,4 @@
-package io.github.fcgeese.goose_patrol;
-
+package io.github.fcgeese.goose_patrol.Elements;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
