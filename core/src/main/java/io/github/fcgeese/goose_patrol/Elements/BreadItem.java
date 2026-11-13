@@ -14,7 +14,7 @@ import java.util.List;
 
 
 public class BreadItem extends Item {
-    private static int maxShots = 1;
+    private static int maxShots = 5;
     private TextureRegion breadTexture;
     private List<BreadProjectile> loaves = new ArrayList<>();
     private int shotsLeft = maxShots;
@@ -113,8 +113,8 @@ public class BreadItem extends Item {
         void collisionHandling(){
             if (!collider.canMove(this, getDisplacementVector().x, getDisplacementVector().y)){
                 Element hitElement = collider.hitObj(this);
-                if(hitElement instanceof MovingElement){
-                    ((MovingElement) hitElement).changeHealth(-10);// MAGIC DAMAGE NUMBER FOR TESTING
+                if(hitElement instanceof Goose){
+                    ((MovingElement) hitElement).changeHealth(-50);// MAGIC DAMAGE NUMBER FOR TESTING
                     ((MovingElement) hitElement).setState(State.HIT);
                 }
             }
