@@ -3,7 +3,23 @@
     "expandedProjectPaths": [
         "."
     ],
+    "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
+        "C:/Users/Thomas/Documents/GitHub/Goose-Patrol/assets/Pixel Plains (Water).tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 2,
+            "scaleInEditor": 5.5
+        },
+        "C:/Users/Thomas/Documents/GitHub/Goose-Patrol/assets/house1.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1,
+            "scaleInEditor": 8
+        },
+        "Other Objects.tsx": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
         "Pixel Plains Objects.tsx": {
             "dynamicWrapping": false,
             "scaleInDock": 2,
@@ -13,34 +29,46 @@
             "scaleInDock": 2,
             "scaleInEditor": 3
         },
+        "building1.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 5.5
+        },
         "main.tmx": {
-            "scale": 2,
-            "selectedLayer": 0,
+            "scale": 1.5,
+            "selectedLayer": 1,
             "viewCenter": {
-                "x": 222,
-                "y": 196.75
+                "x": 460.33333333333326,
+                "y": 302.6666666666667
             }
         }
     },
-    "last.imagePath": "C:/Users/Thomas/Desktop/Everything/University & School/University of York/ENG1 Module/Tiled/Pixel Plains Free Pack",
+    "last.externalTilesetPath": "C:/Users/Thomas/Documents/GitHub/Goose-Patrol/assets/maps",
+    "last.imagePath": "C:/Users/Thomas/Documents/GitHub/Goose-Patrol/assets/assets_raw/objects/stump",
     "map.lastUsedFormat": "tmx",
     "map.layerDataFormat": "3",
     "map.tileHeight": 16,
     "map.tileWidth": 16,
     "openFiles": [
         "main.tmx",
-        "Pixel Plains.tsx",
-        "Pixel Plains Objects.tsx"
+        "C:/Users/Thomas/Documents/GitHub/Goose-Patrol/assets/Pixel Plains (Water).tsx",
+        "Other Objects.tsx"
     ],
     "project": "GoosePatrol Practice Map.tiled-project",
     "recentFiles": [
+        "Other Objects.tsx",
+        "C:/Users/Thomas/Documents/GitHub/Goose-Patrol/assets/Pixel Plains (Water).tsx",
+        "main.tmx",
         "Pixel Plains Objects.tsx",
-        "Pixel Plains.tsx",
-        "main.tmx"
+        "C:/Users/Thomas/Documents/GitHub/Goose-Patrol/assets/house1.tsx",
+        "building1.tsx",
+        "Pixel Plains.tsx"
     ],
+    "tileset.lastUsedFilter": "Tiled tileset files (*.tsx *.xml)",
     "tileset.lastUsedFormat": "tsx",
+    "tileset.margin": 12,
     "tileset.tileSize": {
         "height": 16,
         "width": 16
-    }
+    },
+    "tileset.type": 1
 }
