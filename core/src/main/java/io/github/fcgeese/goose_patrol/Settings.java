@@ -12,7 +12,7 @@ public class Settings {
     public static float gooseWidth = 1f; // tile(s) wide
     public static float gooseHeight = 1f; // tile(s) tall
     public static TextureRegion gooseTexturePack =
-       new TextureRegion( new Texture( Gdx.files.internal("geese/Goose_Run_Pack.png") ) ) ;
+       new TextureRegion( new Texture( Gdx.files.internal("geese/GooseTexturePack.png") ) ) ;
     public static float gooseSpeed = 4;
     public static float gooseAttackRange = 50 * UNIT_SCALE;
     public static float gooseDamage = 1;

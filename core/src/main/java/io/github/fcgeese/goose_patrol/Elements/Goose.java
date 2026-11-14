@@ -26,7 +26,7 @@ public class Goose extends MovingElement {
         setPositionVector(position);
         setDisplacementVector(1,1);
         getDisplacementVector().nor();
-        setTexturePack(Settings.gooseTexturePack.split(64,64));
+        setTexturePack(Settings.gooseTexturePack.split(32,32));
         movingAnimation = new Animation<>(0.3f, getTexturePack()[0]);
         setHitbox(new Rectangle(
             getPositionVector().x,
