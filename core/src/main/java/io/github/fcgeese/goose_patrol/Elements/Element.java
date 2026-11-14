@@ -44,6 +44,12 @@ public abstract class Element {
      * @param batch open SpriteBatch (batch.begin must be called before this method and batch.end() after!!)
      */
     public void draw(SpriteBatch batch){
-        batch.draw(texture, positionVector.x, positionVector.y);
+        batch.draw(
+            texture, 
+            positionVector.x, 
+            positionVector.y,
+            hitbox.width,
+            hitbox.height
+        );
     }
 }

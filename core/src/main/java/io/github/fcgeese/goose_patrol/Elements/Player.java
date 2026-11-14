@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import io.github.fcgeese.goose_patrol.Managers.CollisionManager;
+import io.github.fcgeese.goose_patrol.Main;
 import io.github.fcgeese.goose_patrol.Settings;
 
 public class Player extends MovingElement {
@@ -32,6 +33,8 @@ public class Player extends MovingElement {
      */
     @Override
     public void move() {
+        float delta = Gdx.graphics.getDeltaTime();
+
         //polls key input and adjusts displacement vector
         //each collision dimension handled independently to allow smooth sliding along walls
         if (Gdx.input.isKeyPressed(Input.Keys.W)) {
@@ -56,7 +59,7 @@ public class Player extends MovingElement {
             }
         }
         //normalises and scales to player speed
-        setDisplacementVector(getDisplacementVector().nor().scl(Settings.playerSpeed));
+        setDisplacementVector(getDisplacementVector().nor().scl(Settings.playerSpeed * delta));
         //doubles speed if sprinting, could be changed to one time dash?
         if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)){
             setDisplacementVector(getDisplacementVector().scl(2));

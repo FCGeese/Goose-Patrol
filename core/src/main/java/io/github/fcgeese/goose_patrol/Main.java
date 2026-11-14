@@ -79,38 +79,46 @@ public class Main extends Game implements InputProcessor {
 
     @Override
     public void create() {
-        //gdx treats main as its primary input handler
+        // Gdx treats main as its primary input handler.
         Gdx.input.setInputProcessor(this);
-        //UI
+        
+        // UI
         health = new HealthBar();
         winBar = new WinCountdown();
         shape = new ShapeRenderer();
-        //Items
-        bread = new BreadItem(Settings.breadTexture);
-        coffee = new CoffeeItem(Settings.coffeeTexture);
-        //Events
+        
+        // Events
         gooseSpeedEvent = new SpeedUpEvent();
+        
         // Set the log level to DEBUG for detailed logging during development.
         Gdx.app.setLogLevel(Application.LOG_DEBUG);
-        cam = new OrthographicCamera(WORLD_WIDTH / 2, WORLD_HEIGHT / 2);
-        viewport = new FitViewport(1000, 1000, cam);
+        cam = new OrthographicCamera(WORLD_WIDTH, WORLD_HEIGHT);
+        viewport = new FitViewport(WORLD_WIDTH, WORLD_HEIGHT, cam);
+        viewport.update(
+            Gdx.graphics.getWidth(),
+            Gdx.graphics.getHeight(),
+            true);
         assetService = new AssetService(new InternalFileHandleResolver());
         glProfiler = new GLProfiler(Gdx.graphics);
         glProfiler.enable();
         fpsLogger = new FPSLogger();
         batch = new SpriteBatch();
+        
         // Add the GameScreen to the screen cache and set it as the current screen.
         addScreen(new GameScreen(this));
         setScreen(GameScreen.class);
         Gdx.graphics.setSystemCursor(Cursor.SystemCursor.Crosshair);
 
-        //generates player and assigns it healthbars listener
-        player = new Player(new Vector2(100, 100));
+        // Generates player and assigns it a healthbar listener.
+        player = new Player(new Vector2(100 * UNIT_SCALE, 100 * UNIT_SCALE));
         player.addHealthListener(health);
         targets.add(player);
 
         for (int x = 0; x < 10; x++) {
-            geese.add(new Goose(new Vector2(300 + 200, 1000 * x)));
+            geese.add(new Goose(new Vector2(
+                500 * UNIT_SCALE,
+                1000 * x * UNIT_SCALE
+            )));
         }
         gooseColliders.addAll(geese);
         for (Goose g : geese) {
@@ -132,27 +140,25 @@ public class Main extends Game implements InputProcessor {
     @Override
     public void render() {
         if(!isPuased) {
+            float delta = Gdx.graphics.getDeltaTime();
+
             // Reset the GLProfiler at the start of each frame to get accurate profiling data for the current frame.
-            glProfiler.reset();
+             glProfiler.reset();
+
             // Clear the screen with a black color before rendering the next frame.
             Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-            screen.render(Gdx.graphics.getDeltaTime());
-            batch.begin();
-            // Update the window title with the current FPS and OpenGL profiling data.
-            Gdx.graphics.setTitle("Goose-Patrol | FPS: " + Gdx.graphics.getFramesPerSecond() +
-                " | Draw Calls: " + glProfiler.getDrawCalls() +
-                " | Texture Bindings: " + glProfiler.getTextureBindings() +
-                " | Shader Switches: " + glProfiler.getShaderSwitches());
-            // Log the current FPS to the console.
-            fpsLogger.log();
 
-            //EVENT HANDLING
-            // Reduce game time remaining every tick
-            timeRemaining = Math.max(timeRemaining - Gdx.graphics.getDeltaTime(), 0);
+            // ### UPDATES ###
+
+            // Update game time
+            timeRemaining = Math.max(timeRemaining - delta, 0);
+
             if (timeRemaining == 0) {
                 win.onStart();
             }
+
+            // Update goose speed
             // Increase goose speed by 1% every second for the final 50 seconds.
             // Note: gooseSpeed ends up being ~1.974f after 50 seconds, is initialised as 1f.
             if (timeRemaining <= 50) {
@@ -167,31 +173,52 @@ public class Main extends Game implements InputProcessor {
                     gooseSpeedEvent.onStart();
                 }
             }
-            //Item
-            bread.draw(batch);
-            coffee.draw(batch);
-            bread.update(Gdx.graphics.getDeltaTime());
-            coffee.update(Gdx.graphics.getDeltaTime());
-            //GAME LOGIC
-            //all movement logic
+
+            // Update all movement logic
             for (MovingElement e : allMovers) {
                 e.move();
             }
-            //SPRITE RENDER
-            //all rendering(other than map
+
+            // ### RENDERING ###
+            
+            // Resets camera
+            cam.position.set(
+                player.getPositionVector().x + Settings.playerWidth / 2,
+                player.getPositionVector().y + Settings.playerHeight / 2,
+                0
+            );
+            cam.update();
+
+            // Update projection matrix and render background map
+            batch.setProjectionMatrix(cam.combined);
+            screen.render(delta);
+            
+            // Render game objects
+            batch.begin();
+
             for (Element e : allElements) {
                 e.draw(batch);
             }
             batch.end();
-            //sets camera
-            cam.position.set(player.getPositionVector().x, player.getPositionVector().y, 0);
-            cam.update();
-            batch.setProjectionMatrix(cam.combined);
-            //draws UI elements
+            
+            // Draws UI elements
             shape.begin(ShapeRenderer.ShapeType.Filled);
             winBar.draw(shape, timeRemaining);
             health.draw(shape);
             shape.end();
+
+            // ### DEBUGGING ###
+
+            // Update the window title with the current FPS and OpenGL profiling data.
+            Gdx.graphics.setTitle("Goose-Patrol | FPS: " + Gdx.graphics.getFramesPerSecond() +
+                " | Draw Calls: " + glProfiler.getDrawCalls() +
+                " | Texture Bindings: " + glProfiler.getTextureBindings() +
+                " | Shader Switches: " + glProfiler.getShaderSwitches());
+            
+            // Log the current FPS to the console.
+            fpsLogger.log();
+
+            
         }
     }
 
