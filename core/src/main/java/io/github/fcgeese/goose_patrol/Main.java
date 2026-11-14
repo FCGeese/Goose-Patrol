@@ -119,7 +119,7 @@ public class Main extends Game implements InputProcessor {
         Gdx.graphics.setSystemCursor(Cursor.SystemCursor.Crosshair);
 
         // Generates player and assigns it a healthbar listener.
-        player = new Player(new Vector2(400 * UNIT_SCALE, 100 * UNIT_SCALE));
+        player = new Player(new Vector2(800 * UNIT_SCALE, 700 * UNIT_SCALE));
         player.addHealthListener(health);
         targets.add(player);
 
