@@ -22,7 +22,7 @@
         },
         "Pixel Plains (Water).tsx": {
             "dynamicWrapping": false,
-            "scaleInDock": 1,
+            "scaleInDock": 3,
             "scaleInEditor": 1
         },
         "Pixel Plains Objects.tsx": {
@@ -39,11 +39,11 @@
             "scaleInEditor": 5.5
         },
         "main.tmx": {
-            "scale": 3,
-            "selectedLayer": 1,
+            "scale": 2,
+            "selectedLayer": 2,
             "viewCenter": {
-                "x": 441.49999999999994,
-                "y": 292
+                "x": 268.25,
+                "y": 218.5
             }
         }
     },
