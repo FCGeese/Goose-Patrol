@@ -9,6 +9,8 @@ import io.github.fcgeese.goose_patrol.Managers.CollisionManager;
 import io.github.fcgeese.goose_patrol.Main;
 import io.github.fcgeese.goose_patrol.Settings;
 
+import java.util.List;
+
 public class Player extends MovingElement {
     private final CollisionManager colliders = new CollisionManager();
 
@@ -25,6 +27,11 @@ public class Player extends MovingElement {
             Settings.playerHeight
         ));
         setState(State.IDLE);
+    }
+
+
+    public void setColliderList(List<Element> collidables){
+        colliders.addCollidableList(collidables);
     }
 
     /**

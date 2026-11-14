@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class Settings {
-    private static final float UNIT_SCALE = Main.UNIT_SCALE;
+    public static final float UNIT_SCALE = Main.UNIT_SCALE;
 
     // Goose settings
     public static float gooseAccuracy = 0.035f;
@@ -19,8 +19,6 @@ public class Settings {
     public static float gooseLockOnDuration = 500f;
     public static float gooseAttackRange = 50 * UNIT_SCALE;
     public static float gooseDamage = 1;
-    public static float gooseAttackRange = 50f;
-    public static float gooseDamage=1;
 
     public static TextureRegion coffeeTexture =
         new TextureRegion(new Texture(
