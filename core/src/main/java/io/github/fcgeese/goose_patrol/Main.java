@@ -123,8 +123,8 @@ public class Main extends Game implements InputProcessor {
         player.addHealthListener(health);
         targets.add(player);
 
-        for (int x = 12; x < 18; x++) {
-            geese.add(new Goose(new Vector2(8,x)));
+        for (int i = -6; i < 4; i++) {
+            geese.add(new Goose(new Vector2(player.getPositionVector().x+(i*3),player.getPositionVector().y+i)));
         }
 
         TiledMap map = new TmxMapLoader().load("maps/main.tmx");
@@ -134,7 +134,7 @@ public class Main extends Game implements InputProcessor {
             Rectangle terrainHitbox = ((RectangleMapObject)o ).getRectangle();
             Element collider = new Element();
             collider.setHitbox(new Rectangle(
-                terrainHitbox.x*UNIT_SCALE,
+                terrainHitbox.x * UNIT_SCALE,
                 terrainHitbox.y * UNIT_SCALE,
                 terrainHitbox.width * UNIT_SCALE,
                 terrainHitbox.height * UNIT_SCALE)
