@@ -80,11 +80,20 @@ public class MovingElement extends Element{
      * @param batch open SpriteBatch (batch.begin must be called before this method and batch.end() after!!)
      */
     @Override
-    public void draw(SpriteBatch batch){
+    public void draw(SpriteBatch batch) {
         stateTime += Gdx.graphics.getDeltaTime();
-        setTexture(movingAnimation.getKeyFrame(stateTime, getState().equals(State.MOVING)));
-        super.draw(batch);
 
+        boolean looping = getState() == State.MOVING || getState() == State.IDLE;
+
+        setTexture(movingAnimation.getKeyFrame(stateTime, looping));
+        super.draw(batch);
+    }
+
+    protected void setMovingAnimation(Animation<TextureRegion> animation) {
+        if (movingAnimation != animation) {
+            movingAnimation = animation;
+            stateTime = 0f;
+        }
     }
 
     /**
