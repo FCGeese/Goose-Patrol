@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.2" orientation="orthogonal" renderorder="right-down" width="66" height="46" tilewidth="16" tileheight="16" infinite="0" nextlayerid="6" nextobjectid="72">
- <tileset firstgid="1" source="../Pixel Plains (Water).tsx"/>
+<map version="1.10" tiledversion="1.12.2" orientation="orthogonal" renderorder="right-down" width="60" height="40" tilewidth="16" tileheight="16" infinite="0" nextlayerid="5" nextobjectid="12">
+ <tileset firstgid="1" source="Pixel Plains (Water).tsx"/>
  <tileset firstgid="157" source="Other Objects.tsx"/>
  <layer id="1" name="Ground" width="66" height="46">
   <data encoding="base64" compression="zlib">
