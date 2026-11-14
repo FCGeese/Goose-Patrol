@@ -14,9 +14,6 @@ public class Settings {
     public static TextureRegion gooseTexturePack =
        new TextureRegion( new Texture( Gdx.files.internal("Goose_Run_Pack.png") ) ) ;
     public static float gooseSpeed = 4;
-    public static float gooseAttackCoolDown = 1f;
-    public static float gooseAttackDuration = 5f;
-    public static float gooseLockOnDuration = 500f;
     public static float gooseAttackRange = 50 * UNIT_SCALE;
     public static float gooseDamage = 1;
 
@@ -33,7 +30,6 @@ public class Settings {
     // Player settings
     public static TextureRegion playerTexturePack =
         new TextureRegion( new Texture( Gdx.files.internal("Player_Run_Pack.png") ) ) ;
-
     public static float playerWidth = 1f; // tile(s) wide
     public static float playerHeight = 2f; // tile(s) tall
     public static float playerSpeed = 4;
