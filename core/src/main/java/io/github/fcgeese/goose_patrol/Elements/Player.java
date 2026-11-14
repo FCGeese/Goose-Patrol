@@ -1,5 +1,7 @@
 package io.github.fcgeese.goose_patrol.Elements;
 
+import java.util.List;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Animation;
