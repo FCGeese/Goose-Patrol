@@ -3,9 +3,16 @@ package io.github.fcgeese.goose_patrol;
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.profiling.GLProfiler;
+import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -18,6 +25,7 @@ import io.github.fcgeese.goose_patrol.Managers.TargetManager;
 import io.github.fcgeese.goose_patrol.UI.HealthBar;
 import io.github.fcgeese.goose_patrol.UI.WinCountdown;
 
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
@@ -59,8 +67,9 @@ public class Main extends Game implements InputProcessor {
     private List<MovingElement> allMovers = new ArrayList<>();
     //List of every goose object
     private List<Goose> geese = new ArrayList<>();
-    //List of everything geese can colide with
+    //List of everything collidable for moving elemetns
     private List<Element> gooseColliders = new ArrayList<>();
+    private List<Element> playerColliders = new ArrayList<>();
     //List of everything geese can target
     private List<Element> targets = new ArrayList<>();
 
@@ -81,15 +90,15 @@ public class Main extends Game implements InputProcessor {
     public void create() {
         // Gdx treats main as its primary input handler.
         Gdx.input.setInputProcessor(this);
-        
+
         // UI
         health = new HealthBar();
         winBar = new WinCountdown();
         shape = new ShapeRenderer();
-        
+
         // Events
         gooseSpeedEvent = new SpeedUpEvent();
-        
+
         // Set the log level to DEBUG for detailed logging during development.
         Gdx.app.setLogLevel(Application.LOG_DEBUG);
         cam = new OrthographicCamera(WORLD_WIDTH, WORLD_HEIGHT);
@@ -103,31 +112,48 @@ public class Main extends Game implements InputProcessor {
         glProfiler.enable();
         fpsLogger = new FPSLogger();
         batch = new SpriteBatch();
-        
+
         // Add the GameScreen to the screen cache and set it as the current screen.
         addScreen(new GameScreen(this));
         setScreen(GameScreen.class);
         Gdx.graphics.setSystemCursor(Cursor.SystemCursor.Crosshair);
 
         // Generates player and assigns it a healthbar listener.
-        player = new Player(new Vector2(100 * UNIT_SCALE, 100 * UNIT_SCALE));
+        player = new Player(new Vector2(400 * UNIT_SCALE, 100 * UNIT_SCALE));
         player.addHealthListener(health);
         targets.add(player);
 
-        for (int x = 0; x < 10; x++) {
-            geese.add(new Goose(new Vector2(
-                500 * UNIT_SCALE,
-                1000 * x * UNIT_SCALE
-            )));
+        for (int x = 12; x < 18; x++) {
+            geese.add(new Goose(new Vector2(8,x)));
+        }
+
+        TiledMap map = new TmxMapLoader().load("maps/main.tmx");
+        MapLayer mapHitbox = map.getLayers().get("MapHitboxes");
+        ArrayList<Element> mapHitboxes = new ArrayList<>();
+        for (MapObject o: mapHitbox.getObjects()){
+            Rectangle terrainHitbox = ((RectangleMapObject)o ).getRectangle();
+            Element collider = new Element();
+            collider.setHitbox(new Rectangle(
+                terrainHitbox.x*UNIT_SCALE,
+                terrainHitbox.y * UNIT_SCALE,
+                terrainHitbox.width * UNIT_SCALE,
+                terrainHitbox.height * UNIT_SCALE)
+            );
+            Gdx.app.log("HitboxDebug", "Raw Tiled width: " + terrainHitbox.width + " -> Scaled width: " + (terrainHitbox.width * UNIT_SCALE));
+            mapHitboxes.add(collider);
         }
         gooseColliders.addAll(geese);
+        gooseColliders.addAll(mapHitboxes);
         for (Goose g : geese) {
             g.setColliderList(gooseColliders);
             g.setTargetList(targets);
         }
+        player.setColliderList(mapHitboxes);
         allMovers.addAll(geese);
         allMovers.add(player);
         allElements.addAll(allMovers);
+        allElements.addAll(mapHitboxes);
+
     }
 
     // Window size is changed by the user
@@ -180,7 +206,7 @@ public class Main extends Game implements InputProcessor {
             }
 
             // ### RENDERING ###
-            
+
             // Resets camera
             cam.position.set(
                 player.getPositionVector().x + Settings.playerWidth / 2,
@@ -192,15 +218,15 @@ public class Main extends Game implements InputProcessor {
             // Update projection matrix and render background map
             batch.setProjectionMatrix(cam.combined);
             screen.render(delta);
-            
+
             // Render game objects
             batch.begin();
 
-            for (Element e : allElements) {
+            for (Element e : allMovers) {
                 e.draw(batch);
             }
             batch.end();
-            
+
             // Draws UI elements
             shape.begin(ShapeRenderer.ShapeType.Filled);
             winBar.draw(shape, timeRemaining);
@@ -214,11 +240,11 @@ public class Main extends Game implements InputProcessor {
                 " | Draw Calls: " + glProfiler.getDrawCalls() +
                 " | Texture Bindings: " + glProfiler.getTextureBindings() +
                 " | Shader Switches: " + glProfiler.getShaderSwitches());
-            
+
             // Log the current FPS to the console.
             fpsLogger.log();
 
-            
+
         }
     }
 

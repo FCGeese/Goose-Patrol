@@ -10,7 +10,6 @@ import io.github.fcgeese.goose_patrol.Managers.CollisionManager;
 import io.github.fcgeese.goose_patrol.Main;
 import io.github.fcgeese.goose_patrol.Settings;
 
-
 public class Player extends MovingElement {
     
     // Keeps track of the direction the player is facing
@@ -72,6 +71,11 @@ public class Player extends MovingElement {
         setState(State.IDLE);
     }
 
+
+    public void setColliderList(List<Element> collidables){
+        colliders.addCollidableList(collidables);
+    }
+
     /**
      * Handles player movement
      *
@@ -84,22 +88,22 @@ public class Player extends MovingElement {
         // Each collision dimension handled independently to allow smooth sliding along walls
         if (Gdx.input.isKeyPressed(Input.Keys.W)) {
 
-            if (colliders.canMove(this, 0, 1)) {
+            if (colliders.canMove(this, 0, 1*Settings.UNIT_SCALE)) {
                 setDisplacementVector(getDisplacementVector().add(0, 1));
             }
         }
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-            if (colliders.canMove(this, -1, 0)) {
+            if (colliders.canMove(this, -1*Settings.UNIT_SCALE, 0)) {
                 setDisplacementVector(getDisplacementVector().add(-1, 0));
             }
         }
         if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-            if (colliders.canMove(this, 0, -1)) {
+            if (colliders.canMove(this, 0, -1*Settings.UNIT_SCALE)) {
                 setDisplacementVector(getDisplacementVector().add(0, -1));
             }
         }
         if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-            if (colliders.canMove(this, 1, 0)) {
+            if (colliders.canMove(this, 1*Settings.UNIT_SCALE, 0)) {
                 setDisplacementVector(getDisplacementVector().add(1, 0));
             }
         }

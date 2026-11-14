@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
-public abstract class Element {
+public class Element {
     private Vector2 positionVector;
     private TextureRegion texture;
     private Rectangle hitbox;
@@ -45,8 +45,8 @@ public abstract class Element {
      */
     public void draw(SpriteBatch batch){
         batch.draw(
-            texture, 
-            positionVector.x, 
+            texture,
+            positionVector.x,
             positionVector.y,
             hitbox.width,
             hitbox.height
