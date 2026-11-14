@@ -142,10 +142,11 @@ public class Goose extends MovingElement {
         float delta = Gdx.graphics.getDeltaTime();
 
         react(); //polls heath and stun time, sets to appropriate state
-        target = targeter.getTarget(this);
-        if(targeter.isInRange(this, target)){
-            attack();
-        }
+        target = targeter.getTarget(this,collider);
+        if (target !=null)
+            if(targeter.isInRange(this, target)){
+                attack();
+            }
         Vector2 nextDisplacement = getNewDispVect();
         setDisplacementVector(Vector2.Zero);
 

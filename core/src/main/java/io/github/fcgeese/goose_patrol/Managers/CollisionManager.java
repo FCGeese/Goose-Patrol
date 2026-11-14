@@ -21,6 +21,10 @@ public class CollisionManager {
         }
     }
 
+    public List<Element> getCollidables() {
+        return collidables;
+    }
+
     public boolean canMove(MovingElement e, float x, float y){
         Rectangle nextHitbox = new Rectangle(
             e.getHitbox().x + x,

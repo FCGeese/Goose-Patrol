@@ -137,7 +137,8 @@ public class Main extends Game implements InputProcessor {
                 terrainHitbox.x*UNIT_SCALE,
                 terrainHitbox.y * UNIT_SCALE,
                 terrainHitbox.width * UNIT_SCALE,
-                terrainHitbox.height * UNIT_SCALE));
+                terrainHitbox.height * UNIT_SCALE)
+            );
             mapHitboxes.add(collider);
         }
         gooseColliders.addAll(geese);
