@@ -19,6 +19,18 @@ public class Settings {
     public static float gooseLockOnDuration = 500f;
     public static float gooseAttackRange = 50 * UNIT_SCALE;
     public static float gooseDamage = 1;
+    public static float gooseAttackRange = 50f;
+    public static float gooseDamage=1;
+
+    public static TextureRegion coffeeTexture =
+        new TextureRegion(new Texture(
+            Gdx.files.internal(
+                "assets_raw/Asset Packs/Free_pixel_food_16x16/Free_pixel_food_16x16/Icons/coffee_foam.png")));
+
+    public static TextureRegion breadTexture =
+        new TextureRegion(new Texture(
+            Gdx.files.internal(
+                "assets_raw/objects/bread/bread.png")));
 
     // Player settings
     public static TextureRegion playerTexturePack =

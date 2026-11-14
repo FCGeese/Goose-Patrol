@@ -11,13 +11,9 @@ import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import io.github.fcgeese.goose_patrol.Asset.AssetService;
-import io.github.fcgeese.goose_patrol.Elements.Element;
-import io.github.fcgeese.goose_patrol.Elements.Goose;
-import io.github.fcgeese.goose_patrol.Elements.MovingElement;
-import io.github.fcgeese.goose_patrol.Elements.Player;
+import io.github.fcgeese.goose_patrol.Elements.*;
 import io.github.fcgeese.goose_patrol.Events.SpeedUpEvent;
 import io.github.fcgeese.goose_patrol.Events.WinEvent;
-import io.github.fcgeese.goose_patrol.Managers.EventListener;
 import io.github.fcgeese.goose_patrol.Managers.TargetManager;
 import io.github.fcgeese.goose_patrol.UI.HealthBar;
 import io.github.fcgeese.goose_patrol.UI.WinCountdown;
@@ -67,8 +63,6 @@ public class Main extends Game implements InputProcessor {
     private List<Element> gooseColliders = new ArrayList<>();
     //List of everything geese can target
     private List<Element> targets = new ArrayList<>();
-    //Target manager for all geese
-    private TargetManager gooseTargetManager;
 
     //Time remaining in game
     public float timeRemaining = 300f;
@@ -79,6 +73,9 @@ public class Main extends Game implements InputProcessor {
     //Events
     public SpeedUpEvent gooseSpeedEvent;
     public WinEvent win;
+    //items
+    public BreadItem bread;
+    public CoffeeItem coffee;
 
     @Override
     public void create() {
