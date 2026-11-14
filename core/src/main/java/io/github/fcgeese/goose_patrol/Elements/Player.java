@@ -46,22 +46,22 @@ public class Player extends MovingElement {
         //each collision dimension handled independently to allow smooth sliding along walls
         if (Gdx.input.isKeyPressed(Input.Keys.W)) {
 
-            if (colliders.canMove(this, 0, 1)) {
+            if (colliders.canMove(this, 0, 1*Settings.UNIT_SCALE)) {
                 setDisplacementVector(getDisplacementVector().add(0, 1));
             }
         }
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-            if (colliders.canMove(this, -1, 0)) {
+            if (colliders.canMove(this, -1*Settings.UNIT_SCALE, 0)) {
                 setDisplacementVector(getDisplacementVector().add(-1, 0));
             }
         }
         if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-            if (colliders.canMove(this, 0, -1)) {
+            if (colliders.canMove(this, 0, -1*Settings.UNIT_SCALE)) {
                 setDisplacementVector(getDisplacementVector().add(0, -1));
             }
         }
         if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-            if (colliders.canMove(this, 1, 0)) {
+            if (colliders.canMove(this, 1*Settings.UNIT_SCALE, 0)) {
                 setDisplacementVector(getDisplacementVector().add(1, 0));
             }
         }

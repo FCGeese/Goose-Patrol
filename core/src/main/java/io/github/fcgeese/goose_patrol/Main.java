@@ -37,8 +37,8 @@ import java.util.Map;
 public class Main extends Game implements InputProcessor {
 
     // Keep 16:9 aspect ratio for the game world, so that it looks the same on all devices.
-    public static final float WORLD_WIDTH = 66f; // Shown world width in tiled units
-    public static final float WORLD_HEIGHT = 46f; // Shown world height in tiled units
+    public static final float WORLD_WIDTH = 32f; // Shown world width in tiled units
+    public static final float WORLD_HEIGHT = 18f; // Shown world height in tiled units
     public static final float UNIT_SCALE = 1f / 16f; // 1 unit = 16 pixels
     public boolean isPuased = false;
 
@@ -139,6 +139,7 @@ public class Main extends Game implements InputProcessor {
                 terrainHitbox.width * UNIT_SCALE,
                 terrainHitbox.height * UNIT_SCALE)
             );
+            Gdx.app.log("HitboxDebug", "Raw Tiled width: " + terrainHitbox.width + " -> Scaled width: " + (terrainHitbox.width * UNIT_SCALE));
             mapHitboxes.add(collider);
         }
         gooseColliders.addAll(geese);
@@ -152,6 +153,7 @@ public class Main extends Game implements InputProcessor {
         allMovers.add(player);
         allElements.addAll(allMovers);
         allElements.addAll(mapHitboxes);
+
     }
 
     // Window size is changed by the user
