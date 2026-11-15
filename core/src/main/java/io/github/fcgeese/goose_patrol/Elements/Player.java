@@ -95,7 +95,7 @@ public class Player extends MovingElement {
             dstToMove = Settings.playerSpeed * speedMult * 1.75f;
         }
         else {
-            dstToMove = speedMult * Settings.UNIT_SCALE;
+            dstToMove = Settings.playerSpeed * speedMult;
         }
 
         // Convert movement speed to a distance travelled per frame
@@ -143,6 +143,7 @@ public class Player extends MovingElement {
         updateAnimation();
 
         // Normalises and scales to player speed
+        System.out.println(getDisplacementVector().toString());
         setDisplacementVector(getDisplacementVector().nor().scl(dstToMove));
         // Doubles speed if sprinting, could be changed to one time dash?
         if (getDisplacementVector().isZero()){
