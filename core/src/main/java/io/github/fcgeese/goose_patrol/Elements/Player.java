@@ -88,19 +88,13 @@ public class Player extends MovingElement {
      */
     @Override
     public void move(float deltaT) {
-        
-        // Multiplies move speed by 1.75 if sprinting
         float dstToMove;
-        if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) {
-            dstToMove = Settings.playerSpeed * speedMult * 1.75f;
+        if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)){
+            dstToMove = (speedMult*Settings.UNIT_SCALE)+(1*Settings.UNIT_SCALE);
         }
         else {
-            dstToMove = Settings.playerSpeed * speedMult;
+            dstToMove = speedMult * Settings.UNIT_SCALE;
         }
-
-        // Convert movement speed to a distance travelled per frame
-        dstToMove *= deltaT;
-
         // Polls key input and adjusts displacement vector
         // Each collision dimension handled independently to allow smooth sliding along walls
         if (Gdx.input.isKeyPressed(Input.Keys.W)) {
@@ -124,7 +118,6 @@ public class Player extends MovingElement {
                 setDisplacementVector(getDisplacementVector().add(dstToMove, 0));
             }
         }
-
         // Determine player's facing direction
         Vector2 direction = getDisplacementVector();
 
@@ -141,18 +134,17 @@ public class Player extends MovingElement {
             setState(State.IDLE);
         }
 
+        updateAnimation();
+
         // Normalises and scales to player speed
         setDisplacementVector(getDisplacementVector().nor().scl(dstToMove));
-
-        
+        // Doubles speed if sprinting, could be changed to one time dash?
         if (getDisplacementVector().isZero()){
             setState(State.IDLE);
         }
         else{
             setState(State.MOVING);
         }
-
-        updateAnimation();
 
         // Updates position vector
         update();

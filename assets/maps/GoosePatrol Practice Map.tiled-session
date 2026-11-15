@@ -39,11 +39,11 @@
             "scaleInEditor": 5.5
         },
         "main.tmx": {
-            "scale": 1,
-            "selectedLayer": 0,
+            "scale": 2,
+            "selectedLayer": 2,
             "viewCenter": {
-                "x": 648.5,
-                "y": 674
+                "x": 1120.75,
+                "y": 402
             }
         }
     },

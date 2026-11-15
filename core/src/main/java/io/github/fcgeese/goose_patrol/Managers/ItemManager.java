@@ -1,13 +1,13 @@
 package io.github.fcgeese.goose_patrol.Managers;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
-import io.github.fcgeese.goose_patrol.Settings;
 import io.github.fcgeese.goose_patrol.Elements.BreadItem;
 import io.github.fcgeese.goose_patrol.Elements.CoffeeItem;
 import io.github.fcgeese.goose_patrol.Elements.Element;
@@ -29,9 +29,12 @@ public class ItemManager extends Element{
 
     private List<Item> activeEffects = new ArrayList<>();
 
-    public static TextureRegion coffeeTexture = Settings.coffeeTexture;
+    public static TextureRegion coffeeTexture =
+        new TextureRegion( new Texture( Gdx.files.internal("assets_raw/objects/coffee/coffee.png")));
 
-    public static TextureRegion breadTexture = Settings.breadTexture;
+        public static TextureRegion breadTexture =
+        new TextureRegion( new Texture( Gdx.files.internal("assets_raw/objects/bread/bread.png")));
+
 
     private static float randomDelay(){
         return MathUtils.random(minimumSpawnDelay, maximumSpawnDelay);
