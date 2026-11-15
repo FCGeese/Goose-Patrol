@@ -25,8 +25,8 @@ public abstract class Item extends Element {
         setTexture(texture);
         setPositionVector(new Vector2(0,0));
         setHitbox(new Rectangle(
-            0,0, 
-            texture.getRegionWidth() * Main.UNIT_SCALE, 
+            0,0,
+            texture.getRegionWidth() * Main.UNIT_SCALE,
             texture.getRegionHeight() * Main.UNIT_SCALE
         ));
     }
@@ -76,7 +76,7 @@ public abstract class Item extends Element {
 
 
     public float getSpeedMultiplier(){
-        return 1f;
+        return 1.4f;
     }
 
     // Only draws if item is "on ground"
