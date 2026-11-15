@@ -20,6 +20,7 @@ import com.badlogic.gdx.maps.objects.TextureMapObject;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import io.github.fcgeese.goose_patrol.Asset.AssetService;
 import io.github.fcgeese.goose_patrol.Elements.*;
+import io.github.fcgeese.goose_patrol.Events.EggEvent;
 import io.github.fcgeese.goose_patrol.Events.SpeedUpEvent;
 import io.github.fcgeese.goose_patrol.Events.WinEvent;
 import io.github.fcgeese.goose_patrol.Managers.ItemManager;
@@ -89,11 +90,11 @@ public class Main extends Game implements InputProcessor {
     //Events
     public SpeedUpEvent gooseSpeedEvent;
     public WinEvent win;
+    public EggEvent egg;
     //items
     Vector2 mouseScreenPos;
     Vector2 aimTarget;
     ItemManager itemManager;
-    public BreadItem bread;
 
     @Override
     public void create() {
@@ -109,7 +110,7 @@ public class Main extends Game implements InputProcessor {
 
         // Events
         gooseSpeedEvent = new SpeedUpEvent();
-
+        egg = new EggEvent(new Vector2(800*UNIT_SCALE, 300*UNIT_SCALE));
         // Set the log level to DEBUG for detailed logging during development.
         Gdx.app.setLogLevel(Application.LOG_DEBUG);
         cam = new OrthographicCamera(VISIBLE_WORLD_WIDTH, VISIBLE_WORLD_HEIGHT);
@@ -135,7 +136,7 @@ public class Main extends Game implements InputProcessor {
         targets.add(player);
 
         for (int i = -6; i < 4; i++) {
-            geese.add(new Goose(new Vector2(player.getPositionVector().x+(i*3),player.getPositionVector().y+i)));
+            geese.add(new Goose(new Vector2(player.getPositionVector().x+(i*3),player.getPositionVector().y+i-3)));
         }
 
         // Load map and update map dimensions
@@ -227,6 +228,22 @@ public class Main extends Game implements InputProcessor {
                     gooseSpeedEvent.onStart();
                 }
             }
+            if (player.collidesWith(egg.getSpawnTrigger())){
+                if (!egg.isTriggered()){
+                    egg.onStart();
+                    gooseColliders.removeAll(geese);
+                    allMovers.removeAll(geese);
+                    for (int i = -6; i < 4; i++) {
+                        geese.add(new Goose(new Vector2(player.getPositionVector().x+(i*3),player.getPositionVector().y+i+4)));
+                    }
+                    gooseColliders.addAll(geese);
+                    for (Goose g : geese) {
+                        g.setColliderList(gooseColliders);
+                        g.setTargetList(targets);
+                    }
+                    allMovers.addAll(geese);
+                }
+            }
 
             // Update all movement logic
             player.setSpeedMult(itemManager.getSpeedMultiplier());
@@ -282,18 +299,20 @@ public class Main extends Game implements InputProcessor {
     }
 
     private void renderMapObjects(MapLayer layer) {
-        for (MapObject object : layer.getObjects()) {
-            if (object instanceof TextureMapObject) {
-                TextureMapObject textureObject = (TextureMapObject) object;
+        if (layer != null) {
+            for (MapObject object : layer.getObjects()) {
+                if (object instanceof TextureMapObject) {
+                    TextureMapObject textureObject = (TextureMapObject) object;
 
-                TextureRegion texture = textureObject.getTextureRegion();
+                    TextureRegion texture = textureObject.getTextureRegion();
 
-                float x = textureObject.getX() * UNIT_SCALE;
-                float y = textureObject.getY() * UNIT_SCALE;
-                float width = texture.getRegionWidth() * UNIT_SCALE;
-                float height = texture.getRegionHeight() * UNIT_SCALE;
+                    float x = textureObject.getX() * UNIT_SCALE;
+                    float y = textureObject.getY() * UNIT_SCALE;
+                    float width = texture.getRegionWidth() * UNIT_SCALE;
+                    float height = texture.getRegionHeight() * UNIT_SCALE;
 
-                batch.draw(texture, x, y, width, height);
+                    batch.draw(texture, x, y, width, height);
+                }
             }
         }
     }
