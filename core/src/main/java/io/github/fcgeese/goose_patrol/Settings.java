@@ -27,7 +27,8 @@ public class Settings {
     public static float playerHeight = 1.1875f; // tile(s) tall
     public static float playerSpeed = 4; // DEFAULT: 4
 
-
+    public static TextureRegion controlsTexture =
+        new TextureRegion( new Texture( Gdx.files.internal("assets_raw/CONTROL1.png") ) ) ;
 
     // Item settings
 

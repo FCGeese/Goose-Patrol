@@ -24,6 +24,7 @@ import io.github.fcgeese.goose_patrol.Events.EggEvent;
 import io.github.fcgeese.goose_patrol.Events.SpeedUpEvent;
 import io.github.fcgeese.goose_patrol.Events.WinEvent;
 import io.github.fcgeese.goose_patrol.Managers.ItemManager;
+import io.github.fcgeese.goose_patrol.UI.Controls;
 import io.github.fcgeese.goose_patrol.UI.HealthBar;
 import io.github.fcgeese.goose_patrol.UI.WinCountdown;
 
@@ -87,6 +88,7 @@ public class Main extends Game implements InputProcessor {
     public HealthBar health;
     public WinCountdown winBar;
     public ShapeRenderer shape;
+    public Controls controls;
     //Events
     public SpeedUpEvent gooseSpeedEvent;
     public WinEvent win;
@@ -174,6 +176,7 @@ public class Main extends Game implements InputProcessor {
         allMovers.add(player);
         allElements.addAll(allMovers);
         allElements.addAll(mapHitboxes);
+        controls = new Controls();
 
     }
 
@@ -274,6 +277,11 @@ public class Main extends Game implements InputProcessor {
                 e.draw(batch);
             }
             itemManager.draw(batch);
+            //draws controls for 50 seconds at start of game
+            if (timeRemaining>250){
+                controls.setPositionVector(player.getPositionVector().sub(new Vector2(4,3)));
+                controls.draw(batch);
+            }
             batch.end();
 
             // Draws UI elements
