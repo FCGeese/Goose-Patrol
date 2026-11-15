@@ -22,8 +22,6 @@ public class ItemManager extends Element{
     private static float minimumSpawnDelay = 3f;
     private static float maximumSpawnDelay = 8f;
     private static float spawnDistanceFromEdge = 32f;
-    private float worldWidth;
-    private float worldHeight;
 
     private Item current;
 

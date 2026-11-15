@@ -3,7 +3,6 @@ package io.github.fcgeese.goose_patrol;
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.*;
-import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.profiling.GLProfiler;
@@ -17,6 +16,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.maps.objects.TextureMapObject;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import io.github.fcgeese.goose_patrol.Asset.AssetService;
 import io.github.fcgeese.goose_patrol.Elements.*;
 import io.github.fcgeese.goose_patrol.Events.SpeedUpEvent;
@@ -51,6 +52,8 @@ public class Main extends Game implements InputProcessor {
     private GLProfiler glProfiler;
     /** Logger for monitoring FPS & diagnostics for asset servers. */
     private FPSLogger fpsLogger;
+
+    private TiledMap map;
 
 
     /** Hashmap for storing the game's screens. */
@@ -130,7 +133,7 @@ public class Main extends Game implements InputProcessor {
             geese.add(new Goose(new Vector2(player.getPositionVector().x+(i*3),player.getPositionVector().y+i)));
         }
 
-        TiledMap map = new TmxMapLoader().load("maps/main.tmx");
+        map = new TmxMapLoader().load("maps/main.tmx");
         MapLayer mapHitbox = map.getLayers().get("MapHitboxes");
         ArrayList<Element> mapHitboxes = new ArrayList<>();
         for (MapObject o: mapHitbox.getObjects()){
@@ -234,6 +237,8 @@ public class Main extends Game implements InputProcessor {
             // Render game objects
             batch.begin();
 
+            renderMapObjects(map.getLayers().get("MapObjects"));
+
             for (Element e : allMovers) {
                 e.draw(batch);
             }
@@ -259,6 +264,23 @@ public class Main extends Game implements InputProcessor {
             fpsLogger.log();
 
 
+        }
+    }
+
+    private void renderMapObjects(MapLayer layer) {
+        for (MapObject object : layer.getObjects()) {
+            if (object instanceof TextureMapObject) {
+                TextureMapObject textureObject = (TextureMapObject) object;
+
+                TextureRegion texture = textureObject.getTextureRegion();
+
+                float x = textureObject.getX() * UNIT_SCALE;
+                float y = textureObject.getY() * UNIT_SCALE;
+                float width = texture.getRegionWidth() * UNIT_SCALE;
+                float height = texture.getRegionHeight() * UNIT_SCALE;
+
+                batch.draw(texture, x, y, width, height);
+            }
         }
     }
 

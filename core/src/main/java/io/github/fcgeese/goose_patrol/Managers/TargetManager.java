@@ -1,7 +1,6 @@
 package io.github.fcgeese.goose_patrol.Managers;
 
 import com.badlogic.gdx.math.Intersector;
-import com.badlogic.gdx.math.Vector2;
 import io.github.fcgeese.goose_patrol.Elements.Element;
 import io.github.fcgeese.goose_patrol.Elements.Goose;
 import io.github.fcgeese.goose_patrol.Settings;

@@ -1,12 +1,8 @@
 package io.github.fcgeese.goose_patrol.Events;
 
 import com.badlogic.gdx.Gdx;
-import io.github.fcgeese.goose_patrol.Elements.Element;
 import io.github.fcgeese.goose_patrol.Managers.EventListener;
 import io.github.fcgeese.goose_patrol.Settings;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class SpeedUpEvent implements EventListener {
     float secondTimer = 0f;
