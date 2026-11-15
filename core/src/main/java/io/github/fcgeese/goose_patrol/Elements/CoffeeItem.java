@@ -4,10 +4,12 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
+import io.github.fcgeese.goose_patrol.Settings;
+
 
 public class CoffeeItem extends Item {
-    public static float speedMultiplier = 1.15f;
-    public static float boostDuration = 5f;
+    public static float speedMultiplier = Settings.coffeeSpeedMultiplier;
+    public static float boostDuration = Settings.coffeeBoostDuration;
     private float boostTimeLeft = 0f;
 
 
