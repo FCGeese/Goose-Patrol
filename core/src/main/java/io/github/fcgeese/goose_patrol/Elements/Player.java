@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import io.github.fcgeese.goose_patrol.Managers.CollisionManager;
+import io.github.fcgeese.goose_patrol.Main;
 import io.github.fcgeese.goose_patrol.Settings;
 
 public class Player extends MovingElement {
@@ -38,6 +39,7 @@ public class Player extends MovingElement {
     private final Animation<TextureRegion> runLeft;
 
     private float speedMult = 1;
+    private float UNIT_SCALE = Main.UNIT_SCALE;
 
     public Player(Vector2 position) {
 
@@ -88,13 +90,19 @@ public class Player extends MovingElement {
      */
     @Override
     public void move(float deltaT) {
+        
+        // Multiplies move speed by 1.75 if sprinting
         float dstToMove;
-        if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)){
-            dstToMove = (speedMult*Settings.UNIT_SCALE)+(1*Settings.UNIT_SCALE);
+        if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) {
+            dstToMove = Settings.playerSpeed * speedMult * 1.75f;
         }
         else {
-            dstToMove = speedMult * Settings.UNIT_SCALE;
+            dstToMove = Settings.playerSpeed * speedMult;
         }
+
+        // Convert movement speed to a distance travelled per frame
+        dstToMove *= deltaT;
+
         // Polls key input and adjusts displacement vector
         // Each collision dimension handled independently to allow smooth sliding along walls
         if (Gdx.input.isKeyPressed(Input.Keys.W)) {
@@ -118,6 +126,7 @@ public class Player extends MovingElement {
                 setDisplacementVector(getDisplacementVector().add(dstToMove, 0));
             }
         }
+
         // Determine player's facing direction
         Vector2 direction = getDisplacementVector();
 
@@ -134,17 +143,18 @@ public class Player extends MovingElement {
             setState(State.IDLE);
         }
 
-        updateAnimation();
-
         // Normalises and scales to player speed
         setDisplacementVector(getDisplacementVector().nor().scl(dstToMove));
-        // Doubles speed if sprinting, could be changed to one time dash?
+
+        
         if (getDisplacementVector().isZero()){
             setState(State.IDLE);
         }
         else{
             setState(State.MOVING);
         }
+
+        updateAnimation();
 
         // Updates position vector
         update();
