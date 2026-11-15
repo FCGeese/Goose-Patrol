@@ -37,7 +37,7 @@ public class Settings {
             Gdx.files.internal(
                 "assets_raw/objects/bread/bread.png")));
     public static int breadMaxShots = 5;
-    
+
     // Coffee settings
     public static TextureRegion coffeeTexture =
         new TextureRegion(new Texture(
@@ -46,4 +46,4 @@ public class Settings {
     public static float coffeeSpeedMultiplier = 1.5f;
     public static float coffeeBoostDuration = 5f;
 
-}  
+}
