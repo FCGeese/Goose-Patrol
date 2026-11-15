@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 import io.github.fcgeese.goose_patrol.Main;
+import io.github.fcgeese.goose_patrol.Settings;
 import io.github.fcgeese.goose_patrol.Elements.BreadItem;
 import io.github.fcgeese.goose_patrol.Elements.CoffeeItem;
 import io.github.fcgeese.goose_patrol.Elements.Element;
@@ -19,7 +20,6 @@ import java.util.Iterator;
 import java.util.List;
 
 public class ItemManager extends Element{
-    private static final float UNIT_SCALE = Main.UNIT_SCALE;
 
     private static float itemSize = 1f;
     private static float minimumSpawnDelay = 3f;
@@ -30,12 +30,9 @@ public class ItemManager extends Element{
 
     private List<Item> activeEffects = new ArrayList<>();
 
-    public static TextureRegion coffeeTexture =
-        new TextureRegion( new Texture( Gdx.files.internal("assets_raw/objects/coffee/coffee.png")));
+    public static TextureRegion coffeeTexture = Settings.coffeeTexture;
 
-        public static TextureRegion breadTexture =
-        new TextureRegion( new Texture( Gdx.files.internal("assets_raw/objects/bread/bread.png")));
-
+    public static TextureRegion breadTexture = Settings.breadTexture;
 
     private static float randomDelay(){
         return MathUtils.random(minimumSpawnDelay, maximumSpawnDelay);

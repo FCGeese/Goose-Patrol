@@ -8,15 +8,15 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 import io.github.fcgeese.goose_patrol.Main;
+import io.github.fcgeese.goose_patrol.Settings;
 import io.github.fcgeese.goose_patrol.Managers.CollisionManager;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-
 public class BreadItem extends Item {
-    private static int maxShots = 5;
+    private static int maxShots = Settings.breadMaxShots;
     private TextureRegion breadTexture;
     private List<BreadProjectile> loaves = new ArrayList<>();
     private int shotsLeft = maxShots;
@@ -25,8 +25,6 @@ public class BreadItem extends Item {
         super(breadTexture);
         this.breadTexture = breadTexture;
     }
-
-
 
     protected int getTriggerButton(){
         return Input.Buttons.LEFT;
@@ -44,7 +42,6 @@ public class BreadItem extends Item {
         }
     }
 
-
     @Override
     public void update(float delta){
         float screenW = Gdx.graphics.getWidth();
@@ -59,8 +56,6 @@ public class BreadItem extends Item {
             }
         }
     }
-
-
 
     @Override
     public void draw(SpriteBatch batch){
@@ -107,6 +102,8 @@ public class BreadItem extends Item {
                 if(hitElement instanceof Goose){
                     ((MovingElement) hitElement).changeHealth(-50);// MAGIC DAMAGE NUMBER FOR TESTING
                     ((MovingElement) hitElement).setState(State.HIT);
+
+                    Gdx.app.log("BreadProjectile", "Goose hit!");
                 }
             }
         }
