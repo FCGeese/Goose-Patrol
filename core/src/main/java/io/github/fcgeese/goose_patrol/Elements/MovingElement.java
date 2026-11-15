@@ -10,7 +10,7 @@ import io.github.fcgeese.goose_patrol.Managers.HealthListener;
 
 import java.util.ArrayList;
 
-public class MovingElement extends Element{
+public abstract class MovingElement extends Element{
     private Vector2 displacementVector = new Vector2();
     public Animation<TextureRegion> movingAnimation;
     private TextureRegion[][] texturePack;

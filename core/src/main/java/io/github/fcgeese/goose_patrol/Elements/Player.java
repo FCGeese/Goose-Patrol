@@ -90,7 +90,7 @@ public class Player extends MovingElement {
     public void move(float deltaT) {
         float dstToMove;
         if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)){
-            dstToMove = (speedMult*Settings.UNIT_SCALE)+(1*Settings.UNIT_SCALE);
+            dstToMove = (speedMult*Settings.UNIT_SCALE)+(0.4f*Settings.UNIT_SCALE);
         }
         else {
             dstToMove = speedMult * Settings.UNIT_SCALE;
