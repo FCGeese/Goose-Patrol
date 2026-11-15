@@ -43,7 +43,7 @@ public class Settings {
         new TextureRegion(new Texture(
             Gdx.files.internal(
                 "assets_raw/objects/coffee/coffee.png")));
-    public static float coffeeSpeedMultiplier = 1.3f;
+    public static float coffeeSpeedMultiplier = 1.5f;
     public static float coffeeBoostDuration = 5f;
 
 }  

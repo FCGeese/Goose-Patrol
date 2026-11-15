@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.2" orientation="orthogonal" renderorder="right-down" width="106" height="66" tilewidth="16" tileheight="16" infinite="0" nextlayerid="6" nextobjectid="49">
+<map version="1.10" tiledversion="1.12.2" orientation="orthogonal" renderorder="right-down" width="106" height="66" tilewidth="16" tileheight="16" infinite="0" nextlayerid="6" nextobjectid="52">
  <tileset firstgid="1" source="Pixel Plains (Water).tsx"/>
  <tileset firstgid="157" source="Other Objects.tsx"/>
  <layer id="1" name="Ground" width="106" height="66">
@@ -50,8 +50,8 @@
   <object id="18" x="432" y="276" width="40" height="32"/>
   <object id="19" x="500" y="340" width="18" height="4"/>
   <object id="20" x="382" y="404" width="29.25" height="32"/>
-  <object id="21" x="320" y="160" width="44" height="736"/>
-  <object id="22" x="364" y="724" width="64" height="172"/>
+  <object id="21" x="0.125" y="0.25" width="364.875" height="1056.25"/>
+  <object id="22" x="364" y="722.667" width="64" height="173.333"/>
   <object id="23" x="428" y="756" width="16" height="140"/>
   <object id="24" x="444" y="772" width="32" height="124"/>
   <object id="25" x="476" y="788" width="16" height="108"/>
@@ -60,7 +60,7 @@
   <object id="28" x="524" y="834" width="33.2727" height="62"/>
   <object id="30" x="557.455" y="850.25" width="818.545" height="45.75"/>
   <object id="32" x="1330.75" y="160" width="45.25" height="689.75"/>
-  <object id="33" x="364" y="160" width="967.333" height="32"/>
+  <object id="33" x="365" y="160" width="967.333" height="29.1667"/>
   <object id="35" x="1296" y="212" width="28" height="28"/>
   <object id="36" x="642.25" y="834.5" width="90.75" height="15.75"/>
   <object id="48" x="786.5" y="834.75" width="139.25" height="15.5"/>
@@ -98,5 +98,8 @@
   <object id="14" x="532" y="484" width="16" height="72"/>
   <object id="15" x="516" y="500" width="16" height="40"/>
   <object id="16" x="500" y="516" width="16" height="24"/>
+  <object id="49" x="364.083" y="896.205" width="1331.82" height="159.924"/>
+  <object id="50" x="1375.58" y="0.166667" width="320.5" height="895"/>
+  <object id="51" x="364.788" y="0.166667" width="1011.09" height="159.739"/>
  </objectgroup>
 </map>

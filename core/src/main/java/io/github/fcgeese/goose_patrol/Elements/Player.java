@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import io.github.fcgeese.goose_patrol.Managers.CollisionManager;
-import io.github.fcgeese.goose_patrol.Main;
 import io.github.fcgeese.goose_patrol.Settings;
 
 public class Player extends MovingElement {
@@ -39,7 +38,6 @@ public class Player extends MovingElement {
     private final Animation<TextureRegion> runLeft;
 
     private float speedMult = 1;
-    private float UNIT_SCALE = Main.UNIT_SCALE;
 
     public Player(Vector2 position) {
 

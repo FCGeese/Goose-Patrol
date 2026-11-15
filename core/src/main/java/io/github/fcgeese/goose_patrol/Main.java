@@ -161,6 +161,7 @@ public class Main extends Game implements InputProcessor {
             Gdx.app.log("HitboxDebug", "Raw Tiled width: " + terrainHitbox.width + " -> Scaled width: " + (terrainHitbox.width * UNIT_SCALE));
             mapHitboxes.add(collider);
         }
+        itemManager.setSpawnColliders(mapHitboxes);
         gooseColliders.addAll(geese);
         gooseColliders.addAll(mapHitboxes);
         for (Goose g : geese) {
