@@ -57,7 +57,7 @@ public class ItemManager extends Element{
     }
 
 
-    private void SpawnRandomItem(){
+    private void spawnRandomItem(){
         if(MathUtils.randomBoolean()){
             current = new CoffeeItem(new TextureRegion(coffeeTexture));
         }
@@ -67,6 +67,7 @@ public class ItemManager extends Element{
         Rectangle area = getHitbox();
         float x = MathUtils.random(area.x + spawnDistanceFromEdge,area.x + area.width - spawnDistanceFromEdge - itemSize);
         float y = MathUtils.random(area.y + spawnDistanceFromEdge,area.y + area.height - spawnDistanceFromEdge - itemSize);
+        current.setPositionVector(new Vector2(x, y));
     }
 
 
@@ -77,7 +78,7 @@ public class ItemManager extends Element{
         while (effectsIterator.hasNext()){
             Item item = effectsIterator.next();
             item.update(delta);
-            if (item.ItemEffectEnded()){
+            if (item.itemEffectEnded()){
                 effectsIterator.remove();
             }
         }
@@ -85,19 +86,19 @@ public class ItemManager extends Element{
         if (current == null){
             spawnTimer = spawnTimer - delta;
             if (spawnTimer <= 0f){
-                SpawnRandomItem();
+                spawnRandomItem();
             }
             return;
         }
         current.update(delta);
-        if (current.IsOnGround()){
-            current.TryPickup(player);
+        if (current.isOnGround()){
+            current.tryPickup(player);
         }
-        else if (current.IsInInventory()){
+        else if (current.isInInventory()){
             current.tryUse(player, aimTarget);
         }
 
-        if (current.IsUsed()){
+        if (current.isUsed()){
             activeEffects.add(current);
             current = null;
             spawnTimer = randomDelay();
@@ -114,20 +115,20 @@ public class ItemManager extends Element{
         }
     }
 
-    public float GetSpeedMultiplier(){
+    public float getSpeedMultiplier(){
         float multiplier = 1;
         for (Item item:activeEffects){
-            multiplier = Math.max(multiplier, item.GetSpeedMultiplier());
+            multiplier = Math.max(multiplier, item.getSpeedMultiplier());
         }
         if (current != null){
-            multiplier = Math.max(multiplier, current.GetSpeedMultiplier());
+            multiplier = Math.max(multiplier, current.getSpeedMultiplier());
         }
         return multiplier;
     }
 
 
-    public Item GetHeldItem(){
-        if (current != null && current.IsInInventory()) {
+    public Item getHeldItem(){
+        if (current != null && current.isInInventory()) {
             return current;
         }
         else{

@@ -138,8 +138,7 @@ public class Goose extends MovingElement {
      * gets state, target, and moves in appropriate direction
      */
     @Override
-    public void move(){
-        float delta = Gdx.graphics.getDeltaTime();
+    public void move(float deltaT){
 
         react(); //polls heath and stun time, sets to appropriate state
         target = targeter.getTarget(this,collider);
@@ -149,14 +148,13 @@ public class Goose extends MovingElement {
             }
         Vector2 nextDisplacement = getNewDispVect();
         setDisplacementVector(Vector2.Zero);
-
         if (collider.canMove(this, nextDisplacement.x, nextDisplacement.y)){
             setDisplacementVector(getDisplacementVector().add(nextDisplacement ));
         }
         else{
             setDisplacementVector(getDisplacementVector().add(nextDisplacement.scl(-1)));
         }
-        setDisplacementVector(getDisplacementVector().nor().scl(Settings.gooseSpeed * delta));
+        setDisplacementVector(getDisplacementVector().nor().scl(Settings.gooseSpeed * deltaT));
         update();
     }
 
@@ -179,47 +177,3 @@ public class Goose extends MovingElement {
 
     }
 }
-
-/*
-public void move(){
-    //sets target, as nearest in view targetable element
-    target = targeter.getTarget(this);
-
-    if (collidesWith(target)) {
-        if (target instanceof MovingElement){
-            ((MovingElement) target).changeHealth(-4); //MAGIC DAMAGE NUMBER FOR TEST USE ONLY
-        }
-    }
-
-    if (target != null) {
-        //attempts to chase, otherwise wanders
-        //sets displacement
-        pursue();
-        //Runs away if satitated w/bread or "fleeing"
-        if (getState() == MovingElement.State.ZERO_HEALTH) {
-            setDisplacementVector(getDisplacementVector().scl(-1));
-            if (getPositionVector().dst(target.getPositionVector())>200){   //MAGIC NUMBER FOR FLEE DIST TEST ONLY
-                setHealth(100);
-                setState(MovingElement.State.MOVING);
-            }
-        }
-        if (getState() == MovingElement.State.HIT){
-            if (stunTime <= 0){
-                getDisplacementVector().scl(Settings.gooseSpeed);
-                setState(MovingElement.State.MOVING);
-                stunTime = 3;
-            }
-            stunTime -= Gdx.graphics.getDeltaTime();
-            getDisplacementVector().scl(0.1f);
-        }
-
-        if (!collider.canMove(this)) {
-            setDisplacementVector(getDisplacementVector().rotateRad(accuracy));
-            getDisplacementVector().scl(-0.5f);
-        }
-
-    } else {
-        wander();
-    }
-    update();
-}*/

@@ -21,13 +21,10 @@ import io.github.fcgeese.goose_patrol.Asset.AssetService;
 import io.github.fcgeese.goose_patrol.Elements.*;
 import io.github.fcgeese.goose_patrol.Events.SpeedUpEvent;
 import io.github.fcgeese.goose_patrol.Events.WinEvent;
-import io.github.fcgeese.goose_patrol.Managers.TargetManager;
+import io.github.fcgeese.goose_patrol.Managers.ItemManager;
 import io.github.fcgeese.goose_patrol.UI.HealthBar;
 import io.github.fcgeese.goose_patrol.UI.WinCountdown;
 
-import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -69,12 +66,13 @@ public class Main extends Game implements InputProcessor {
     private List<Goose> geese = new ArrayList<>();
     //List of everything collidable for moving elemetns
     private List<Element> gooseColliders = new ArrayList<>();
-    private List<Element> playerColliders = new ArrayList<>();
     //List of everything geese can target
     private List<Element> targets = new ArrayList<>();
 
-    //Time remaining in game
+    //Time Managment
     public float timeRemaining = 300f;
+    public float deltaT;
+
     //UI elements
     public HealthBar health;
     public WinCountdown winBar;
@@ -83,11 +81,16 @@ public class Main extends Game implements InputProcessor {
     public SpeedUpEvent gooseSpeedEvent;
     public WinEvent win;
     //items
+    Vector2 mouseScreenPos;
+    Vector2 aimTarget;
+    ItemManager itemManager;
     public BreadItem bread;
-    public CoffeeItem coffee;
 
     @Override
     public void create() {
+        itemManager = new ItemManager(WORLD_WIDTH, WORLD_HEIGHT);
+        mouseScreenPos = new Vector2();
+        aimTarget = new Vector2();
         // Gdx treats main as its primary input handler.
         Gdx.input.setInputProcessor(this);
 
@@ -166,6 +169,14 @@ public class Main extends Game implements InputProcessor {
     @Override
     public void render() {
         if(!isPuased) {
+            //item init
+            deltaT = Gdx.graphics.getDeltaTime();
+            mouseScreenPos.set(Gdx.input.getX(), Gdx.input.getY());
+            viewport.unproject(mouseScreenPos);
+            Vector2 aimTarget = new Vector2();
+            aimTarget.set(mouseScreenPos.x, mouseScreenPos.y);
+            itemManager.update(deltaT, player, aimTarget);
+
             float delta = Gdx.graphics.getDeltaTime();
 
             // Reset the GLProfiler at the start of each frame to get accurate profiling data for the current frame.
@@ -201,8 +212,9 @@ public class Main extends Game implements InputProcessor {
             }
 
             // Update all movement logic
+            player.setSpeedMult(itemManager.getSpeedMultiplier());
             for (MovingElement e : allMovers) {
-                e.move();
+                e.move(deltaT);
             }
 
             // ### RENDERING ###
@@ -225,12 +237,14 @@ public class Main extends Game implements InputProcessor {
             for (Element e : allMovers) {
                 e.draw(batch);
             }
+            itemManager.draw(batch);
             batch.end();
 
             // Draws UI elements
             shape.begin(ShapeRenderer.ShapeType.Filled);
             winBar.draw(shape, timeRemaining);
             health.draw(shape);
+
             shape.end();
 
             // ### DEBUGGING ###

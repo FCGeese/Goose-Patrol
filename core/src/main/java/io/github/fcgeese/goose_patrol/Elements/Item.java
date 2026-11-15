@@ -27,7 +27,7 @@ public abstract class Item extends Element {
 
     // Method to put item at specific point in the world
     // Marks item as on ground
-    public void SpawnAt(float x, float y){
+    public void spawnAt(float x, float y){
         getPositionVector().set(x,y);
         getHitbox().setPosition(x,y);
         state = State.onGround;
@@ -35,7 +35,7 @@ public abstract class Item extends Element {
 
 
     //Upon collision puts item in inventory
-    public boolean TryPickup(Element player){
+    public boolean tryPickup(Element player){
         if ((state == State.onGround) && collidesWith(player)){
             state = State.inInventory;
             return true;
@@ -49,17 +49,17 @@ public abstract class Item extends Element {
 
     // Unique trigger for each item
     // Unique effect for each item once used
-    protected abstract int GetTriggerButton();
-    protected abstract void OnUse(Vector2 userCentre, Vector2 aimTarget);
+    protected abstract int getTriggerButton();
+    protected abstract void onUse(Vector2 userCentre, Vector2 aimTarget);
 
 
     // Checks eligibility for item usage
     // Makes sure item is in inventory to trigger
     // Correct button pressed for trigger
     public boolean tryUse (Element user, Vector2 aimTarget){
-        if (state == State.inInventory && Gdx.input.isButtonJustPressed(GetTriggerButton())){
+        if (state == State.inInventory && Gdx.input.isButtonJustPressed(getTriggerButton())){
             Vector2 userCentre = user.getHitbox().getCenter(new Vector2());
-            OnUse(userCentre, aimTarget);
+            onUse(userCentre, aimTarget);
             return true;
         }
         return false;
@@ -71,7 +71,7 @@ public abstract class Item extends Element {
     }
 
 
-    public float GetSpeedMultiplier(){
+    public float getSpeedMultiplier(){
         return 1f;
     }
 
@@ -83,23 +83,23 @@ public abstract class Item extends Element {
         }
     }
 
-    public State GetState() {
+    public State getState() {
         return state;
     }
 
-    public boolean IsOnGround(){
+    public boolean isOnGround(){
         return state == State.onGround;
     }
 
-    public boolean IsInInventory(){
+    public boolean isInInventory(){
         return state == State.inInventory;
     }
 
-    public boolean IsUsed(){
+    public boolean isUsed(){
         return state == State.used;
     }
 
-    public boolean ItemEffectEnded(){
+    public boolean itemEffectEnded(){
         return state == State.used;
     }
 

@@ -114,10 +114,7 @@ public class MovingElement extends Element{
         setPositionVector(getPositionVector().add(getDisplacementVector()));
         getHitbox().setPosition(getPositionVector());
     }
-
-    public void move() {
-
-    }
+    public void move(float deltaT){}
 
     protected enum State {
         ZERO_HEALTH,

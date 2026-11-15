@@ -24,16 +24,13 @@ public class BreadItem extends Item {
         this.breadTexture = breadTexture;
     }
 
-    @Override
-    protected int GetTriggerButton(){
+
+
+    protected int getTriggerButton(){
         return Input.Buttons.LEFT;
     }
 
-
-
-
-    @Override
-    protected void OnUse(Vector2 userCentre, Vector2 aimTarget) {
+    protected void onUse(Vector2 userCentre, Vector2 aimTarget) {
         Vector2 direction = new Vector2(aimTarget).sub(userCentre);
         if (direction.isZero()){
             direction.set(1,0);
@@ -55,7 +52,7 @@ public class BreadItem extends Item {
         while (loafPositionIterator.hasNext()){
             BreadProjectile loaf = loafPositionIterator.next();
             loaf.move(delta);
-            if(loaf.IsOffScreen(screenW,screenH)){
+            if(loaf.isOffScreen(screenW,screenH)){
                 loafPositionIterator.remove();
             }
         }
@@ -71,10 +68,8 @@ public class BreadItem extends Item {
         }
     }
 
-
-    @Override
-    public boolean ItemEffectEnded() {
-        return super.ItemEffectEnded() && loaves.isEmpty();
+    public boolean itemEffectEnded() {
+        return super.itemEffectEnded() && loaves.isEmpty();
     }
 
     public static class BreadProjectile extends MovingElement {
@@ -99,13 +94,7 @@ public class BreadItem extends Item {
             return collider;
         }
 
-        void move(float delta){
-            collisionHandling();
-            getPositionVector().mulAdd(getDisplacementVector(),delta);
-            getHitbox().setPosition(getPositionVector());
-        }
-
-        boolean IsOffScreen(float screenW, float screenH){
+        boolean isOffScreen(float screenW, float screenH){
             Rectangle box = getHitbox();
             return (box.x + box.width < 0) || (box.x > screenW) || (box.y + box.height < 0) || (box.y > screenH);
         }

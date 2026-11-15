@@ -19,7 +19,7 @@ public class CoffeeItem extends Item {
 
     //Registers Right Click to trigger coffee
     @Override
-    protected int GetTriggerButton() {
+    protected int getTriggerButton() {
         return Input.Buttons.RIGHT;
     }
 
@@ -31,21 +31,21 @@ public class CoffeeItem extends Item {
      * @param aimTarget
      */
     @Override
-    protected void OnUse(Vector2 userCentre, Vector2 aimTarget) {
+    protected void onUse(Vector2 userCentre, Vector2 aimTarget) {
         boostTimeLeft = boostDuration;
         consume();
     }
 
     //Return boosted speed if effect still active
     @Override
-    public float GetSpeedMultiplier() {
+    public float getSpeedMultiplier() {
         if (boostTimeLeft > 0f) {
             return speedMultiplier;
         } else {
             return 1f;
         }
     }
-    //Constantly updates boost timer
+    //Constantly updates boost timers
     @Override
     public void update(float delta) {
         if (boostTimeLeft > 0f) {
@@ -54,11 +54,11 @@ public class CoffeeItem extends Item {
     }
 
     @Override
-    public boolean ItemEffectEnded() {
-        return super.ItemEffectEnded() && boostTimeLeft <= 0f;
+    public boolean itemEffectEnded() {
+        return super.itemEffectEnded() && boostTimeLeft <= 0f;
     }
 
-    public boolean IsBoostActive(){
+    public boolean isBoostActive(){
         return boostTimeLeft > 0f;
     }
 }
