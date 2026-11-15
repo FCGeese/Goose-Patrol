@@ -88,13 +88,19 @@ public class Player extends MovingElement {
      */
     @Override
     public void move(float deltaT) {
+
+        // Multiplies move speed by 1.75 if sprinting
         float dstToMove;
-        if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)){
-            dstToMove = (speedMult*Settings.UNIT_SCALE)+(0.4f*Settings.UNIT_SCALE);
+        if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) {
+            dstToMove = Settings.playerSpeed * speedMult * 1.75f;
         }
         else {
             dstToMove = speedMult * Settings.UNIT_SCALE;
         }
+
+        // Convert movement speed to a distance travelled per frame
+        dstToMove *= deltaT;
+
         // Polls key input and adjusts displacement vector
         // Each collision dimension handled independently to allow smooth sliding along walls
         if (Gdx.input.isKeyPressed(Input.Keys.W)) {

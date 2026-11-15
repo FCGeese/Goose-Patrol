@@ -7,13 +7,15 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 public class Settings {
     public static final float UNIT_SCALE = Main.UNIT_SCALE;
 
+    // Entity settings
+
     // Goose settings
     public static float gooseAccuracy = 0.015f;
     public static float gooseWidth = 1f; // tile(s) wide
     public static float gooseHeight = 1f; // tile(s) tall
     public static TextureRegion gooseTexturePack =
        new TextureRegion( new Texture( Gdx.files.internal("geese/GooseTexturePack.png") ) ) ;
-    public static float gooseSpeed = 4;
+    public static float gooseSpeed = 4; // DEFAULT: 4
     public static float gooseAttackRange = 50 * UNIT_SCALE;
     public static float gooseDamage = 1;
 
