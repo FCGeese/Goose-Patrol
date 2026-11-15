@@ -118,7 +118,6 @@ public class Player extends MovingElement {
                 setDisplacementVector(getDisplacementVector().add(dstToMove, 0));
             }
         }
-        System.out.println(getDisplacementVector().toString());
         // Determine player's facing direction
         Vector2 direction = getDisplacementVector();
 
