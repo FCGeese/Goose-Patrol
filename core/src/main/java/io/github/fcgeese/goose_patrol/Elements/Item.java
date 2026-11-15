@@ -6,6 +6,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
+import io.github.fcgeese.goose_patrol.Main;
+
 
 public abstract class Item extends Element {
 
@@ -22,13 +24,17 @@ public abstract class Item extends Element {
     protected Item(TextureRegion texture){
         setTexture(texture);
         setPositionVector(new Vector2(0,0));
-        setHitbox(new Rectangle(0,0, texture.getRegionWidth(), texture.getRegionHeight()));
+        setHitbox(new Rectangle(
+            0,0, 
+            texture.getRegionWidth() * Main.UNIT_SCALE, 
+            texture.getRegionHeight() * Main.UNIT_SCALE
+        ));
     }
 
     // Method to put item at specific point in the world
     // Marks item as on ground
     public void spawnAt(float x, float y){
-        getPositionVector().set(x,y);
+        setPositionVector(new Vector2(x, y));
         getHitbox().setPosition(x,y);
         state = State.onGround;
     }
@@ -42,8 +48,6 @@ public abstract class Item extends Element {
         }
         return false;
     }
-
-
 
     //Overriding methods
 

@@ -6,6 +6,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+
+import io.github.fcgeese.goose_patrol.Main;
 import io.github.fcgeese.goose_patrol.Managers.CollisionManager;
 
 import java.util.ArrayList;
@@ -73,13 +75,13 @@ public class BreadItem extends Item {
     }
 
     public static class BreadProjectile extends MovingElement {
-        public static float speed = 400f;
+        public static float speed = 30f;
         private CollisionManager collider;
 
 
         BreadProjectile(Vector2 centre, Vector2 direction, TextureRegion texture){
-            float w = texture.getRegionWidth();
-            float h = texture.getRegionHeight();
+            float w = texture.getRegionWidth() * Main.UNIT_SCALE;
+            float h = texture.getRegionHeight() * Main.UNIT_SCALE;
             setTexture(texture);
             setPositionVector(new Vector2(centre.x - w /2f, centre.y - h / 2f));
             setHitbox(new Rectangle(getPositionVector().x,getPositionVector().y,w,h));
@@ -108,5 +110,15 @@ public class BreadItem extends Item {
                 }
             }
         }
+
+        @Override
+        public void move(float deltaT) {
+            Vector2 displacement = getDisplacementVector().scl(deltaT);
+
+            Vector2 newPosition = getPositionVector().add(displacement);
+
+            setPositionVector(newPosition);
+            getHitbox().setPosition(newPosition);
+}
     }
 }

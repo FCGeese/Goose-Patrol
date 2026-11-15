@@ -81,6 +81,12 @@ public class MovingElement extends Element{
      */
     @Override
     public void draw(SpriteBatch batch) {
+        // If no animation has been assigned, draw the static texture instead.
+        if (movingAnimation == null) {
+            super.draw(batch);
+            return;
+        }
+
         stateTime += Gdx.graphics.getDeltaTime();
 
         boolean looping = getState() == State.MOVING || getState() == State.IDLE;

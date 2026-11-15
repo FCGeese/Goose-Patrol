@@ -34,12 +34,6 @@ import java.util.Map;
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class Main extends Game implements InputProcessor {
 
-    // Keep 16:9 aspect ratio for the game world, so that it looks the same on all devices.
-    public static final float WORLD_WIDTH = 32f; // Shown world width in tiled units
-    public static final float WORLD_HEIGHT = 18f; // Shown world height in tiled units
-    public static final float UNIT_SCALE = 1f / 16f; // 1 unit = 16 pixels
-    public boolean isPuased = false;
-
     /** SpriteBatch for rendering 2D graphics. */
     private SpriteBatch batch;
     /** Orthographic camera for rendering the game world. */
@@ -54,6 +48,18 @@ public class Main extends Game implements InputProcessor {
     private FPSLogger fpsLogger;
 
     private TiledMap map;
+
+    // Keep 16:9 aspect ratio for the game world, so that it looks the same on all devices.
+    public static final float VISIBLE_WORLD_WIDTH = 32f; // Shown world width in world units
+    public static final float VISIBLE_WORLD_HEIGHT = 18f; // Shown world height in world units
+    public static final float UNIT_SCALE = 1f / 16f; // 1 unit = 16 pixels
+
+    // Whole map's dimensions (including inaccessible boundaries) in world units.
+    // These are updated once the map is loaded, so there is no need to manually set the map's dimensions.
+    public static int WORLD_WIDTH = 0;
+    public static int WORLD_HEIGHT = 0;
+
+    public boolean isPaused = false;
 
 
     /** Hashmap for storing the game's screens. */
@@ -91,7 +97,6 @@ public class Main extends Game implements InputProcessor {
 
     @Override
     public void create() {
-        itemManager = new ItemManager(WORLD_WIDTH, WORLD_HEIGHT);
         mouseScreenPos = new Vector2();
         aimTarget = new Vector2();
         // Gdx treats main as its primary input handler.
@@ -107,8 +112,8 @@ public class Main extends Game implements InputProcessor {
 
         // Set the log level to DEBUG for detailed logging during development.
         Gdx.app.setLogLevel(Application.LOG_DEBUG);
-        cam = new OrthographicCamera(WORLD_WIDTH, WORLD_HEIGHT);
-        viewport = new FitViewport(WORLD_WIDTH, WORLD_HEIGHT, cam);
+        cam = new OrthographicCamera(VISIBLE_WORLD_WIDTH, VISIBLE_WORLD_HEIGHT);
+        viewport = new FitViewport(VISIBLE_WORLD_WIDTH, VISIBLE_WORLD_HEIGHT, cam);
         viewport.update(
             Gdx.graphics.getWidth(),
             Gdx.graphics.getHeight(),
@@ -133,7 +138,15 @@ public class Main extends Game implements InputProcessor {
             geese.add(new Goose(new Vector2(player.getPositionVector().x+(i*3),player.getPositionVector().y+i)));
         }
 
+        // Load map and update map dimensions
         map = new TmxMapLoader().load("maps/main.tmx");
+        WORLD_WIDTH = map.getProperties().get("width", Integer.class);
+        WORLD_HEIGHT = map.getProperties().get("height", Integer.class);
+
+        // Initialise item manager using world dimensions
+        itemManager = new ItemManager(WORLD_WIDTH, WORLD_HEIGHT);
+
+
         MapLayer mapHitbox = map.getLayers().get("MapHitboxes");
         ArrayList<Element> mapHitboxes = new ArrayList<>();
         for (MapObject o: mapHitbox.getObjects()){
@@ -171,7 +184,7 @@ public class Main extends Game implements InputProcessor {
 
     @Override
     public void render() {
-        if(!isPuased) {
+        if(!isPaused) {
             //item init
             deltaT = Gdx.graphics.getDeltaTime();
             mouseScreenPos.set(Gdx.input.getX(), Gdx.input.getY());
@@ -321,7 +334,7 @@ public class Main extends Game implements InputProcessor {
     @Override
     public boolean keyDown(int keycode) {
         if (keycode == Input.Keys.ESCAPE){
-            isPuased = !isPuased;
+            isPaused = !isPaused;
             return true;
         }
         return false;

@@ -1,13 +1,14 @@
 package io.github.fcgeese.goose_patrol.Managers;
 
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+
+import io.github.fcgeese.goose_patrol.Main;
 import io.github.fcgeese.goose_patrol.Elements.BreadItem;
 import io.github.fcgeese.goose_patrol.Elements.CoffeeItem;
 import io.github.fcgeese.goose_patrol.Elements.Element;
@@ -18,28 +19,22 @@ import java.util.Iterator;
 import java.util.List;
 
 public class ItemManager extends Element{
-    private static int itemSize = 16;
+    private static final float UNIT_SCALE = Main.UNIT_SCALE;
+
+    private static float itemSize = 1f;
     private static float minimumSpawnDelay = 3f;
     private static float maximumSpawnDelay = 8f;
-    private static float spawnDistanceFromEdge = 32f;
+    private static float spawnDistanceFromEdge = 2f;
 
     private Item current;
 
     private List<Item> activeEffects = new ArrayList<>();
 
+    public static TextureRegion coffeeTexture =
+        new TextureRegion( new Texture( Gdx.files.internal("assets_raw/objects/coffee/coffee.png")));
 
-    private static Texture PlaceholderTexture(Color colour, int width, int height){
-        Pixmap pixmap = new Pixmap(width, height, Pixmap.Format.RGBA8888);
-        pixmap.setColor(colour);
-        pixmap.fill();
-        Texture texture = new Texture(pixmap);
-        pixmap.dispose();
-        return texture;
-    }
-
-
-    private Texture coffeeTexture = PlaceholderTexture(Color.BROWN, itemSize, itemSize);
-    private Texture breadTexture = PlaceholderTexture(Color.TAN, itemSize, itemSize);
+        public static TextureRegion breadTexture =
+        new TextureRegion( new Texture( Gdx.files.internal("assets_raw/objects/bread/bread.png")));
 
 
     private static float randomDelay(){
@@ -55,21 +50,29 @@ public class ItemManager extends Element{
     }
 
 
-    private void spawnRandomItem(){
-        if(MathUtils.randomBoolean()){
+    private void spawnRandomItem() {
+        if(MathUtils.randomBoolean()) {
             current = new CoffeeItem(new TextureRegion(coffeeTexture));
         }
         else{
             current = new BreadItem(new TextureRegion(breadTexture));
         }
+
         Rectangle area = getHitbox();
-        float x = MathUtils.random(area.x + spawnDistanceFromEdge,area.x + area.width - spawnDistanceFromEdge - itemSize);
-        float y = MathUtils.random(area.y + spawnDistanceFromEdge,area.y + area.height - spawnDistanceFromEdge - itemSize);
-        current.setPositionVector(new Vector2(x, y));
+
+        float x = MathUtils.random(
+            area.x + spawnDistanceFromEdge,
+            area.x + area.width - spawnDistanceFromEdge - itemSize
+        );
+        float y = MathUtils.random(
+            area.y + spawnDistanceFromEdge,
+            area.y + area.height - spawnDistanceFromEdge - itemSize
+        );
+
+        current.spawnAt(x, y);
+
+        Gdx.app.log("ItemManager", "Spawned item at: " + x + ", " + y);
     }
-
-
-
 
     public void update(float delta, Element player, Vector2 aimTarget){
         Iterator<Item> effectsIterator = activeEffects.iterator();
@@ -135,7 +138,7 @@ public class ItemManager extends Element{
     }
 
     public void dispose(){
-        coffeeTexture.dispose();
-        breadTexture.dispose();
+        coffeeTexture.getTexture().dispose();
+        breadTexture.getTexture().dispose();
     }
 }
