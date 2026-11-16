@@ -24,7 +24,7 @@ public class HealthBar implements HealthListener {
         20
     );
     public void draw(ShapeRenderer shape) {
-        shape.setColor(Color.GREEN);
+        shape.setColor(Color.BLUE);
         shape.rect(
             baseBar.x,
             baseBar.y,

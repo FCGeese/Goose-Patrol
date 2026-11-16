@@ -24,7 +24,7 @@ public class WinCountdown {
 
     public void draw(ShapeRenderer shape, float timeLeft) {
 
-        shape.setColor(Color.BLUE);
+        shape.setColor(Color.PINK);
         shape.rect(
             baseBar.x,
             baseBar.y,
