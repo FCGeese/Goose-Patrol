@@ -143,7 +143,6 @@ public class Player extends MovingElement {
         updateAnimation();
 
         // Normalises and scales to player speed
-        System.out.println(getDisplacementVector().toString());
         setDisplacementVector(getDisplacementVector().nor().scl(dstToMove));
         // Doubles speed if sprinting, could be changed to one time dash?
         if (getDisplacementVector().isZero()){
